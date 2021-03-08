@@ -332,20 +332,7 @@ TEST(test022, test_operator_to_string)
 }
 
 
-TEST(test023, test_CVector_push)
-{
-    CString a("Nikita");
-    CString b("Sinodov");
-    CString d("Andreich");
-    CString f("some");
-    CVector c;
-    c.push(a);
-    c.push(b);
-    c.push(d);
-    c.push(f);
-    int res = c.size_vector();
-    cout << res << endl;
-}
+
 int main(int argc, char* argv[])
 {
     ::testing::InitGoogleTest(&argc, argv);
