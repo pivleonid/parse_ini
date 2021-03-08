@@ -298,6 +298,32 @@ TEST(test022, test_operator_to_string)
     {
         std::cout << vec.at(i).data() <<std::endl;
     }
+    std::cout << "//-------------------------//" <<std::endl;
+    std::vector<bool> vec_bool;
+    vec_bool.push_back(true);
+    vec_bool.push_back(true);
+    vec_bool.push_back(true);
+    vec_bool.push_back(false);
+    vec_bool.push_back(true);
+    vec_bool.push_back(false);
+
+    for(int i = 0; i < vec_bool.size(); i++)
+    {
+        std::cout << vec_bool.at(i) <<std::endl;
+    }
+    std::cout << "//-------------------------//" <<std::endl;
+    std::vector<int> vec_int;
+    vec_int.push_back(1);
+    vec_int.push_back(2);
+    vec_int.push_back(3);
+    vec_int.push_back(4);
+    vec_int.push_back(5);
+    vec_int.push_back(6);
+
+    for(int i = 0; i < vec_int.size(); i++)
+    {
+        std::cout << vec_int.at(i) <<std::endl;
+    }
 
 }
 
