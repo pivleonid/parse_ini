@@ -283,19 +283,23 @@ TEST(test021, test_operator_stof_str)
     ASSERT_TRUE(b == d);
 }
 
-/*TEST(test022, test_operator_to_string)
+TEST(test022, test_operator_to_string)
 {
-    CString a;
-    a.to_string(214);
-    CString b = "214";
-    ASSERT_TRUE(b == a);
-    a.to_string(214.5);
-    b = "214.5";
-    ASSERT_TRUE(b == a);
-    a.to_string(2145.31588);
-    b = "2145.316";
-    ASSERT_TRUE(b == a);
-}*/
+    CString a("Nikita");
+    CString b("Sinodov");
+    CString d("Andreich");
+    CString f("some");
+    std::vector<CString> vec;
+    vec.push_back(a);
+    vec.push_back(b);
+    vec.push_back(d);
+    vec.push_back(f);
+    for(int i = 0; i < vec.size(); i++)
+    {
+        std::cout << vec.at(i).data() <<std::endl;
+    }
+
+}
 
 
 TEST(test023, test_CVector_push)
