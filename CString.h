@@ -8,7 +8,6 @@ private:
     //размер этого слова + нулевой символ
     int   m_size;
 public:
-    friend class CVector;
     CString();
     CString(char s);
     CString(const char *str);
@@ -21,10 +20,10 @@ public:
     CString& operator=(char s);
     CString& operator=(int n);
 
-    /*************************************************************
-     * size - возвращает размер m_word
-     *************************************************************
-    */
+    /**
+     * @brief size - возвращает размер m_word
+     * @return size
+     */
     int size();
 
     /*************************************************************
@@ -176,6 +175,8 @@ public:
      *************************************************************
     */
     CString& to_string(double n);
+
+    bool clear(){};
 
 
 };

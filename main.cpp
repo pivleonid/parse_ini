@@ -285,18 +285,22 @@ TEST(test021, test_operator_stof_str)
 
 TEST(test022, test_operator_to_string)
 {
+
+    std::vector<CString*> vec;
+    {
     CString a("Nikita");
     CString b("Sinodov");
     CString d("Andreich");
     CString f("some");
-    std::vector<CString> vec;
-    vec.push_back(a);
-    vec.push_back(b);
-    vec.push_back(d);
-    vec.push_back(f);
+
+    vec.push_back(&a);
+    vec.push_back(&b);
+    vec.push_back(&d);
+    vec.push_back(&f);
+    }
     for(int i = 0; i < vec.size(); i++)
     {
-        std::cout << vec.at(i).data() <<std::endl;
+        std::cout << vec.at(i)->data() <<std::endl;
     }
     std::cout << "//-------------------------//" <<std::endl;
     std::vector<bool> vec_bool;
