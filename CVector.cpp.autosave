@@ -1,0 +1,401 @@
+#include "CVector.h"
+#include <cstring>
+#include <cmath>
+#include <iostream>
+using namespace std;
+
+CVector::CVector()
+{
+    m_count    = 1;
+    m_capacity = 1;
+    container  = new CString[m_capacity];
+}
+
+CVector::CVector(int n)
+{
+    m_count    = 1;
+    m_capacity = n;
+    container  = new CString[m_capacity];
+}
+
+CVector::~CVector()
+{
+    m_count    = 0;
+    m_capacity = 0;
+    delete [] container;
+}
+
+void CVector::push_back(const CString &str)
+{
+    if(m_count == m_capacity)
+    {
+        m_capacity *= 2;
+
+        CString *temp = new CString[m_capacity];
+
+        for(unsigned int i = 0; i < m_capacity / 2; i++)
+        {
+            temp[i] = container[i];
+        }
+
+        delete [] container;
+
+        container = temp;
+    }
+
+    container[m_count] = str;
+    m_count++;
+}
+
+void CVector::push_front(const CString &str)
+{
+    if(m_count == m_capacity)
+    {
+        m_capacity *= 2;
+
+        CString *temp = new CString[m_capacity];
+
+        temp[0] = str;
+
+        for(unsigned int i = 1, j = 0; i < m_capacity / 2; i++, j++)
+        {
+            temp[i] = container[j];
+        }
+
+        delete [] container;
+
+        container = temp;
+    }
+    else if(m_count < m_capacity)
+    {
+        CString *temp = new CString[m_capacity];
+
+        temp[0] = str;
+
+        for(unsigned int i = 1, j = 0; i < m_capacity; i++, j++)
+        {
+            temp[i] = container[j];
+        }
+
+        delete [] container;
+
+        container = temp;
+    }
+}
+
+int CVector::size()
+{
+    if(m_capacity > 1)
+    {
+        return m_capacity;
+    }
+
+    else
+        return 0;
+}
+
+bool CVector::is_empty()
+{
+    bool empty = true;
+
+    if(m_capacity > 1)
+    {
+        empty = false;
+
+        return empty;
+    }
+
+    else
+        return empty;
+}
+
+CString& CVector::at(int n)
+{
+    if(n < 0)
+    {
+        cout << "Enter the \'n\' from 0 to " << m_count << " ." << endl;
+
+        return container[0];
+    }
+
+    unsigned int n1 = n;
+
+    if(n1 > m_count)
+    {
+        cout << "Enter the \'n\' from 0 to " << m_count << " ." << endl;
+
+        return container[0];
+    }
+
+    else if(n1 >= 0 && n1 <= m_count)
+    {
+        cout << container[n].m_size << endl;
+
+        for(int i = 0; i < container[n].m_size; i++)
+        {
+            cout << container[n].m_word[i];
+        }
+
+        cout << endl;
+
+        return container[n];
+    }
+}
+
+CString& CVector::front()
+{
+    if(m_capacity == 1)
+    {
+        cout << "Add the object CString in CVector." << endl;
+    }
+
+    else
+    {
+        cout << container[0].m_size << endl;
+
+        for(int i = 0; i < container[0].m_size; i++)
+        {
+            cout << container[0].m_word[i];
+        }
+
+        cout << endl;
+    }
+
+    return container[0];
+}
+
+CString& CVector::back()
+{
+    if(m_capacity == 1)
+    {
+        cout << "Add the object CString in CVector." << endl;
+    }
+
+    else
+    {
+        cout << container[m_count - 1].m_size << endl;
+
+        for(int i = 0; i < container[m_count - 1].m_size; i++)
+        {
+            cout << container[m_count - 1].m_word[i];
+        }
+
+        cout << endl;
+    }
+
+    return container[m_count - 1];
+}
+
+CVector CVector::pop_front()
+{
+    CVector first;
+    if(m_capacity == 1)
+    {
+        cout << "Add the object CString in CVector." << endl;
+    }
+
+    else
+    {
+        cout << container[0].m_size << endl;
+
+        for(int i = 0; i < container[0].m_size; i++)
+        {
+            cout << container[0].m_word[i];
+        }
+
+        cout << endl;
+
+        first.push_back(container[0]);
+
+        CString *temp = new CString[m_capacity];
+        for(unsigned int i = 0, j = 1; j < m_count; i++, j++)
+        {
+            temp[i] = container[j];
+        }
+
+        m_count--;
+
+        delete [] container;
+
+        container = temp;
+    }
+
+    return first;
+}
+
+CVector CVector::pop_back()
+{
+    CVector last;
+    if(m_capacity == 1)
+    {
+        cout << "Add the object CString in CVector." << endl;
+    }
+    
+    else
+    {
+        cout << container[m_count - 1].m_size << endl;
+
+        for(int i = 0; i < container[m_count - 1].m_size; i++)
+        {
+            cout << container[m_count - 1].m_word[i];
+        }
+
+        cout << endl;
+
+        last.push_back(container[m_count - 1]);
+
+        CString *temp = new CString[m_capacity];
+        for(unsigned int i = 0; i < m_count - 1; i++)
+        {
+            temp[i] = container[i];
+        }
+
+        m_count--;
+
+        delete [] container;
+
+        container = temp;
+    }
+
+    return last;
+    
+}
+
+CVector& CVector::erase(unsigned int first, unsigned int last)
+{
+    int false0 = 0;
+    //если first вне диапазона массива выводим предупреждение
+    if(first < 0 || first > m_count - 1)
+    {
+        false0 = 1;
+    }
+    if(false0 == 1)
+    {
+        cout << "The \'first\' number should be from 0 " << "to " <<m_count - 1 << " ." << endl;
+    }
+    //если last вне диапазона массива выводим предупреждение
+    if(last < 1 || last > m_count - 1)
+    {
+        false0 = 2;
+    }
+    if(false0 == 2)
+    {
+        cout << "The last number should be from 1 " << "to " << m_count - 1 << " ." << endl;
+    }
+    else if(false0 == 0)
+    {
+        char choice1;
+        char choice2;
+        cout << "Do you wish delete element \'first\':" << endl;
+        cout << "Enter Y or N:" << endl;
+        cin >> choice1;
+        cout << "Do you wish delete element \'last \':" << endl;
+        cout << "Enter Y or N:" << endl;
+        cin >> choice2;
+        char choice3 = toupper(choice1);
+        char choice4 = toupper(choice2);
+        if(choice3 == 'N' && choice4 == 'N')
+        {
+            CString *temp = new CString[m_capacity];
+            if(first == 0 && last == m_count)
+            {
+                delete [] container;
+                
+                container = temp;
+            }
+            else 
+            {
+                for(unsigned int i = 0, j = first; j < last + 1; i++, j++)
+                {
+                    temp[i] = container[j];
+                }
+                delete [] container;
+                
+                container = temp;
+            }
+        }
+        else if(choice3 == 'Y' && choice4 == 'N')
+        {
+            CString *temp = new CString[m_capacity];
+            if(first == 0 && last == m_count)
+            {
+                delete [] container;
+                
+                container = temp;
+            }
+            else 
+            {
+                for(unsigned int i = 0, j = first + 1; j < last + 1; i++, j++)
+                {
+                    temp[i] = container[j];
+                }
+                delete [] container;
+                
+                container = temp;
+            }
+        }
+        
+        else if(choice3 == 'N' && choice4 == 'Y')
+        {
+            CString *temp = new CString[m_capacity];
+            if(first == 0 && last == m_count)
+            {
+                delete [] container;
+                
+                container = temp;
+            }
+            else 
+            {
+                for(unsigned int i = 0, j = first; j < last; i++, j++)
+                {
+                    temp[i] = container[j];
+                }
+                delete [] container;
+                
+                container = temp;
+            }
+        }
+        
+        else if(choice3 == 'Y' && choice4 == 'Y')
+        {
+            CString *temp = new CString[m_capacity];
+            if(first == 0 && last == m_count)
+            {
+                delete [] container;
+                
+                container = temp;
+            }
+            else 
+            {
+                for(unsigned int i = 0, j = first + 1; j < last; i++, j++)
+                {
+                    temp[i] = container[j];
+                }
+                delete [] container;
+                
+                container = temp;
+            }
+        }
+    }
+    
+    return *this;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

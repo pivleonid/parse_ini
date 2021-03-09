@@ -6,186 +6,230 @@ using namespace std;
 
 CVector::CVector()
 {
-    storage_words = NULL;
-    capacity_storage = 0;
-    adress_words = NULL;
-    capacity_adress = 0;
+    m_count    = 1;
+    m_capacity = 1;
+    container  = new CString[m_capacity];
 }
 
-void CVector::push(const CString &str)
+CVector::CVector(int n)
 {
-    //увеличить ёмкость
-    capacity_storage += str.m_size;
-
-    //если вектор пуст
-    if(storage_words == NULL)
-    {
-        //записываем данные
-        char *temp = new char[capacity_storage];
-        for(int i = 0; i < str.m_size - 1; i++)
-        {
-            temp[i] = str.m_word[i];
-        }
-        temp[str.m_size - 1] = ' ';
-        //записываем позицию слова в storage_words
-        adress_words = new int[1];
-        adress_words[0] = capacity_adress;
-        capacity_adress++;
-
-        storage_words = temp;
-    }
-
-    else if(storage_words != NULL)
-    {
-        //записываем данные старого массива
-        char *temp0 = new char[capacity_storage];
-        for(int i = 0; i < capacity_storage - str.m_size; i++)
-        {
-            temp0[i] = storage_words[i];
-        }
-
-        //добавляем новые
-        for(int i = capacity_storage - str.m_size, j = 0; i < capacity_storage - 1; i++, j++)
-        {
-            temp0[i] = str.m_word[j];
-        }
-        temp0[capacity_storage - 1] = ' ';
-        //записываем данные старого массива для хранения позиций
-        capacity_adress++;
-        int *temp1 = new int[capacity_adress];
-        for(int i = 0; i < capacity_adress - 1; i++)
-        {
-            temp1[i] = adress_words[i];
-        }
-
-        //добавляем позицию нового слова
-        temp1[capacity_adress] = capacity_storage - str.m_size;
-
-        delete [] storage_words;
-        delete [] adress_words;
-
-        storage_words = temp0;
-        adress_words = temp1;
-
-
-    }
+    m_count    = 1;
+    m_capacity = n;
+    container  = new CString[m_capacity];
 }
 
-int CVector::size_vector()
+CVector::~CVector()
 {
-    return capacity_storage;
+    m_count    = 0;
+    m_capacity = 0;
+    delete [] container;
 }
 
-void CVector::push(const char *new_word, int index)
+void CVector::push_back(const CString &str)
 {
-    //если добавляем в конец вектора
-    if(index == capacity_storage)
+    if(m_count == m_capacity)
     {
-        //определяем размер добавляемого слова
-        const char *temp0 = new_word;
-        int append_size = 0;
-        while (*temp0++)
+        m_capacity *= 2;
+
+        CString *temp = new CString[m_capacity];
+
+        for(unsigned int i = 0; i < m_capacity / 2; i++)
         {
-            append_size++;
+            temp[i] = container[i];
         }
 
-        //увеличиваем размер вектора на величину добавляемого слова
-        capacity_storage += append_size + 1;
+        delete [] container;
 
-        //записываем данные старого массива
-        char *temp1 = new char[capacity_storage];
-        for(int i = 0; i < capacity_storage - append_size - 1; i++)
-        {
-            temp1[i] = storage_words[i];
-        }
-        temp1[capacity_storage - append_size - 1] = ' ';
-
-        //добавляем новые
-        for(int i = capacity_storage - append_size, j = 0; i < capacity_storage; i++, j++)
-        {
-            temp1[i] = new_word[j];
-        }
-
-        //записываем данные старого массива для хранения позиций
-        capacity_adress++;
-        int *temp2 = new int[capacity_adress];
-        for(int i = 0; i < capacity_adress - 1; i++)
-        {
-            temp2[i] = adress_words[i];
-        }
-
-        //добавляем позицию нового слова
-        temp2[capacity_adress] = capacity_storage - append_size;
-
-        delete [] storage_words;
-        delete [] adress_words;
-
-        storage_words = temp1;
-        adress_words = temp2;
+        container = temp;
     }
 
-    else if (index >= 0 && index < capacity_storage - 1)
+    container[m_count] = str;
+    m_count++;
+}
+
+void CVector::push_front(const CString &str)
+{
+    if(m_count == m_capacity)
     {
-        //определяем размер добавляемого слова
-        const char *temp0 = new_word;
-        int append_size = 0;
-        while (*temp0++)
+        m_capacity *= 2;
+
+        CString *temp = new CString[m_capacity];
+
+        temp[0] = str;
+
+        for(unsigned int i = 1, j = 0; i < m_capacity / 2; i++, j++)
         {
-            append_size++;
+            temp[i] = container[j];
         }
 
-        //увеличиваем размер вектора на величину добавляемого слова
-        capacity_storage += append_size + 1;
+        delete [] container;
 
-        //записываем данные старого массива до добавляемого слова
-        char *temp1 = new char[capacity_storage];
-        for(int i = 0; i < adress_words[index]; i++)
-        {
-            temp1[i] = storage_words[i];
-        }
-
-        //добавляем новое слово
-        for(int i = adress_words[index], j = 0; i < adress_words[index] + append_size + 1; i++, j++)
-        {
-            temp1[i] = new_word[j];
-        }
-
-        //добавляем в конец пробел для разделения слов
-        temp1[adress_words[index] + append_size + 1] = ' ';
-
-        //добавляем оставшуюсь часть массива
-        for(int i = adress_words[index] + append_size + 2, j = adress_words[index]; j < capacity_storage - append_size; i++, j++)
-        {
-            temp1[i] = storage_words[j];
-        }
-
-        //записываем до index старый adress_words
-        int *temp2 = new int[capacity_adress];
-
-        for(int i = 0; i < index + 1; i++)
-        {
-            temp2[i] = adress_words[i];
-        }
-
-        //с index увеличиваем остальные позиции на append_size+1
-        for(int i = index + 1; i < capacity_adress; i++)
-        {
-            temp2[i] = adress_words[i] + append_size + 1;
-        }
-
-        delete [] storage_words;
-        delete [] adress_words;
-
-        storage_words = temp1;
-        adress_words = temp2;
+        container = temp;
     }
-
-    //если введён индекс вне диапазона вектора
-    else if(index < 0 || index > capacity_storage)
+    else if(m_count < m_capacity)
     {
-        cout << "Enter the index from 0 to " << capacity_storage << " !" << endl;
+        CString *temp = new CString[m_capacity];
+
+        temp[0] = str;
+
+        for(unsigned int i = 1, j = 0; i < m_capacity; i++, j++)
+        {
+            temp[i] = container[j];
+        }
+
+        delete [] container;
+
+        container = temp;
     }
 }
+
+int CVector::size()
+{
+    if(m_capacity > 1)
+    {
+        return m_capacity;
+    }
+
+    else
+        return 0;
+}
+
+bool CVector::is_empty()
+{
+    bool empty = true;
+
+    if(m_capacity > 1)
+    {
+        empty = false;
+
+        return empty;
+    }
+
+    else
+        return empty;
+}
+
+CString& CVector::at(int n)
+{
+    if(n < 0)
+    {
+        cout << "Enter the \'n\' from 0 to " << m_count << " ." << endl;
+
+        return container[0];
+    }
+
+    unsigned int n1 = n;
+
+    if(n1 > m_count)
+    {
+        cout << "Enter the \'n\' from 0 to " << m_count << " ." << endl;
+
+        return container[0];
+    }
+
+    else if(n1 >= 0 && n1 <= m_count)
+    {
+        cout << container[n].m_size << endl;
+
+        for(int i = 0; i < container[n].m_size; i++)
+        {
+            cout << container[n].m_word[i];
+        }
+
+        cout << endl;
+
+        return container[n];
+    }
+}
+
+CString& CVector::front()
+{
+    if(m_capacity == 1)
+    {
+        cout << "Add the object CString in CVector." << endl;
+    }
+
+    else
+    {
+        cout << container[0].m_size << endl;
+
+        for(int i = 0; i < container[0].m_size; i++)
+        {
+            cout << container[0].m_word[i];
+        }
+
+        cout << endl;
+    }
+
+    return container[0];
+}
+
+CString& CVector::back()
+{
+    if(m_capacity == 1)
+    {
+        cout << "Add the object CString in CVector." << endl;
+    }
+
+    else
+    {
+        cout << container[m_count - 1].m_size << endl;
+
+        for(int i = 0; i < container[m_count - 1].m_size; i++)
+        {
+            cout << container[m_count - 1].m_word[i];
+        }
+
+        cout << endl;
+    }
+
+    return container[m_count - 1];
+}
+
+CVector& CVector::pop_front()
+{
+    CVector first;
+    CVector *temp1 = &first;
+    if(m_capacity == 1)
+    {
+        cout << "Add the object CString in CVector." << endl;
+    }
+
+    else
+    {
+        cout << container[0].m_size << endl;
+
+        for(int i = 0; i < container[0].m_size; i++)
+        {
+            cout << container[0].m_word[i];
+        }
+
+        cout << endl;
+
+
+        first.push_back(container[0]);
+
+        CString *temp = new CString[m_capacity];
+        for(unsigned int i = 0, j = 1; i < m_count; i++, j++)
+        {
+            temp[i] = container[j];
+        }
+
+        m_count--;
+
+        delete [] container;
+
+        container = temp;
+    }
+
+    return *temp1;
+}
+
+
+
+
+
+
 
 
 
