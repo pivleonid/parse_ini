@@ -10,7 +10,9 @@ private:
      *        container  - указатель на вектор
      */
     unsigned int m_count;
+
     unsigned int m_capacity;
+
     CString *container;
 
 
@@ -20,6 +22,18 @@ public:
     CVector(int n);
     ~CVector();
 
+    CVector& operator=(const CVector &vct);
+
+    CVector& operator+=(const CVector &vct);
+    CVector& operator+=(const CString &str);
+    CVector& operator+(const CVector &vct);
+    CVector& operator+(const CString &str);
+
+    bool operator!=(const CVector &vct);
+    bool operator==(const CVector &vct);
+    bool operator<=(const CVector &vct);
+    bool operator>=(const CVector &vct);
+
     /*!
      * \brief push_back - добавляет объект CString в конец массива
      * \param str       - объект CString
@@ -27,8 +41,13 @@ public:
     void push_back(const CString &str);
 
     /*!
-     * \brief size
-     * \return возвращает m_capacity текущего объекта CVector, если объект пустой возвращет 0
+     * \brief show       - демонтсрация содержимого объекта
+     */
+    void show();
+
+    /*!
+     * \brief size       - размер текущего объекта
+     * \return           - возвращает m_capacity текущего объекта CVector, если объект пустой возвращет 0
      */
     int size();
 
@@ -47,22 +66,42 @@ public:
     /*!
      * \brief at - доступ к элементу массива по указанному номеру и демонстрация содержимого этого элемента
      * \param n  - номер элемента
-     * \return   - возвращает указанный n-номер массива если <= m_count, и 0 если иначе
+     * \return   - возвращает указанный n-номер массива если n >= 0 или n <= m_count, возращает первый элемент если иначе
      */
-    int at(int n);
+    CString& at(int n);
 
     /*!
      * \brief front - доступ к 1 элементу массива
-     * \return      - возвращает размер объекта CString
+     * \return      - возвращает объект CString
      */
-    int front();
+    CString& front();
 
     /*!
      * \brief back - доступ к последнему элементу массива
-     * \return     - возвращает размер объекта CString
+     * \return     - возвращает объект CString
      */
-    int back();
+    CString& back();
 
+    /*!
+     * \brief pop_front - доступ к 1 элементу массива с последующим его удалением
+     * \return          - возвращает этот элемент
+     */
+    CVector pop_front();
+
+    /*!
+     * \brief pop_back - доступ к последнему элементу массива с последующим его удалением
+     * \return         - возвращает этот элемент
+     */
+    CVector pop_back();
+
+    /*!
+     * \brief erase - удаляет объекты элементы массива с first по last функция предоставляет интерактивный выбор [) () (]
+                      в командной строке
+     * \param first - элемент с которого начинается удаление
+     * \param last  - элемент на котором удаление заканчивается
+     * \return      - возвращает изменённый объект CVector
+     */
+    CVector& erase(unsigned int first, unsigned int last);
 
 };
 #endif // CVECTOR_H

@@ -283,7 +283,7 @@ TEST(test021, test_operator_stof_str)
     ASSERT_TRUE(b == d);
 }
 
-TEST(test022, test_operator_to_string)
+/*TEST(test022, test_operator_to_string)
 {
     CString a("Nikita");
     CString b("Sinodov");
@@ -325,7 +325,7 @@ TEST(test022, test_operator_to_string)
         std::cout << vec_int.at(i) <<std::endl;
     }
 
-}
+}*/
 
 
 TEST(test023, test_CVector_push)
@@ -333,14 +333,16 @@ TEST(test023, test_CVector_push)
     CString a("Nikita");
     CString b("Sinodov");
     CString d("Andreich");
-    CString f("some");
+    CString f("New");
+    CString g("Funny");
     CVector c;
-    c.push(a);
-    c.push(b);
-    c.push(d);
-    c.push(f);
-    int res = c.size_vector();
-    cout << res << endl;
+    c.push_back(a);
+    c.push_back(b);
+    c.push_back(d);
+    c.push_back(f);
+    c.show();
+    c.push_front(g);
+    c.show();
 }
 int main(int argc, char* argv[])
 {

@@ -96,8 +96,18 @@ CString::CString(int n)
 
 }
 
+void CString::clear()
+{
+    delete [] m_word;
+    m_size = 1;
+    m_word = new char[m_size];
+    m_word[0] = '\0';
+}
+
 CString::~CString()
 {
+    m_size = 0;
+
     delete [] m_word;
 }
 
@@ -691,15 +701,14 @@ CString& CString::operator+=(const CString &str)
     int new_m_size = m_size + str.m_size - 1;
     char *temp = new char[new_m_size];
     int k = 0;
-    for(int i = 0; i < m_size - 1; i++)
+    for(int i = 0; i < m_size - 1; i++, k++)
     {
         temp[k] = m_word[i];
-        k++;
+
     }
-    for(int i = 0; i < str.m_size; i++)
+    for(int i = 0; i < str.m_size; i++, k++)
     {
         temp[k] = str.m_word[i];
-        k++;
     }
     delete [] m_word;
     m_size = new_m_size;
