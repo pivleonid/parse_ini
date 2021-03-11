@@ -1,6 +1,9 @@
 #ifndef CVECTOR_H
 #define CVECTOR_H
 #include "CString.h"
+
+
+
 class CVector
 {
 private:
@@ -23,11 +26,14 @@ public:
     ~CVector();
 
     CVector& operator=(const CVector &vct);
+    CVector& operator=(const CVector *vct);
 
     CVector& operator+=(const CVector &vct);
     CVector& operator+=(const CString &str);
-    CVector& operator+(const CVector &vct);
-    CVector& operator+(const CString &str);
+    const CVector& operator+(const CVector &vct) const;
+    const CVector& operator+(const CString &str) const;
+
+    CString& operator[] (int n);
 
     bool operator!=(const CVector &vct);
     bool operator==(const CVector &vct);
@@ -59,7 +65,7 @@ public:
 
     /*!
      * \brief is_empty
-     * \return возвращет true если пустой, иначе false
+     * \return           - возвращет true если пустой, иначе false
      */
     bool is_empty();
 
@@ -103,6 +109,30 @@ public:
      */
     CVector& erase(unsigned int first, unsigned int last);
 
+    /*!
+     * \brief resize - меняет ёмкость вектора (m_capacity)
+     * \param n      - заданная ёмкость
+     */
+    void resize(int n);
+
+    /*!
+     * \brief clear - откатывает вектор к начальному состоянию
+     */
+    void clear();
+
+    /*!
+     * \brief find  - поиск строки
+     * \param str   - искомая строка
+     * \return      - порядковый номер строки в массиве
+     */
+    int find(const CString &str);
+
+    /*!
+     * \brief rfind - поиск строки в обратном порядке
+     * \param str   - искомая строка
+     * \return      - порядковый номер строки в массиве
+     */
+    int rfind(const CString &str);
 };
 #endif // CVECTOR_H
 

@@ -6,7 +6,7 @@ using namespace std;
 
 CVector::CVector()
 {
-    m_count    = 1;
+    m_count    = 0;
 
     m_capacity = 1;
 
@@ -15,7 +15,7 @@ CVector::CVector()
 
 CVector::CVector(int n)
 {
-    m_count    = 1;
+    m_count    = 0;
 
     m_capacity = n;
 
@@ -51,6 +51,30 @@ CVector& CVector::operator=(const CVector &vct)
     }
 
     return *this;
+}
+
+CVector& CVector::operator=(const CVector *vct)
+{
+    if(this == vct)
+        return *this;
+
+    m_count = vct->m_count;
+
+    m_capacity = vct->m_capacity;
+
+    if(m_capacity != 1)
+    {
+        delete [] container;
+    }
+
+    container = new CString[m_capacity];
+
+    for(unsigned int i = 0; i < m_count; i++)
+    {
+        container[i] = vct->container[i];
+    }
+
+    return  *this;
 }
 
 CVector& CVector::operator+=(const CVector &vct)
@@ -297,6 +321,79 @@ bool CVector::operator>=(const CVector &vct)
     return more;
 }
 
+const CVector& CVector::operator+(const CVector &vct) const
+{
+    CVector vct1;
+
+    vct1.m_count = m_count + vct.m_count - 1;
+
+    vct1.m_capacity = m_capacity + vct.m_capacity;
+
+    delete [] vct1.container;
+
+    vct1.container = new CString[vct1.m_capacity];
+
+
+    for(unsigned i = 0; i < m_count; i++)
+    {
+        vct1.container[i] = container[i];
+    }
+
+    for(unsigned i = m_count, j = 0; i < vct.m_count; i++, j++)
+    {
+        vct1.container[i] = vct.container[i];
+    }
+
+    const CVector *temp = &vct1;
+
+    return *temp;
+}
+
+const CVector& CVector::operator+(const CString &str) const
+{
+    CVector vct;
+    vct.m_count = m_count;
+
+    if(m_count == m_capacity)
+    {
+        vct.m_capacity *= 2;
+    }
+
+    delete [] vct.container;
+
+    vct.container = new CString[vct.m_capacity];
+
+    for(unsigned i = 0; i < m_count; i++)
+    {
+        vct.container[i] = container[i];
+    }
+
+    vct.container[m_count] = str;
+
+    vct.m_count++;
+
+    const CVector *temp = &vct;
+
+    return *temp;
+}
+
+CString& CVector::operator[] (int n)
+{
+    if(n < 0)
+    {
+        cout << "Enter the number \'n\' from 0 " << " to " << m_count - 1 << " ." << endl;
+    }
+
+    unsigned n1 = n;
+
+    if(n1 > m_count - 1)
+    {
+        cout << "Enter the number \'n\' from 0 " << " to " << m_count - 1 << " ." << endl;
+    }
+
+    return container[n];
+}
+
 void CVector::push_back(const CString &str)
 {
     if(m_count == m_capacity)
@@ -416,16 +513,16 @@ CString& CVector::at(int n)
         return container[0];
     }
 
-    else if(n1 >= 0 && n1 <= m_count)
+    if(n1 >= 0 && n1 <= m_count)
     {
-        cout << container[n].m_size << endl;
+        /*cout << container[n].m_size << endl;
 
         for(int i = 0; i < container[n].m_size; i++)
         {
             cout << container[n].m_word[i];
         }
 
-        cout << endl;
+        cout << endl;*/
 
         return container[n];
     }
@@ -436,21 +533,25 @@ CString& CVector::front()
     if(m_capacity == 1)
     {
         cout << "Add the object CString in CVector." << endl;
+
+        return container[0];
     }
 
     else
     {
-        cout << container[0].m_size << endl;
+        /*cout << container[0].m_size << endl;
 
         for(int i = 0; i < container[0].m_size; i++)
         {
             cout << container[0].m_word[i];
         }
 
-        cout << endl;
+        cout << endl;*/
+
+        return container[0];
     }
 
-    return container[0];
+
 }
 
 CString& CVector::back()
@@ -832,13 +933,143 @@ CVector& CVector::erase(unsigned int first, unsigned int last)
     return *this;
 }
 
+void CVector::resize(int n)
+{
+    m_capacity = n;
+}
 
+void CVector::clear()
+{
+    delete [] container;
 
+    m_capacity = 1;
 
+    m_count = 1;
+}
 
+int CVector::find(const CString &str)
+{
+    //размер str
+    int count = 0;
+    //номер с которого начинается первое совпадение
+    int number = 0;
+    //количество совпадений
+    int n_word = 0;
+    //если было совпадение
+    bool coincidence = false;
 
+    if(coincidence == true)
+    {
+        for(unsigned i = 0; i < m_count; i++)
+        {
+            if(str.m_size == container[i].m_size)
+            {
+                for(int j = 0; j < container[i].m_size; j++)
+                {
+                    if(str.m_word[j] == container[i].m_word[j])
+                    {
+                        count++;
+                    }
+                    else
+                    {
+                        count = 0;
+                        break;
+                    }
+                    if(count == str.m_size)
+                    {
+                        coincidence = true;
+                        n_word++;
+                    }
+                    if(n_word == 1)
+                    {
+                        number = i;
+                    }
+                }
+            }
+        }
+    }
 
+    //если ни разу не совпало вывести предупреждение
+    else if(coincidence == false)
+    {
+        cout << "Enter the correct string for search." << endl;
+    }
 
+    //если совпадений несколько вывести, то сколько раз
+    if(n_word > 1)
+    {
+        cout << "From the symbol number " << number << " the string contains word \'";
+        for(int i = 0; i < str.m_size - 1; i++)
+        {
+            cout << str.m_word[i];
+        }
+        cout << "\' " << n_word << " times." << endl;
+    }
+
+    return number;
+}
+
+int CVector::rfind(const CString &str)
+{
+    //размер str
+    int count = 0;
+    //номер с которого начинается первое совпадение
+    int number = 0;
+    //количество совпадений
+    int n_word = 0;
+    //если было совпадение
+    bool coincidence = false;
+
+    if(coincidence == true)
+    {
+        for(unsigned i = m_count; i >= 0; i--)
+        {
+            if(str.m_size == container[i].m_size)
+            {
+                for(int j = 0; j < container[i].m_size; j++)
+                {
+                    if(str.m_word[j] == container[i].m_word[j])
+                    {
+                        count++;
+                    }
+                    else
+                    {
+                        count = 0;
+                        break;
+                    }
+                    if(count == str.m_size)
+                    {
+                        coincidence = true;
+                        n_word++;
+                    }
+                    if(n_word == 1)
+                    {
+                        number = i;
+                    }
+                }
+            }
+        }
+    }
+
+    //если ни разу не совпало вывести предупреждение
+    else if(coincidence == false)
+    {
+        cout << "Enter the correct string for search." << endl;
+    }
+
+    //если совпадений несколько вывести, то сколько раз
+    if(n_word > 1)
+    {
+        cout << "From the symbol number " << number << " the string contains word \'";
+        for(int i = 0; i < str.m_size - 1; i++)
+        {
+            cout << str.m_word[i];
+        }
+        cout << "\' " << n_word << " times." << endl;
+    }
+
+    return number;
+}
 
 
 

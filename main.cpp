@@ -344,6 +344,49 @@ TEST(test023, test_CVector_push)
     c.push_front(g);
     c.show();
 }
+
+TEST(test024, test_CVector_empty)
+{
+    CVector a;
+    bool res;
+    res = a.is_empty();
+    ASSERT_EQ(1, res);
+    CString b = "dhdhdh";
+    a.push_back(b);
+    res = a.is_empty();
+    ASSERT_EQ(0, res);
+}
+
+TEST(test025, test_CVector_at)
+{
+    CString a("Nikita");
+    CString b("Sinodov");
+    CString d("Andreich");
+    CString f("New");
+    CString g("Funny");
+    CVector c;
+    c.push_back(a);
+    c.push_back(b);
+    c.push_back(d);
+    c.push_back(f);
+    c.push_back(g);
+    CString h = c.at(1);
+    ASSERT_TRUE(b == h);
+}
+
+TEST(test026, test_CVector_front_back)
+{
+    CString a("Nikita");
+    CString b("Sinodov");
+    CVector c;
+    c.push_back(a);
+    c.push_back(b);
+    CString d = c.front();
+    ASSERT_TRUE(d == a);
+    CString e = c.back();
+    ASSERT_TRUE(e == b);
+}
+
 int main(int argc, char* argv[])
 {
     ::testing::InitGoogleTest(&argc, argv);
