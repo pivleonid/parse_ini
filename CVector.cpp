@@ -105,6 +105,8 @@ CVector& CVector::operator+=(const CVector &vct)
     delete [] container;
 
     container = temp;
+
+    return *this;
 }
 
 CVector& CVector::operator+=(const CString &str)
@@ -412,7 +414,7 @@ void CVector::push_back(const CString &str)
         container = temp;
     }
 
-    container[m_count - 1] = str;
+    container[m_count] = str;
 
     m_count++;
 }
@@ -427,6 +429,7 @@ void CVector::show()
         }
         cout << endl;
     }
+    cout << endl;
 }
 
 void CVector::push_front(const CString &str)
@@ -471,28 +474,30 @@ void CVector::push_front(const CString &str)
 
 int CVector::size()
 {
-    if(m_capacity > 1)
+    if(m_capacity == 1 && container[0].m_word[0] == '\0')
     {
-        return m_capacity;
+        return 0;
     }
 
     else
-        return 0;
+        return m_capacity;
 }
 
 bool CVector::is_empty()
 {
     bool empty = true;
 
-    if(m_capacity > 1)
+    if(m_capacity == 1 && container[0].m_word[0] == '\0')
     {
-        empty = false;
-
-        return empty;
+        empty = true;
     }
 
     else
-        return empty;
+    {
+        empty = false;
+    }
+
+    return empty;
 }
 
 CString& CVector::at(int n)
@@ -513,7 +518,7 @@ CString& CVector::at(int n)
         return container[0];
     }
 
-    if(n1 >= 0 && n1 <= m_count)
+    if(n >= 0 && n1 <= m_count)
     {
         /*cout << container[n].m_size << endl;
 
@@ -530,7 +535,7 @@ CString& CVector::at(int n)
 
 CString& CVector::front()
 {
-    if(m_capacity == 1)
+    if(m_capacity == 1 && container[0].m_word[0] == '\0')
     {
         cout << "Add the object CString in CVector." << endl;
 
@@ -556,44 +561,46 @@ CString& CVector::front()
 
 CString& CVector::back()
 {
-    if(m_capacity == 1)
+    if(m_capacity == 1 && container[0].m_word[0] == '\0')
     {
         cout << "Add the object CString in CVector." << endl;
+        return container[0];
     }
 
     else
     {
-        cout << container[m_count - 1].m_size << endl;
+        /*cout << container[m_count - 1].m_size << endl;
 
         for(int i = 0; i < container[m_count - 1].m_size; i++)
         {
             cout << container[m_count - 1].m_word[i];
         }
 
-        cout << endl;
+        cout << endl;*/
+        return container[m_count - 1];
     }
 
-    return container[m_count - 1];
+
 }
 
-CVector CVector::pop_front()
+CString CVector::pop_front()
 {
-    CVector first;
-    if(m_capacity == 1)
+    CString first;
+    if(m_capacity == 1 && container[0].m_word[0] == '\0')
     {
         cout << "Add the object CString in CVector." << endl;
     }
 
     else
     {
-        cout << container[0].m_size << endl;
+        /*cout << container[0].m_size << endl;
 
         for(int i = 0; i < container[0].m_size; i++)
         {
             cout << container[0].m_word[i];
         }
 
-        cout << endl;
+        cout << endl;*/
 
         first.push_back(container[0]);
 
@@ -613,29 +620,29 @@ CVector CVector::pop_front()
     return first;
 }
 
-CVector CVector::pop_back()
+CString CVector::pop_back()
 {
-    CVector last;
-    if(m_capacity == 1)
+    CString last;
+    if(m_capacity == 1 && container[0].m_word[0] == '\0')
     {
         cout << "Add the object CString in CVector." << endl;
     }
 
     else
     {
-        cout << container[m_count - 1].m_size << endl;
+        /*cout << container[m_count - 1].m_size << endl;
 
         for(int i = 0; i < container[m_count - 1].m_size; i++)
         {
             cout << container[m_count - 1].m_word[i];
         }
 
-        cout << endl;
+        cout << endl;*/
 
         last.push_back(container[m_count - 1]);
 
         CString *temp = new CString[m_capacity];
-        for(unsigned int i = 0; i < m_count - 1; i++)
+        for(unsigned i = 0; i < m_count - 1; i++)
         {
             temp[i] = container[i];
         }
@@ -659,19 +666,23 @@ CVector& CVector::erase(unsigned int first, unsigned int last)
     {
         false0 = 1;
     }
+
     if(false0 == 1)
     {
         cout << "The \'first\' number should be from 0 " << "to " <<m_count - 1 << " ." << endl;
     }
+
     //если last вне диапазона массива выводим предупреждение
     if(last < 1 || last > m_count - 1)
     {
         false0 = 2;
     }
+
     if(false0 == 2)
     {
         cout << "The last number should be from 1 " << "to " << m_count - 1 << " ." << endl;
     }
+
     else if(false0 == 0)
     {
         char choice1;
@@ -958,6 +969,27 @@ int CVector::find(const CString &str)
     //если было совпадение
     bool coincidence = false;
 
+    for(unsigned i = 0; i < m_count; i++)
+    {
+        if(str.m_size == container[i].m_size)
+        {
+            for(int j = 0; j < container[i].m_size; j++)
+            {
+                if(str.m_word[j] == container[i].m_word[j])
+                {
+                    count++;
+                }
+                if(count == str.m_size)
+                {
+                    number = i;
+
+                    coincidence = true;
+
+                    break;
+                }
+            }
+        }
+    }
     if(coincidence == true)
     {
         for(unsigned i = 0; i < m_count; i++)
@@ -970,24 +1002,23 @@ int CVector::find(const CString &str)
                     {
                         count++;
                     }
+
                     else
                     {
                         count = 0;
+
                         break;
                     }
+
                     if(count == str.m_size)
                     {
-                        coincidence = true;
                         n_word++;
                     }
-                    if(n_word == 1)
-                    {
-                        number = i;
-                    }
                 }
-            }
+             }
         }
     }
+
 
     //если ни разу не совпало вывести предупреждение
     else if(coincidence == false)
@@ -1019,10 +1050,30 @@ int CVector::rfind(const CString &str)
     int n_word = 0;
     //если было совпадение
     bool coincidence = false;
+    for(int i = m_count; i > -1; i--)
+    {
+        if(str.m_size == container[i].m_size)
+        {
+            for(int j = 0; j < container[i].m_size; j++)
+            {
+                if(str.m_word[j] == container[i].m_word[j])
+                {
+                    count++;
+                }
+                if(count == str.m_size)
+                {
+                    number = i;
 
+                    coincidence = true;
+
+                    break;
+                }
+            }
+        }
+    }
     if(coincidence == true)
     {
-        for(unsigned i = m_count; i >= 0; i--)
+        for(unsigned i = m_count; i > 0; i--)
         {
             if(str.m_size == container[i].m_size)
             {
@@ -1032,20 +1083,19 @@ int CVector::rfind(const CString &str)
                     {
                         count++;
                     }
+
                     else
                     {
                         count = 0;
+
                         break;
                     }
+
                     if(count == str.m_size)
                     {
-                        coincidence = true;
                         n_word++;
                     }
-                    if(n_word == 1)
-                    {
-                        number = i;
-                    }
+
                 }
             }
         }
