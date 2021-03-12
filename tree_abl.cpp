@@ -61,6 +61,7 @@ void tree_ABL::Clear(node** p)
 }
 void tree_ABL::output()
 {
+    cout << root->info << endl;
     output(root);
 }
 void tree_ABL::output(node* p) // симметричный порядок

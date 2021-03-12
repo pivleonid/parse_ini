@@ -32,15 +32,29 @@ int main(int argc, char* argv[])
 {
 
     tree_ABL tree;
-
-    for(int i = 0 ; i < 10; i++)
+int mass[11] = {6,15,4,3,1,5,8,7,42,12,21};
+    for(int i = 0 ; i < 11; i++)
     {
-        int d;
-        cin >> d;
-        tree.insert(d);
+        tree.insert(mass[i]);
     }
+    cout << endl;
     tree.output();
     cout << endl;
+    tree.print();
+
+    for(int i = 0; i < 50; i++)
+    {
+        cout<<"vvedite d"<<endl;
+        int d;
+        cin >> d;
+        if(d == -1)
+            break;
+        bool ret = tree.find(d);
+        if(ret == true )
+            cout << "true" << endl;
+        else
+            cout << "false" << endl;
+    }
 
     tree.print();
     tree.Clear();
