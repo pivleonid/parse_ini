@@ -116,7 +116,7 @@ CString& CString::operator=(const CString &str)
     if(this == &str)
         return *this;
     m_size = str.m_size;
-    if(m_word[0] != '\0')
+    if(m_size == 1 && m_word[0] != '\0')
     {
         delete [] m_word;
     }
@@ -134,7 +134,7 @@ CString& CString::operator=(const char *str)
     {
         m_size++;
     }
-    if(m_word[0] != '\0')
+    if(m_size == 1 && m_word[0] != '\0')
     {
         delete [] m_word;
     }

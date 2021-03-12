@@ -327,8 +327,33 @@ TEST(test021, test_operator_stof_str)
 
 }*/
 
+TEST(test023, test_CVector_size_resize)
+{
+    CString a("Nikita");
+    CString b("Sinodov");
+    CString k("New");
+    CString d("Andreich");
+    CString f("New");
+    CString g("Funny");
+    CVector c;
+    CVector h;
+    c.push_back(a);
+    c.push_back(b);
+    c.push_back(k);
+    c.push_back(d);
+    c.push_back(f);
+    c.push_back(g);
+    unsigned res = c.size();
+    ASSERT_EQ(6, res);
+    res = h.size();
+    ASSERT_EQ(0, res);
+    res = c.resize(3);
+    ASSERT_EQ(3, res);
+    c.resize(-1);
+    c.show();
+}
 
-TEST(test023, test_CVector_push)
+TEST(test024, test_CVector_push)
 {
     CString a("Nikita");
     CString b("Sinodov");
@@ -345,7 +370,7 @@ TEST(test023, test_CVector_push)
     c.show();
 }
 
-TEST(test024, test_CVector_empty)
+TEST(test025, test_CVector_empty)
 {
     CVector a;
     bool res;
@@ -357,7 +382,7 @@ TEST(test024, test_CVector_empty)
     ASSERT_EQ(0, res);
 }
 
-TEST(test025, test_CVector_at)
+TEST(test026, test_CVector_at)
 {
     CString a("Nikita");
     CString b("Sinodov");
@@ -378,7 +403,7 @@ TEST(test025, test_CVector_at)
     ASSERT_TRUE(a == h);
 }
 
-TEST(test026, test_CVector_front_and_back)
+TEST(test027, test_CVector_front_and_back)
 {
     CString a("Nikita");
     CString b("Sinodov");
@@ -393,7 +418,7 @@ TEST(test026, test_CVector_front_and_back)
     ASSERT_TRUE(e == d);
 }
 
-TEST(test027, test_CVector_pop_front_and_pop_back)
+TEST(test028, test_CVector_pop_front_and_pop_back)
 {
     CString a("Nikita");
     CString b("Sinodov");
@@ -412,7 +437,7 @@ TEST(test027, test_CVector_pop_front_and_pop_back)
     ASSERT_TRUE(e == g);
 }
 
-/*TEST(test028, test_CVector_erase)
+/*TEST(test029, test_CVector_erase)
 {
     CString a("Nikita");
     CString b("Sinodov");
@@ -432,7 +457,7 @@ TEST(test027, test_CVector_pop_front_and_pop_back)
     c.show();
 }*/
 
-TEST(test029, test_CVector_find_rfind)
+TEST(test030, test_CVector_find_rfind)
 {
     CString a("Nikita");
     CString b("Sinodov");
@@ -447,12 +472,106 @@ TEST(test029, test_CVector_find_rfind)
     c.push_back(d);
     c.push_back(f);
     c.push_back(g);
-    CString j = "Nikita";
-    /*int res = c.find(j);
-    ASSERT_EQ(2, res);*/
-    int res = c.rfind(j);
+    CString j = "New";
+    int res = c.find(j);
+    ASSERT_EQ(2, res);
+    res = c.rfind(j);
     ASSERT_EQ(4, res);
 }
+
+TEST(test031, test_CVector_operator_equal)
+{
+    CString a("Nikita");
+    CString b("Sinodov");
+    CString k("New");
+    CString d("Andreich");
+    CString f("New");
+    CString g("Funny");
+    CVector c;
+    c.push_back(a);
+    c.push_back(b);
+    c.push_back(k);
+    c.push_back(d);
+    c.push_back(f);
+    c.push_back(g);
+    CVector h = c;
+    h.clear();
+    h = c;
+    h.show();
+}
+
+TEST(test032, test_CVector_operator_equal_unequal)
+{
+    CString a("Nikita");
+    CString b("Sinodov");
+    CString k("New");
+    CVector c;
+    c.push_back(a);
+    c.push_back(b);
+    c.push_back(k);
+    CVector g;
+    g.push_back(a);
+    g.push_back(b);
+    g.push_back(k);
+    bool res = (c == g);
+    ASSERT_EQ(1, res);
+    CString h("Niketa");
+    CString l("Sinodov");
+    CString m("New");
+    CVector o;
+    o.push_back(h);
+    o.push_back(l);
+    o.push_back(m);
+    res = (c == o);
+    ASSERT_EQ(0, res);
+    res = (c != o);
+    ASSERT_EQ(1, res);
+    res = (c != g);
+    ASSERT_EQ(0, res);
+}
+
+TEST(test033, test_CVector_operator_less_or_eq)
+{
+    CString a("Nikita");
+    CString b("Sinodov");
+    CString k("New");
+    CVector c;
+    c.push_back(a);
+    c.push_back(b);
+    c.push_back(k);
+    CString h("Nikita");
+    CString l("Sinodov");
+    CVector o;
+    o.push_back(h);
+    o.push_back(l);
+    bool res = (o <= c);
+    ASSERT_EQ(1, res);
+    CString f("Niketa");
+    o.clear();
+    o.push_back(f);
+    o.push_back(l);
+    res = (o != c);
+    ASSERT_EQ(1, res);
+}
+
+TEST(test040, test_CVector_sorting)
+{
+    CString a("Nikita");
+    CString b("Sinodov");
+    CString k("New");
+    CString d("Andreich");
+    CString g("Funny");
+    CVector c;
+    c.push_back(a);
+    c.push_back(b);
+    c.push_back(d);
+    c.push_back(k);
+    c.push_back(g);
+    c.sorting();
+    c.show();
+}
+
+
 
 int main(int argc, char* argv[])
 {

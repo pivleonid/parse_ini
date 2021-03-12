@@ -25,23 +25,38 @@ CVector::CVector(int n)
 CVector::~CVector()
 {
     m_count    = 0;
-    m_capacity = 0;
+    m_capacity = 1;
     delete [] container;
+}
+
+CVector::CVector(const CVector &vct)
+{
+    m_count = vct.m_count;
+    m_capacity = vct.m_capacity;
+    container = new CString[m_capacity];
+    for(unsigned i = 0; i < m_count; i++)
+    {
+        container[i] = vct.container[i];
+    }
 }
 
 CVector& CVector::operator=(const CVector &vct)
 {
     if(this == &vct)
+    {
         return *this;
+    }
+
+    if(m_capacity != 1 && container[0].empty() == 0)
+    {
+        delete [] container;
+    }
 
     m_count = vct.m_count;
 
     m_capacity = vct.m_capacity;
 
-    if(m_capacity != 1)
-    {
-        delete [] container;
-    }
+
 
     container = new CString[m_capacity];
 
@@ -137,95 +152,58 @@ CVector& CVector::operator+=(const CString &str)
 
 bool CVector::operator==(const CVector &vct)
 {
-    unsigned search_m_count = 0;
-
-    bool find_symbol = false;
+    bool coincidence = false;
+    unsigned find_coincidence = 0;
 
     if(m_count == vct.m_count)
     {
         for(unsigned i = 0; i < m_count; i++)
         {
-            for(unsigned j = 0; j < vct.m_count; j++)
+            if(container[i] == vct.container[i])
             {
-                if(container[i].m_size == vct.container[j].m_size)
-                {
-                    search_m_count++;
-                    break;
-                }
+                find_coincidence++;
             }
-
+            else
+            {
+                find_coincidence = 0;
+                break;
+            }
         }
-
-        if(search_m_count == m_count - 1)
+        if(find_coincidence == m_count)
         {
-            for(unsigned i = 0; i < m_count; i++)
-            {
-                for(unsigned j = 0; j < vct.m_count; j++)
-                {
-                    if(container[i].m_size == vct.container[j].m_size)
-                    {
-                        for(int k = 0; k < vct.container[j].m_size; k++)
-                        {
-                            if(container[i].m_word[k] == vct.container[j].m_word[k])
-                            {
-                                find_symbol = true;
-                            }
-                        }
-
-                    }
-                }
-
-            }
+            coincidence = true;
         }
+
     }
 
-    return find_symbol;
+    return coincidence;
 }
 
 bool CVector::operator!=(const CVector &vct)
 {
-    unsigned search_m_count = 0;
-
     bool dismatch = true;
+    unsigned find_coincidence = 0;
 
     if(m_count == vct.m_count)
     {
         for(unsigned i = 0; i < m_count; i++)
         {
-            for(unsigned j = 0; j < vct.m_count; j++)
+            if(container[i] == vct.container[i])
             {
-                if(container[i].m_size == vct.container[j].m_size)
-                {
-                    search_m_count++;
-                    break;
-                }
+                find_coincidence++;
             }
-
+            else
+            {
+                find_coincidence = 0;
+                break;
+            }
         }
-
-        if(search_m_count == m_count - 1)
+        if(find_coincidence == m_count)
         {
-            for(unsigned i = 0; i < m_count; i++)
-            {
-                for(unsigned j = 0; j < vct.m_count; j++)
-                {
-                    if(container[i].m_size == vct.container[j].m_size)
-                    {
-                        for(int k = 0; k < vct.container[j].m_size; k++)
-                        {
-                            if(container[i].m_word[k] == vct.container[j].m_word[k])
-                            {
-                                dismatch = false;
-                            }
-                        }
-
-                    }
-                }
-
-            }
+            dismatch = false;
         }
-    }
 
+    }
     return dismatch;
 }
 
@@ -239,37 +217,17 @@ bool CVector::operator<=(const CVector &vct)
     {
         for(unsigned i = 0; i < m_count; i++)
         {
-            for(unsigned j = 0; j < vct.m_count; j++)
+            if(container[i] <= vct.container[i])
             {
-                if(container[i].m_size == vct.container[j].m_size)
-                {
-                    search_m_count++;
-                    break;
-                }
+                search_m_count++;
             }
-
+            else
+                break;
         }
 
-        if(search_m_count == m_count - 1)
+        if(search_m_count <= m_count)
         {
-            for(unsigned i = 0; i < m_count; i++)
-            {
-                for(unsigned j = 0; j < vct.m_count; j++)
-                {
-                    if(container[i].m_size == vct.container[j].m_size)
-                    {
-                        for(int k = 0; k < vct.container[j].m_size; k++)
-                        {
-                            if(container[i].m_word[k] == vct.container[j].m_word[k])
-                            {
-                                less = true;
-                            }
-                        }
-
-                    }
-                }
-
-            }
+            less = true;
         }
     }
 
@@ -286,44 +244,24 @@ bool CVector::operator>=(const CVector &vct)
     {
         for(unsigned i = 0; i < m_count; i++)
         {
-            for(unsigned j = 0; j < vct.m_count; j++)
+            if(container[i] >= vct.container[i])
             {
-                if(container[i].m_size == vct.container[j].m_size)
-                {
-                    search_m_count++;
-                    break;
-                }
+                search_m_count++;
             }
-
+            else
+                break;
         }
 
-        if(search_m_count == m_count - 1)
+        if(search_m_count >= m_count)
         {
-            for(unsigned i = 0; i < m_count; i++)
-            {
-                for(unsigned j = 0; j < vct.m_count; j++)
-                {
-                    if(container[i].m_size == vct.container[j].m_size)
-                    {
-                        for(int k = 0; k < vct.container[j].m_size; k++)
-                        {
-                            if(container[i].m_word[k] == vct.container[j].m_word[k])
-                            {
-                                more = true;
-                            }
-                        }
-
-                    }
-                }
-
-            }
+            more = true;
         }
     }
 
     return more;
 }
 
-const CVector& CVector::operator+(const CVector &vct) const
+CVector CVector::operator+(const CVector &vct) const
 {
     CVector vct1;
 
@@ -346,12 +284,10 @@ const CVector& CVector::operator+(const CVector &vct) const
         vct1.container[i] = vct.container[i];
     }
 
-    const CVector *temp = &vct1;
-
-    return *temp;
+    return vct1;
 }
 
-const CVector& CVector::operator+(const CString &str) const
+CVector CVector::operator+(const CString &str) const
 {
     CVector vct;
     vct.m_count = m_count;
@@ -373,10 +309,7 @@ const CVector& CVector::operator+(const CString &str) const
     vct.container[m_count] = str;
 
     vct.m_count++;
-
-    const CVector *temp = &vct;
-
-    return *temp;
+    return vct;
 }
 
 CString& CVector::operator[] (int n)
@@ -472,22 +405,16 @@ void CVector::push_front(const CString &str)
     }
 }
 
-int CVector::size()
+unsigned CVector::size()
 {
-    if(m_capacity == 1 && container[0].m_word[0] == '\0')
-    {
-        return 0;
-    }
-
-    else
-        return m_capacity;
+    return m_count;
 }
 
 bool CVector::is_empty()
 {
     bool empty = true;
 
-    if(m_capacity == 1 && container[0].m_word[0] == '\0')
+    if(m_capacity == 1 && container[0].empty() == 1)
     {
         empty = true;
     }
@@ -535,7 +462,7 @@ CString& CVector::at(int n)
 
 CString& CVector::front()
 {
-    if(m_capacity == 1 && container[0].m_word[0] == '\0')
+    if(m_capacity == 1 && container[0].empty() == 1)
     {
         cout << "Add the object CString in CVector." << endl;
 
@@ -561,7 +488,7 @@ CString& CVector::front()
 
 CString& CVector::back()
 {
-    if(m_capacity == 1 && container[0].m_word[0] == '\0')
+    if(m_capacity == 1 && container[0].empty() == 1)
     {
         cout << "Add the object CString in CVector." << endl;
         return container[0];
@@ -586,7 +513,7 @@ CString& CVector::back()
 CString CVector::pop_front()
 {
     CString first;
-    if(m_capacity == 1 && container[0].m_word[0] == '\0')
+    if(m_capacity == 1 && container[0].empty() == 1)
     {
         cout << "Add the object CString in CVector." << endl;
     }
@@ -623,7 +550,7 @@ CString CVector::pop_front()
 CString CVector::pop_back()
 {
     CString last;
-    if(m_capacity == 1 && container[0].m_word[0] == '\0')
+    if(m_capacity == 1 && container[0].empty() == 1)
     {
         cout << "Add the object CString in CVector." << endl;
     }
@@ -944,18 +871,43 @@ CVector& CVector::erase(unsigned int first, unsigned int last)
     return *this;
 }
 
-void CVector::resize(int n)
+unsigned CVector::resize(int n)
 {
-    m_capacity = n;
+
+    if(n < 0)
+    {
+        cout << "Enter the correct number" << endl;
+    }
+
+    unsigned n1 = n;
+    if(n1 < m_count)
+    {
+        m_count = n1;
+        CString *temp = new CString[m_count];
+        for(unsigned i = 0; i < m_count; i++)
+        {
+            temp[i] = container[i];
+        }
+        m_capacity = m_count * 2;
+
+        delete [] container;
+        container = new CString[m_capacity];
+        for(unsigned i = 0; i < m_count; i++)
+        {
+            container[i] = temp[i];
+        }
+
+        delete [] temp;
+    }
+    return m_count;
 }
 
 void CVector::clear()
 {
     delete [] container;
-
     m_capacity = 1;
-
-    m_count = 1;
+    m_count = 0;
+    container = new CString[m_capacity];
 }
 
 int CVector::find(const CString &str)
@@ -975,6 +927,7 @@ int CVector::find(const CString &str)
         {
             for(int j = 0; j < container[i].m_size; j++)
             {
+
                 if(str.m_word[j] == container[i].m_word[j])
                 {
                     count++;
@@ -1073,7 +1026,7 @@ int CVector::rfind(const CString &str)
     }
     if(coincidence == true)
     {
-        for(unsigned i = m_count; i > 0; i--)
+        for(int i = m_count; i > -1; i--)
         {
             if(str.m_size == container[i].m_size)
             {
@@ -1121,7 +1074,32 @@ int CVector::rfind(const CString &str)
     return number;
 }
 
+void CVector::swap1(CString *temp, CString *temp1)
+{
+    CString *temp2;
+    temp2 = temp;
+    temp = temp1;
+    temp1 = temp2;
+}
 
+CVector& CVector::sorting()
+{
+    unsigned j = 0;
+    unsigned t = 0;
+    for(unsigned i = 0; i < m_count; i++)
+    {
+        j = i;
+        for(t = i; t < m_count; t++)
+        {
+            if(container[j].m_size > container[t].m_size)
+            {
+                j = t;
+            }
+        }
+        swap1(&container[i], &container[j]);
+    }
+    return *this;
+}
 
 
 

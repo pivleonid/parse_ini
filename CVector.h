@@ -2,7 +2,10 @@
 #define CVECTOR_H
 #include "CString.h"
 
-
+enum type_sorting
+{
+    buble,
+};
 
 class CVector
 {
@@ -23,6 +26,7 @@ public:
 
     CVector();
     CVector(int n);
+    CVector(const CVector &vct);
     ~CVector();
 
     CVector& operator=(const CVector &vct);
@@ -30,8 +34,8 @@ public:
 
     CVector& operator+=(const CVector &vct);
     CVector& operator+=(const CString &str);
-    const CVector& operator+(const CVector &vct) const;
-    const CVector& operator+(const CString &str) const;
+    CVector operator+(const CVector &vct) const;
+    CVector operator+(const CString &str) const;
 
     CString& operator[] (int n);
 
@@ -55,7 +59,7 @@ public:
      * \brief size       - размер текущего объекта
      * \return           - возвращает m_capacity текущего объекта CVector, если объект пустой возвращет 0
      */
-    int size();
+    unsigned size();
 
     /*!
      * \brief push_front - добавление объекта CString в начало массива
@@ -113,7 +117,7 @@ public:
      * \brief resize - меняет ёмкость вектора (m_capacity)
      * \param n      - заданная ёмкость
      */
-    void resize(int n);
+    unsigned resize(int n);
 
     /*!
      * \brief clear - откатывает вектор к начальному состоянию
@@ -133,6 +137,15 @@ public:
      * \return      - порядковый номер строки в массиве в первом вхождении
      */
     int rfind(const CString &str);
+
+    void swap1(CString *temp, CString *temp1);
+    /*!
+     * \brief sorting - сортировка массива по величине размера объекта CString
+     * \return        - отсортированный объект CVector
+     */
+    CVector& sorting();
+
+
 };
 #endif // CVECTOR_H
 
