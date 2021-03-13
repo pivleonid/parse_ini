@@ -1,12 +1,12 @@
 #include "tree_abl.h"
 
 
-void tree_ABL::insert(int d)
+void tree_ABL::insert(CString d)
 {
     insert(root, d);
 }
 
-void tree_ABL::insert(node* (&root),int d)
+void tree_ABL::insert(node* (&root),CString d)
 {
     if(root == nullptr)
     {
@@ -61,7 +61,7 @@ void tree_ABL::Clear(node** p)
 }
 void tree_ABL::output()
 {
-    cout << root->info << endl;
+    cout << root->info.data() << endl;
     output(root);
 }
 void tree_ABL::output(node* p) // симметричный порядок
@@ -69,13 +69,13 @@ void tree_ABL::output(node* p) // симметричный порядок
     if( p != nullptr )
     {
         output(p->left);
-        cout << p->info << " ";
+        cout << p->info.data() << " ";
         output(p->right);
     }
 }
 
 //печать n уровня
-void tree_ABL::print_n(const node* p, int n, int level, int prob)
+void tree_ABL::print_n( node* p, int n, int level, int prob)
 {
     if(p)
     {
@@ -83,7 +83,7 @@ void tree_ABL::print_n(const node* p, int n, int level, int prob)
         {
             for(int i = 1; i <= prob; i++)
                 cout << " ";
-            cout << p->info;
+            cout << p->info.data();
         }
         else
         {

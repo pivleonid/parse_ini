@@ -32,8 +32,8 @@ int main(int argc, char* argv[])
 {
 
     tree_ABL tree;
-int mass[11] = {6,15,4,3,1,5,8,7,42,12,21};
-    for(int i = 0 ; i < 11; i++)
+CString  mass[5] = {"hello", "kitty", "boyfriend", "say", "hello_kitty"};
+    for(int i = 0 ; i < 5; i++)
     {
         tree.insert(mass[i]);
     }
@@ -45,10 +45,11 @@ int mass[11] = {6,15,4,3,1,5,8,7,42,12,21};
     for(int i = 0; i < 50; i++)
     {
         cout<<"vvedite d"<<endl;
-        int d;
+        char d[50];
         cin >> d;
-        if(d == -1)
-            break;
+//        if(d == "out")
+//            break;
+        CString str(d);
         bool ret = tree.find(d);
         if(ret == true )
             cout << "true" << endl;

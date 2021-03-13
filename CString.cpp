@@ -232,7 +232,7 @@ char& CString::back()
     return m_word[m_size - 2];
 }
 
-char* CString::data()
+const char* CString::data()
 {
     return m_word;
 }
