@@ -129,16 +129,15 @@ public:
      * \param str   - искомая строка
      * \return      - порядковый номер строки в массиве в первом вхождении
      */
-    int find(const CString &str);
+    int find(CString &str);
 
     /*!
      * \brief rfind - поиск строки в обратном порядке
      * \param str   - искомая строка
      * \return      - порядковый номер строки в массиве в первом вхождении
      */
-    int rfind(const CString &str);
+    int rfind(CString &str);
 
-    void swap1(CString *temp, CString *temp1);
     /*!
      * \brief sorting - сортировка массива по величине размера объекта CString
      * \return        - отсортированный объект CVector

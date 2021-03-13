@@ -389,6 +389,7 @@ TEST(test026, test_CVector_at)
     CString d("Andreich");
     CString f("New");
     CString g("Funny");
+    CString k;
     CVector c;
     c.push_back(a);
     c.push_back(b);
@@ -398,9 +399,9 @@ TEST(test026, test_CVector_at)
     CString h = c.at(1);
     ASSERT_TRUE(b == h);
     h = c.at(-10);
-    ASSERT_TRUE(a == h);
+    ASSERT_TRUE(k == h);
     h = c.at(100);
-    ASSERT_TRUE(a == h);
+    ASSERT_TRUE(k == h);
 }
 
 TEST(test027, test_CVector_front_and_back)
@@ -408,11 +409,16 @@ TEST(test027, test_CVector_front_and_back)
     CString a("Nikita");
     CString b("Sinodov");
     CString d("Andreich");
+    CString j;
     CVector c;
+    CString e = c.front();
+    ASSERT_TRUE(e == j);
+    e = c.back();
+    ASSERT_TRUE(e == j);
     c.push_back(a);
     c.push_back(b);
     c.push_back(d);
-    CString e = c.front();
+    e = c.front();
     ASSERT_TRUE(e == a);
     e = c.back();
     ASSERT_TRUE(e == d);
@@ -552,6 +558,45 @@ TEST(test033, test_CVector_operator_less_or_eq)
     o.push_back(l);
     res = (o != c);
     ASSERT_EQ(1, res);
+}
+
+TEST(test034, test_CVector_operator_plus)
+{
+    CString a("Nikita");
+    CString b("Sinodov");
+    CString k("New");
+    CVector c;
+    c.push_back(a);
+    c.push_back(b);
+    c.push_back(k);
+    CVector f;
+    CString d("Andreich");
+    CString g("Funny");
+    f.push_back(d);
+    f.push_back(g);
+    CVector h;
+    h = c + f;
+    h.clear();
+    CString j("Crazy");
+    h = f + j;
+    h.show();
+}
+
+TEST(test035, test_CVector_operator_plus_and_eq)
+{
+    CString a("Nikita");
+    CString b("Sinodov");
+    CVector c;
+    c.push_back(a);
+    c += b;
+    c.show();
+    CString d("Andreich");
+    CString g("Funny");
+    CVector f;
+    f.push_back(d);
+    f.push_back(g);
+    c += f;
+    c.show();
 }
 
 TEST(test040, test_CVector_sorting)
