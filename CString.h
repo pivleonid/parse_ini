@@ -1,5 +1,6 @@
 #ifndef CSTRING_H
 #define CSTRING_H
+#include <string.h>
 class CString
 {
 private:
@@ -49,7 +50,7 @@ public:
      * data - возвращает указатель на m_word
      *************************************************************
     */
-    char* data();
+    const char* data();
 
     /*************************************************************
      * empty - проверяет пустой ли объект
@@ -133,6 +134,21 @@ public:
     bool operator==(const CString &str);
     bool operator<=(const CString &str);
     bool operator>=(const CString &str);
+    bool operator>( CString &str)
+    {
+        int ret = strcmp(this->data(), str.data());
+        if(ret > 0)
+            return true;
+        return false;
+    };
+    bool operator<(CString &str)
+    {
+        int ret = strcmp(this->data(), str.data());
+        if(ret > 0)
+            return false;
+        return true;
+
+    };
 
     /*************************************************************
      * stoi - переводит массив char в число типа int
