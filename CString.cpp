@@ -2,13 +2,15 @@
 #include <cstring>
 #include <cmath>
 #include <iostream>
+#define empty_str '\0'
+
 using namespace std;
 
 CString::CString()
 {
     m_size = 1;
     m_word = new char[m_size];
-    m_word[0] = '\0';
+    m_word[0] = empty_str;
     /*m_size = 0;
     m_word = NULL;*/
 }
@@ -18,7 +20,7 @@ CString::CString(char s)
     m_size = 2;
     m_word = new char[m_size];
     m_word[0] = s;
-    m_word[1] = '\0';
+    m_word[1] = empty_str;
 
 }
 
@@ -33,7 +35,7 @@ CString::CString(const char *str)
     m_word = new char[m_size];
     for(int i = 0; i < m_size - 1; i++)
         m_word[i] = temp[i];
-    m_word[m_size - 1] = '\0';
+    m_word[m_size - 1] = empty_str;
 }
 
 CString::CString(const CString &new_word)
@@ -90,7 +92,7 @@ CString::CString(int n)
     {
         m_word[i] = cont[i] + '0';
     }
-    m_word[m_size - 1] = '\0';
+    m_word[m_size - 1] = empty_str;
 
     delete [] cont;
 
@@ -101,7 +103,7 @@ void CString::clear()
     delete [] m_word;
     m_size = 1;
     m_word = new char[m_size];
-    m_word[0] = '\0';
+    m_word[0] = empty_str;
 }
 
 CString::~CString()
@@ -116,7 +118,7 @@ CString& CString::operator=(const CString &str)
     if(this == &str)
         return *this;
     m_size = str.m_size;
-    if(m_size == 1 && m_word[0] != '\0')
+    if(m_size == 1 && m_word[0] != empty_str)
     {
         delete [] m_word;
     }
@@ -134,27 +136,27 @@ CString& CString::operator=(const char *str)
     {
         m_size++;
     }
-    if(m_size == 1 && m_word[0] != '\0')
+    if(m_size == 1 && m_word[0] != empty_str)
     {
         delete [] m_word;
     }
     m_word = new char[m_size];
     for(int i = 0; i < m_size - 1; i++)
         m_word[i] = temp[i];
-    m_word[m_size - 1] = '\0';
+    m_word[m_size - 1] = empty_str;
     return *this;
 }
 
 CString& CString::operator=(char s)
 {
-    if(m_word[0] != '\0')
+    if(m_word[0] != empty_str)
     {
         delete [] m_word;
     }
     m_size = 2;
     m_word = new char[m_size];
     m_word[0] = s;
-    m_word[1] = '\0';
+    m_word[1] = empty_str;
     return *this;
 }
 
@@ -205,7 +207,7 @@ CString& CString::operator=(int n)
     {
         m_word[i] = cont[i] + '0';
     }
-    m_word[m_size - 1] = '\0';
+    m_word[m_size - 1] = empty_str;
 
     delete [] cont;
 
@@ -223,11 +225,11 @@ char& CString::at(int n)
     {
         return m_word[n];
     }
-    //если n > n_mize - 1 или < 0, то возращается '\0'
+    //если n > n_mize - 1 или < 0, то возращается empty_str
     else
     {
         cout << "Enter the number from 0 " << "to " << m_size - 2 << " ." << endl;
-        m_word[m_size - 1] = '\0';
+        m_word[m_size - 1] = empty_str;
         return m_word[m_size - 1];
     }
 }
@@ -242,7 +244,7 @@ char& CString::back()
     return m_word[m_size - 2];
 }
 
-char* CString::data()
+const char* CString::data()
 {
     return m_word;
 }
@@ -250,7 +252,7 @@ char* CString::data()
 bool CString::empty()
 {
     bool empty = false;
-    if(m_size == 1 && m_word[0] == '\0')
+    if(m_size == 1 && m_word[0] == empty_str)
     {
         empty = true;
     }
@@ -301,7 +303,7 @@ CString& CString::erase(int first, int last)
         m_word = new char[m_size];
         for(int i = 0; i < m_size - 1; i++)
             m_word[i] = temp[i];
-        m_word[m_size - 1] = '\0';
+        m_word[m_size - 1] = empty_str;
         delete [] temp;
     }
 
@@ -352,7 +354,7 @@ CString& CString::erase(char s)
         {
             m_word[i] = temp[i];
         }
-        m_word[m_size - 1] = '\0';
+        m_word[m_size - 1] = empty_str;
     }
     delete [] temp;
     return *this;
@@ -367,7 +369,7 @@ void CString::push_back(char s)
         temp[i] = m_word[i];
     }
     temp[new_m_size - 2] = s;
-    temp[new_m_size - 1] = '\0';
+    temp[new_m_size - 1] = empty_str;
     delete [] m_word;
     m_size = new_m_size;
     m_word = new char[m_size];
@@ -408,7 +410,7 @@ void CString::pop_back()
     char *temp = new char[new_m_size];
     for(int i = 0; i < new_m_size; i++)
         temp[i] = m_word[i];
-    temp[new_m_size - 1] = '\0';
+    temp[new_m_size - 1] = empty_str;
     delete [] m_word;
     m_size = new_m_size;
     m_word = new char[m_size];
@@ -728,7 +730,7 @@ CString& CString::operator+=(char s)
         temp[i] = m_word[i];
     }
     temp[new_m_size - 2] = s;
-    temp[new_m_size - 1] = '\0';
+    temp[new_m_size - 1] = empty_str;
     delete [] m_word;
     m_size = new_m_size;
     m_word = new char[m_size];
@@ -763,7 +765,7 @@ CString& CString::operator+=(const char *str)
     }
     for(int i = temp_m_size - 1, j = 0; i < m_size - 1; i++, j++)
         m_word[i] = str[j];
-    m_word[m_size - 1] = '\0';
+    m_word[m_size - 1] = empty_str;
     delete [] temp1;
     return *this;
 }
@@ -777,7 +779,7 @@ CString& CString::operator+(char s)
         temp[i] = m_word[i];
     }
     temp[new_m_size - 2] = s;
-    temp[new_m_size - 1] = '\0';
+    temp[new_m_size - 1] = empty_str;
     delete [] m_word;
     m_size = new_m_size;
     m_word = new char[m_size];
@@ -812,7 +814,7 @@ CString& CString::operator+(const char *str)
     }
     for(int i = temp_m_size - 1, j = 0; i < m_size - 1; i++, j++)
         m_word[i] = str[j];
-    m_word[m_size - 1] = '\0';
+    m_word[m_size - 1] = empty_str;
     delete [] temp1;
     return *this;
 }
@@ -825,7 +827,7 @@ const char* operator+(const CString &str1, const CString &str2)
         temp[i] = str1.m_word[i];
     for(int i = str1.m_size - 1, j = 0; j < str2.m_size - 1; i++, j++)
         temp[i] = str2.m_word[j];
-    temp[new_m_size - 1] = '\0';
+    temp[new_m_size - 1] = empty_str;
     return temp;
 }
 
@@ -1288,7 +1290,7 @@ CString& CString::to_string(int n)
     {
         m_word[i] = cont[i] + '0';
     }
-    m_word[m_size - 1] = '\0';
+    m_word[m_size - 1] = empty_str;
 
     delete [] cont;
 
@@ -1376,7 +1378,7 @@ CString& CString::to_string(int n)
         m_word[i] = cont[k] + '0';
         k++;
     }
-    m_word[m_size - 1] = '\0';
+    m_word[m_size - 1] = empty_str;
     delete [] cont;
     return *this;
 }*/

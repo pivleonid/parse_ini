@@ -22,4 +22,6 @@ SOURCES += \
 
 HEADERS += \
     CString.h \
-    CVector.h
+    CString_test.h \
+    CVector.h \
+    CVector_test.h

@@ -4,8 +4,11 @@
 
 enum type_sorting
 {
-    buble,
+    buble = 1,
+    hairbrush = 2,
+    //exit,
 };
+
 
 class CVector
 {

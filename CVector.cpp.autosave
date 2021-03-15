@@ -666,7 +666,6 @@ CVector& CVector::sorting()
                     {
                         if(container[i].m_size > container[i + step].m_size)
                         {
-
                             CString temp;
                             temp = container[i];
                             container[i] = container[i + step];
