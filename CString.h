@@ -20,7 +20,7 @@ public:
     CString& operator=(const char *str);
     CString& operator=(char s);
     CString& operator=(int n);
-
+    //char * operator[](int n);
     CString& operator+=(const CString &str);
     CString& operator+=(char s);
     CString& operator+=(const char *str);
