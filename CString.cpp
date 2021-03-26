@@ -246,7 +246,7 @@ char& CString::back()
 
 const char* CString::data()
 {
-    return m_word;
+    return this->m_word;
 }
 
 bool CString::empty()
@@ -916,6 +916,11 @@ bool CString::operator>=(const CString &str)
     else
         return false;
 }
+
+/*char *CString::operator[](int n)
+{
+    return *(m_word + n);
+}*/
 
 int CString::stoi()
 {
