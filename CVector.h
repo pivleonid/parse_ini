@@ -19,10 +19,8 @@ private:
      *        container  - указатель на вектор
      */
     unsigned int m_count;
-
     unsigned int m_capacity;
-
-    CString *container;
+    CString  *container;
 
 
 public:

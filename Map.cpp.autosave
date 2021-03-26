@@ -1,0 +1,73 @@
+#include "Map.h"
+
+Map::Map()
+{
+    root  = NULL;
+    find  = false;
+    key   = NULL;
+}
+
+void Map::add(const char new_str[80])
+{
+    root = add(new_str, root);
+}
+
+Node *Map::add(const char *new_str, Node *tree)
+{
+    if(tree == NULL)
+    {
+        tree        = new Node;
+        strcpy(tree->str, new_str);
+        tree->left  = NULL;
+        tree->right = NULL;
+    }
+    else if(strcmp(tree->str, new_str) == 0)
+    {
+        cout << "Enter the correct number !";
+    }
+    else if(strcmp(tree->str, new_str) > 0)
+    {
+        tree->left = add(new_str, tree->left);
+    }
+    else if(strcmp(tree->str, new_str) < 0)
+    {
+        tree->right = add(new_str, tree->right);
+    }
+    return tree;
+}
+
+void Map::walk(const char *target, Node *tree)
+{
+    cout << tree->str << endl;
+    if(tree->str != target)
+    {
+        if(tree->left != NULL)
+        {
+            walk(target, tree->left);
+        }
+        if(tree->right != NULL)
+        {
+            walk(target, tree->right);
+        }
+    }
+    else
+    {
+        find = true;
+        cout << "Find !" << endl;
+    }
+}
+
+bool Map::search(const char *target)
+{
+    find = false;
+    walk(target, root);
+    return find;
+}
+
+
+
+
+
+
+
+

@@ -2,6 +2,7 @@
 #define CVECTOR_TEST_H
 #include "CString.h"
 #include "CVector.h"
+
 #include <gtest/include/gtest/gtest.h>
 using namespace std;
 
@@ -324,7 +325,7 @@ TEST(test035, test_CVector_operator_plus_and_eq)
     c.show();
 }
 
-TEST(test040, test_CVector_sorting)
+/*TEST(test036, test_CVector_sorting)
 {
     CString a("Nikita");
     CString b("Sinodov");
@@ -339,6 +340,6 @@ TEST(test040, test_CVector_sorting)
     c.push_back(g);
     c.sorting();
     c.show();
-}
+}*/
 
 #endif // CVECTOR_TEST_H

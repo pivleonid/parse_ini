@@ -7,6 +7,7 @@ INCLUDEPATH += "gtest/include"
 INCLUDEPATH += "gtest"
 
 SOURCES += \
+        CMap.cpp \
         CString.cpp \
         CVector.cpp \
         main.cpp \
@@ -21,6 +22,8 @@ SOURCES += \
         gtest/src/gtest.cc
 
 HEADERS += \
+    CMap.h \
+    CMap_test.h \
     CString.h \
     CString_test.h \
     CVector.h \
