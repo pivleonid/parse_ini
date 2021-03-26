@@ -4,3 +4,4 @@ Makefile
 *Release
 *stash
 /*.user
+/*.user*
