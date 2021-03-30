@@ -47,11 +47,10 @@ TEST(test037, test_CMap)
       CString f("Warkraft");
       a.add_pair(k2, f);
 
-      a.search(k4);
       a.delete_key(k5);
       a.delete_key(k2);
       cout << "Something" << endl;
-//    bool res = a.search("Zero"); //что такое тип б
-//    ASSERT_TRUE(res);
+      bool res = a.search(k4);  
+      ASSERT_TRUE(res);
 }
 #endif // MAP_TEST_H

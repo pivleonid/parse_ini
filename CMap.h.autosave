@@ -32,10 +32,7 @@ public:
     Node *getAdress(CString &target, Node *tree);
     //Возвращает адрес родительского узла
     Node *getAdressParent(Node *child, Node *tree);
-    //Если такой ключ уже есть- осуществить перезапись
-    //bool add_pair(CString& key, CString& value)
     Node *delete_key(CString &target);
-    Node *addNode(CString &key, CString &str, Node *tree);
     Node *search_replacing(Node *tree);
 
 };
