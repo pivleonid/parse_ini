@@ -1,7 +1,0 @@
-*.bat
-Makefile
-*Debug
-*Release
-*stash
-/*.user
-/*.user*
