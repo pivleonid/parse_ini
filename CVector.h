@@ -20,7 +20,11 @@ private:
      */
     unsigned int m_count;
     unsigned int m_capacity;
+<<<<<<< HEAD
     A        * container;
+=======
+    CString  * container;
+>>>>>>> dc63914f833218594477c9811b624317339d19a4
 
 
 public:
@@ -31,8 +35,13 @@ public:
     ~CVector();
 
     /*!
+<<<<<<< HEAD
      * \brief push_back - добавляет объект типа А в конец CVector
      * \param str       - объект типа А
+=======
+     * \brief push_back - добавляет объект CString в конец CVector
+     * \param str       - объект CString
+>>>>>>> dc63914f833218594477c9811b624317339d19a4
      */
     void push_back(const A &value);
 
@@ -44,7 +53,11 @@ public:
     unsigned size();
 
     /*!
+<<<<<<< HEAD
      * \brief push_front - добавление объекта типа А в начало CVector
+=======
+     * \brief push_front - добавление объекта CString в начало CVector
+>>>>>>> dc63914f833218594477c9811b624317339d19a4
      * \param str        - добавляемый объект
      */
     void push_front(const A &str);
@@ -135,7 +148,19 @@ public:
     CVector operator+(const CVector &vct) const;
     CVector operator+(const A &str) const;
 
+<<<<<<< HEAD
     A& operator[] (int n);
+=======
+    CVector& operator=(const CVector &vct);
+    CVector& operator=(const CVector *vct);
+
+    CVector& operator+=(const CVector &vct);
+    CVector& operator+=(const CString &str);
+    CVector operator+(const CVector &vct) const;
+    CVector operator+(const CString &str) const;
+
+    CString& operator[] (int n);
+>>>>>>> dc63914f833218594477c9811b624317339d19a4
 
     bool operator!=(const CVector &vct);
     bool operator==(const CVector &vct);

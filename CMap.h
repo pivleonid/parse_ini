@@ -39,6 +39,7 @@ private:
      * \return                - возвращает полученный адрес
      */
     Node *getAdressParent(Node *child, Node *tree);
+<<<<<<< HEAD
     /*!
      * \brief search_replacing - поиск замены для удаляемого элемента
      * \param tree             - дерево в котором ищем замену
@@ -48,10 +49,27 @@ private:
 
     bool search_inner(A &target, Node *tree);
     Node *add_pair_inner(A &key,const B &value, Node *tree);
+=======
+
+    Node *search_replacing(Node *tree);
+
+
+    bool search_inner(A &target, Node *tree);
+    //B &getValue(A &key, Node *tree);
+    Node * add_pair_inner(A &key, B &value, Node *tree);
+>>>>>>> dc63914f833218594477c9811b624317339d19a4
     void delete_all(Node *tree);
 public:
     Map();
     ~Map();
+<<<<<<< HEAD
+=======
+    void add_pair(A &key, B &value);
+    bool search(A &target);
+    //Есть ли такой ключ
+    B &getValue(A &target);
+    void delete_key(A &target);
+>>>>>>> dc63914f833218594477c9811b624317339d19a4
 
     /*!
      * \brief add_pair - добавление нового узла в дерево

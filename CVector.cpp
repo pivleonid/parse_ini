@@ -61,8 +61,14 @@ void CVector<A>::push_back(const A &value)
     m_count++;
 }
 
+<<<<<<< HEAD
 template <typename A>
 void CVector<A>::push_front(const A &value)
+=======
+
+
+void CVector::push_front(const CString &str)
+>>>>>>> dc63914f833218594477c9811b624317339d19a4
 {
     if(m_count == m_capacity)
     {
@@ -560,8 +566,14 @@ int CVector<A>::find(A &value)
     //если ни разу не совпало вывести предупреждение
     else if(coincidence == false)
     {
+<<<<<<< HEAD
         cout << "Enter the correct value for search." << endl;
     }
+=======
+        cout << "Enter the correct string for search." << endl;
+    }
+
+>>>>>>> dc63914f833218594477c9811b624317339d19a4
     return number;
 }
 
@@ -598,7 +610,11 @@ int CVector<A>::rfind(A &value)
     //если ни разу не совпало вывести предупреждение
     else if(coincidence == false)
     {
+<<<<<<< HEAD
         cout << "Enter the correct value for search." << endl;
+=======
+        cout << "Enter the correct string for search." << endl;
+>>>>>>> dc63914f833218594477c9811b624317339d19a4
     }
     return number;
 }
@@ -625,7 +641,7 @@ CVector<A>& CVector<A>::sorting()
                     j = i;
                     for(t = i; t < m_count; t++)
                     {
-                        if(container[j].m_size > container[t].m_size)
+                        if(container[j] > container[t])
                         {
                             j = t;
                         }
@@ -645,7 +661,7 @@ CVector<A>& CVector<A>::sorting()
                 {
                     for(unsigned i = 0; i + step < m_count; i++)
                     {
-                        if(container[i].m_size > container[i + step].m_size)
+                        if(container[i] > container[i + step])
                         {
                             A temp;
                             temp = container[i];
@@ -937,6 +953,7 @@ A& CVector<A>::operator[] (int n)
     return container[n];
 }
 
+<<<<<<< HEAD
 template <typename A>
 bool CVector<A>::operator>(const CVector &vct)
 {
@@ -982,6 +999,27 @@ bool CVector<A>::operator<(const CVector &vct)
 
 
 
+=======
+bool  CVector::operator>(const CVector &vct)
+ {
+     bool more = false;
+     if(m_count > vct.m_count)
+     {
+         more = true;
+     }
+     return more;
+ }
+
+bool  CVector::operator<(const CVector &vct)
+ {
+     bool less = false;
+     if(m_count < vct.m_count)
+     {
+         less = true;
+     }
+     return less;
+ }
+>>>>>>> dc63914f833218594477c9811b624317339d19a4
 
 
 
