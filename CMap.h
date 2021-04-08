@@ -47,7 +47,6 @@ private:
     Node *search_replacing(Node *tree);
 
     bool search_inner(A &target, Node *tree);
-    B &getValue_inner(A &target, Node *tree);
     Node *add_pair_inner(A &key,const B &value, Node *tree);
     void delete_all(Node *tree);
 public:

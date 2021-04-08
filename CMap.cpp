@@ -320,31 +320,6 @@ void Map<A, B>::delete_key(A &target)
 
 }
 
-/*template <typename A, typename B>
-B &Map<A, B>::getValue_inner(A &target, Node *cur_node)
-{
-    B temp;
-    bool found = false;
-    if(cur_node->key == target)
-    {
-        temp = cur_node->value;
-        B &temp_value = temp;
-        found = true;
-    }
-    else
-    {
-        if(cur_node->left != 0 && found == false)
-        {
-            temp = getValue_inner(target, cur_node->left);
-        }
-        if(cur_node->right != 0 && found == false)
-        {
-            temp = getValue_inner(target, cur_node->right);
-        }
-    }
-    return temp;
-}*/
-
 template <typename A, typename B>
 B & Map<A, B>::getValue(A &target)
 {
