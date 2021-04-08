@@ -5,44 +5,49 @@
 #include <iostream>
 using namespace std;
 
-CVector::CVector()
+template <typename A>
+CVector<A>::CVector()
 {
     m_count    = 0;
     m_capacity = 1;
-    container  = new CString[m_capacity];
+    container  = new A[m_capacity];
 }
 
-CVector::CVector(int n)
+template <typename A>
+CVector<A>::CVector(int n)
 {
     m_count    = 0;
     m_capacity = n;
-    container  = new CString[m_capacity];
+    container  = new A[m_capacity];
 }
 
-CVector::~CVector()
+template <typename A>
+CVector<A>::~CVector()
 {
     m_count    = 0;
     m_capacity = 1;
     delete [] container;
 }
 
-CVector::CVector(const CVector &vct)
+template <typename A>
+CVector<A>::CVector(const A &vct)
 {
     m_count = vct.m_count;
     m_capacity = vct.m_capacity;
-    container = new CString[m_capacity];
+    container = new A[m_capacity];
     for(unsigned i = 0; i < m_count; i++)
     {
         container[i] = vct.container[i];
     }
 }
 
-void CVector::push_back(const CString &str)
+template <typename A>
+void CVector<A>::push_back(const A &value)
 {
     if(m_count == m_capacity)
     {
         m_capacity *= 2;
-        CString *temp = new CString[m_capacity];
+        A *temp = new A[m_capacity];
         for(unsigned int i = 0; i < m_count; i++)
         {
             temp[i] = container[i];
@@ -52,30 +57,18 @@ void CVector::push_back(const CString &str)
         container = temp;
     }
 
-    container[m_count] = str;
+    container[m_count] = value;
     m_count++;
 }
 
-void CVector::show()
-{
-    for(unsigned i = 0; i < m_count; i++)
-    {
-        for(int j = 0; j < container[i].m_size; j++)
-        {
-            cout << container[i].m_word[j];
-        }
-        cout << endl;
-    }
-    cout << endl;
-}
-
-void CVector::push_front(const CString &str)
+template <typename A>
+void CVector<A>::push_front(const A &value)
 {
     if(m_count == m_capacity)
     {
         m_capacity *= 2;
-        CString *temp = new CString[m_capacity];
-        temp[0] = str;
+        A *temp = new A[m_capacity];
+        temp[0] = value;
         for(unsigned int i = 1, j = 0; i < m_count; i++, j++)
         {
             temp[i] = container[j];
@@ -87,8 +80,8 @@ void CVector::push_front(const CString &str)
     }
     else if(m_count < m_capacity)
     {
-        CString *temp = new CString[m_capacity];
-        temp[0] = str;
+        A *temp = new A[m_capacity];
+        temp[0] = value;
         for(unsigned int i = 1, j = 0; i < m_count; i++, j++)
         {
             temp[i] = container[j];
@@ -100,12 +93,14 @@ void CVector::push_front(const CString &str)
     }
 }
 
-unsigned CVector::size()
+template <typename A>
+unsigned CVector<A>::size()
 {
     return m_count;
 }
 
-bool CVector::is_empty()
+template <typename A>
+bool CVector<A>::is_empty()
 {
     bool empty = true;
     if(m_capacity == 1 && container[0].empty() == 1)
@@ -119,7 +114,8 @@ bool CVector::is_empty()
     return empty;
 }
 
-CString& CVector::at(int n)
+template <typename A>
+A& CVector<A>::at(int n)
 {
     if(n < 0)
     {
@@ -134,18 +130,18 @@ CString& CVector::at(int n)
 
         return container[m_count];
     }
-
-    if(n >= 0 && n1 <= m_count)
+    else
     {
         return container[n];
     }
 }
 
-CString& CVector::front()
+template <typename A>
+A& CVector<A>::front()
 {
     if(m_capacity == 1 && container[0].empty() == 1)
     {
-        cout << "Add the object CString in CVector." << endl;
+        cout << "Add the object A in CVector." << endl;
 
         return container[m_count];
     }
@@ -158,11 +154,12 @@ CString& CVector::front()
 
 }
 
-CString& CVector::back()
+template <typename A>
+A& CVector<A>::back()
 {
     if(m_capacity == 1 && container[0].empty() == 1)
     {
-        cout << "Add the object CString in CVector." << endl;
+        cout << "Add the object A in CVector." << endl;
         return container[m_count];
     }
     else
@@ -171,18 +168,19 @@ CString& CVector::back()
     }
 }
 
-CString CVector::pop_front()
+template <typename A>
+A CVector<A>::pop_front()
 {
-    CString first;
+    A first;
     if(m_capacity == 1 && container[0].empty() == 1)
     {
-        cout << "Add the object CString in CVector." << endl;
+        cout << "Add the object A in CVector." << endl;
     }
 
     else
     {
         first = container[0];
-        CString *temp = new CString[m_capacity];
+        A *temp = new A[m_capacity];
         for(unsigned int i = 0, j = 1; j < m_count; i++, j++)
         {
             temp[i] = container[j];
@@ -196,18 +194,19 @@ CString CVector::pop_front()
     return first;
 }
 
-CString CVector::pop_back()
+template <typename A>
+A CVector<A>::pop_back()
 {
-    CString last;
+    A last;
     if(m_capacity == 1 && container[0].empty() == 1)
     {
-        cout << "Add the object CString in CVector." << endl;
+        cout << "Add the object A in CVector." << endl;
     }
 
     else
     {
         last = container[m_count - 1];
-        CString *temp = new CString[m_capacity];
+        A *temp = new A[m_capacity];
         for(unsigned i = 0; i < m_count - 1; i++)
         {
             temp[i] = container[i];
@@ -221,7 +220,8 @@ CString CVector::pop_back()
     return last;
 }
 
-CVector& CVector::erase(unsigned int first, unsigned int last)
+template <typename A>
+CVector<A>& CVector<A>::erase(unsigned int first, unsigned int last)
 {
     int false0 = 0;
     //если first вне диапазона массива выводим предупреждение
@@ -260,7 +260,7 @@ CVector& CVector::erase(unsigned int first, unsigned int last)
         char choice4 = toupper(choice2);
         if(choice3 == 'N' && choice4 == 'N')
         {
-            CString *temp = new CString[m_capacity];
+            A *temp = new A[m_capacity];
 
             if(first == 0 && last == m_count - 1)
             {
@@ -320,7 +320,7 @@ CVector& CVector::erase(unsigned int first, unsigned int last)
 
         else if(choice3 == 'Y' && choice4 == 'N')
         {
-            CString *temp = new CString[m_capacity];
+            A *temp = new A[m_capacity];
 
             if(first == 0 && last == m_count - 1)
             {
@@ -376,7 +376,7 @@ CVector& CVector::erase(unsigned int first, unsigned int last)
 
         else if(choice3 == 'N' && choice4 == 'Y')
         {
-            CString *temp = new CString[m_capacity];
+            A *temp = new A[m_capacity];
 
             if(first == 0 && last == m_count - 1)
             {
@@ -433,7 +433,7 @@ CVector& CVector::erase(unsigned int first, unsigned int last)
 
         else if(choice3 == 'Y' && choice4 == 'Y')
         {
-            CString *temp = new CString[m_capacity];
+            A *temp = new A[m_capacity];
 
             if(first == 0 && last == m_count - 1)
             {
@@ -486,7 +486,8 @@ CVector& CVector::erase(unsigned int first, unsigned int last)
     return *this;
 }
 
-unsigned CVector::resize(int n)
+template <typename A>
+unsigned CVector<A>::resize(int n)
 {
 
     if(n < 0)
@@ -498,7 +499,7 @@ unsigned CVector::resize(int n)
     if(n1 < m_count)
     {
         m_count = n1;
-        CString *temp = new CString[m_count];
+        A *temp = new A[m_count];
         for(unsigned i = 0; i < m_count; i++)
         {
             temp[i] = container[i];
@@ -506,7 +507,7 @@ unsigned CVector::resize(int n)
         m_capacity = m_count * 2;
 
         delete [] container;
-        container = new CString[m_capacity];
+        container = new A[m_capacity];
         for(unsigned i = 0; i < m_count; i++)
         {
             container[i] = temp[i];
@@ -517,15 +518,17 @@ unsigned CVector::resize(int n)
     return m_count;
 }
 
-void CVector::clear()
+template <typename A>
+void CVector<A>::clear()
 {
     delete [] container;
     m_capacity = 1;
     m_count = 0;
-    container = new CString[m_capacity];
+    container = new A[m_capacity];
 }
 
-int CVector::find(CString &str)
+template <typename A>
+int CVector<A>::find(A &value)
 {
     //номер с которого начинается первое совпадение
     int number = 0;
@@ -536,7 +539,7 @@ int CVector::find(CString &str)
 
     for(unsigned i = 0; i < m_count; i++)
     {
-        if(str == container[i])
+        if(value == container[i])
         {
             number = i;
             coincidence = true;
@@ -547,7 +550,7 @@ int CVector::find(CString &str)
     {
         for(unsigned i = 0; i < m_count; i++)
         {
-            if(str == container[i])
+            if(value == container[i])
             {
                 n_word++;
             }
@@ -557,24 +560,13 @@ int CVector::find(CString &str)
     //если ни разу не совпало вывести предупреждение
     else if(coincidence == false)
     {
-        cout << "Enter the correct string for search." << endl;
+        cout << "Enter the correct value for search." << endl;
     }
-
-    //если совпадений несколько вывести, то сколько раз
-    if(n_word > 1)
-    {
-        cout << "From the symbol number " << number << " the string contains word \'";
-        for(int i = 0; i < str.m_size - 1; i++)
-        {
-            cout << str.m_word[i];
-        }
-        cout << "\' " << n_word << " times." << endl;
-    }
-
     return number;
 }
 
-int CVector::rfind(CString &str)
+template <typename A>
+int CVector<A>::rfind(A &value)
 {
     //номер с которого начинается первое совпадение
     int number = 0;
@@ -585,7 +577,7 @@ int CVector::rfind(CString &str)
 
     for(int i = m_count; i > -1; i--)
     {
-        if(str == container[i])
+        if(value == container[i])
         {
             number = i;
             coincidence = true;
@@ -596,7 +588,7 @@ int CVector::rfind(CString &str)
     {
         for(int i = m_count; i > -1; i--)
         {
-            if(str == container[i])
+            if(value == container[i])
             {
                 n_word++;
             }
@@ -606,23 +598,12 @@ int CVector::rfind(CString &str)
     //если ни разу не совпало вывести предупреждение
     else if(coincidence == false)
     {
-        cout << "Enter the correct string for search." << endl;
+        cout << "Enter the correct value for search." << endl;
     }
-    //если совпадений несколько вывести, то сколько раз
-    if(n_word > 1)
-    {
-        cout << "From the symbol number " << number << " the string contains word \'";
-        for(int i = 0; i < str.m_size - 1; i++)
-        {
-            cout << str.m_word[i];
-        }
-        cout << "\' " << n_word << " times." << endl;
-    }
-
     return number;
 }
-
-CVector& CVector::sorting()
+template <typename A>
+CVector<A>& CVector<A>::sorting()
 {
     type_sorting type_sort = buble;
     int choice = type_sort;
@@ -649,7 +630,7 @@ CVector& CVector::sorting()
                             j = t;
                         }
                     }
-                    CString temp;
+                    A temp;
                     temp = container[i];
                     container[i] = container[j];
                     container[j] = temp;
@@ -666,7 +647,7 @@ CVector& CVector::sorting()
                     {
                         if(container[i].m_size > container[i + step].m_size)
                         {
-                            CString temp;
+                            A temp;
                             temp = container[i];
                             container[i] = container[i + step];
                             container[i + step] = temp;
@@ -681,7 +662,8 @@ CVector& CVector::sorting()
     return *this;
 }
 
-CVector& CVector::operator=(const CVector &vct)
+template <typename A>
+CVector<A>& CVector<A>::operator=(const CVector &vct)
 {
     if(this == &vct)
     {
@@ -695,7 +677,7 @@ CVector& CVector::operator=(const CVector &vct)
 
     m_count = vct.m_count;
     m_capacity = vct.m_capacity;
-    container = new CString[m_capacity];
+    container = new A[m_capacity];
     for(unsigned int i = 0; i < m_count; i++)
     {
         container[i] = vct.container[i];
@@ -704,7 +686,8 @@ CVector& CVector::operator=(const CVector &vct)
     return *this;
 }
 
-CVector& CVector::operator=(const CVector *vct)
+template <typename A>
+CVector<A>& CVector<A>::operator=(const CVector *vct)
 {
     if(this == vct)
         return *this;
@@ -718,7 +701,7 @@ CVector& CVector::operator=(const CVector *vct)
         delete [] container;
     }
 
-    container = new CString[m_capacity];
+    container = new A[m_capacity];
 
     for(unsigned int i = 0; i < m_count; i++)
     {
@@ -728,12 +711,13 @@ CVector& CVector::operator=(const CVector *vct)
     return  *this;
 }
 
-CVector& CVector::operator+=(const CVector &vct)
+template <typename A>
+CVector<A>& CVector<A>::operator+=(const CVector &vct)
 {
     unsigned int old_m_count = m_count;
     m_count += vct.m_count;
     m_capacity += vct.m_capacity;
-    CString *temp = new CString[m_capacity];
+    A *temp = new A[m_capacity];
 
     int k = 0;
     for(unsigned int i = 0; i < old_m_count; i++, k++)
@@ -752,13 +736,14 @@ CVector& CVector::operator+=(const CVector &vct)
     return *this;
 }
 
-CVector& CVector::operator+=(const CString &str)
+template <typename A>
+CVector<A>& CVector<A>::operator+=(const A &str)
 {
 
     if(m_count == m_capacity)
     {
         m_capacity *= 2;
-        CString *temp = new CString[m_capacity];
+        A *temp = new A[m_capacity];
         for(unsigned int i = 0; i < m_count; i++)
         {
             temp[i] = container[i];
@@ -772,7 +757,8 @@ CVector& CVector::operator+=(const CString &str)
     return *this;
 }
 
-bool CVector::operator==(const CVector &vct)
+template <typename A>
+bool CVector<A>::operator==(const CVector &vct)
 {
     bool coincidence = false;
     unsigned find_coincidence = 0;
@@ -801,7 +787,8 @@ bool CVector::operator==(const CVector &vct)
     return coincidence;
 }
 
-bool CVector::operator!=(const CVector &vct)
+template <typename A>
+bool CVector<A>::operator!=(const CVector &vct)
 {
     bool dismatch = true;
     unsigned find_coincidence = 0;
@@ -829,7 +816,8 @@ bool CVector::operator!=(const CVector &vct)
     return dismatch;
 }
 
-bool CVector::operator<=(const CVector &vct)
+template <typename A>
+bool CVector<A>::operator<=(const CVector &vct)
 {
     unsigned search_m_count = 0;
 
@@ -858,12 +846,11 @@ bool CVector::operator<=(const CVector &vct)
     return less;
 }
 
-bool CVector::operator>=(const CVector &vct)
+template <typename A>
+bool CVector<A>::operator>=(const CVector &vct)
 {
     unsigned search_m_count = 0;
-
     bool more = false;
-
     if(m_count >= vct.m_count)
     {
         for(unsigned i = 0; i < m_count; i++)
@@ -885,14 +872,15 @@ bool CVector::operator>=(const CVector &vct)
     return more;
 }
 
-CVector CVector::operator+(const CVector &vct) const
+template <typename A>
+CVector<A> CVector<A>::operator+(const CVector &vct) const
 {
     CVector vct1;
 
     vct1.m_count = m_count + vct.m_count;
     vct1.m_capacity = m_capacity + vct.m_capacity;
     delete [] vct1.container;
-    vct1.container = new CString[vct1.m_capacity];
+    vct1.container = new A[vct1.m_capacity];
 
 
     for(unsigned i = 0; i < m_count; i++)
@@ -908,7 +896,8 @@ CVector CVector::operator+(const CVector &vct) const
     return vct1;
 }
 
-CVector CVector::operator+(const CString &str) const
+template <typename A>
+CVector<A> CVector<A>::operator+(const A &str) const
 {
     CVector vct;
     vct.m_count = m_count;
@@ -916,7 +905,7 @@ CVector CVector::operator+(const CString &str) const
     if(m_count == m_capacity)
     {
         vct.m_capacity *= 2;
-        CString *temp = new CString[vct.m_capacity];
+        A *temp = new A[vct.m_capacity];
         for(unsigned int i = 0; i < m_count; i++)
         {
             temp[i] = container[i];
@@ -930,7 +919,8 @@ CVector CVector::operator+(const CString &str) const
     return vct;
 }
 
-CString& CVector::operator[] (int n)
+template <typename A>
+A& CVector<A>::operator[] (int n)
 {
     if(n < 0)
     {
@@ -946,6 +936,49 @@ CString& CVector::operator[] (int n)
 
     return container[n];
 }
+
+template <typename A>
+bool CVector<A>::operator>(const CVector &vct)
+{
+    bool more = false;
+    if(m_count > vct.m_count)
+    {
+        more = true;
+    }
+    return more;
+}
+
+template <typename A>
+bool CVector<A>::operator<(const CVector &vct)
+{
+    int less = false;
+    if(m_count < vct.m_count)
+    {
+        less = true;
+    }
+    return less;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

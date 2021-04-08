@@ -1,42 +1,94 @@
 #ifndef MAP_H
 #define MAP_H
 #include "CString.h"
+#include "CVector.h"
 #include "string"
 #include "cstring"
 #include <iostream>
 using namespace std;
-//struct Node;
-struct Node
-{
-
-    Node        *left;
-    Node        *right;
-    CString     key;
-    CString     value;
-};
+template <typename A, typename B>
 class Map
 {
+public:
+    class Node
+    {
+    public:
+        Node *left;
+        Node *right;
+        A    key;
+        B    value;
+    };
 private:
-
+    /*!
+     * \brief root - корень дерева
+     */
     Node *root;
+
+    /*!
+     * \brief getAdress - получение адреса элемента по ключу
+     * \param target    - искомый ключ
+     * \param tree      - дерево в котором этот элемент ищем
+     * \return          - возвращает полученный адрес
+     */
+
+    Node *getAdress(A &target, Node *tree);
+    /*!
+     * \brief getAdressParent - получение адреса родителя искомого элемента
+     * \param child           - искомый элемент
+     * \param tree            - дерево в котором ищем адрес родителя
+     * \return                - возвращает полученный адрес
+     */
+    Node *getAdressParent(Node *child, Node *tree);
+    /*!
+     * \brief search_replacing - поиск замены для удаляемого элемента
+     * \param tree             - дерево в котором ищем замену
+     * \return                 - возвращет адрес узла для замены
+     */
+    Node *search_replacing(Node *tree);
+
+    bool search_inner(A &target, Node *tree);
+    B &getValue_inner(A &target, Node *tree);
+    Node *add_pair_inner(A &key,const B &value, Node *tree);
+    void delete_all(Node *tree);
 public:
     Map();
     ~Map();
-    void add_pair(CString &key, CString &str);
-    Node *add_pair(CString &key, CString &str, Node *tree);
-    void delete_all(Node *tree);
-    bool search(CString &target);
-    //Есть ли такой ключ
-    bool find(CString &target, Node *tree);
-    CString getValue(CString& key);
-    Node *getAdress(CString &target, Node *tree);
-    //Возвращает адрес родительского узла
-    Node *getAdressParent(Node *child, Node *tree);
-    //Если такой ключ уже есть- осуществить перезапись
-    //bool add_pair(CString& key, CString& value)
-    Node *delete_key(CString &target);
-    Node *addNode(CString &key, CString &str, Node *tree);
-    Node *search_replacing(Node *tree);
 
+    /*!
+     * \brief add_pair - добавление нового узла в дерево
+     * \param key      - ключ
+     * \param value    - значение
+     */
+    void add_pair(A &key,const B &value);
+
+    /*!
+     * \brief search - поиск узла в дереве по ключу
+     * \param target - искомый ключ
+     * \return       - true если ключ найден
+     */
+    bool search(A &target);
+
+    /*!
+     * \brief getValue - получение значения по ключу
+     * \param target   - искомый ключ
+     * \return         - значение
+     */
+    B &getValue(A &target);
+
+    /*!
+     * \brief delete_key - удаление узла по ключу
+     * \param target     - искомый ключ
+     */
+    void delete_key(A &target);
+
+    B &operator=(B &value);
 };
 #endif // MAP_H
+
+
+
+
+
+
+
+

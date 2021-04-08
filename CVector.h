@@ -9,7 +9,7 @@ enum type_sorting
     //exit,
 };
 
-
+template <typename A>
 class CVector
 {
 private:
@@ -20,41 +20,22 @@ private:
      */
     unsigned int m_count;
     unsigned int m_capacity;
-    CString  *container;
+    A        * container;
 
 
 public:
 
     CVector();
     CVector(int n);
-    CVector(const CVector &vct);
+    CVector(const A &vct);
     ~CVector();
 
-    CVector& operator=(const CVector &vct);
-    CVector& operator=(const CVector *vct);
-
-    CVector& operator+=(const CVector &vct);
-    CVector& operator+=(const CString &str);
-    CVector operator+(const CVector &vct) const;
-    CVector operator+(const CString &str) const;
-
-    CString& operator[] (int n);
-
-    bool operator!=(const CVector &vct);
-    bool operator==(const CVector &vct);
-    bool operator<=(const CVector &vct);
-    bool operator>=(const CVector &vct);
-
     /*!
-     * \brief push_back - добавляет объект CString в конец массива
-     * \param str       - объект CString
+     * \brief push_back - добавляет объект типа А в конец CVector
+     * \param str       - объект типа А
      */
-    void push_back(const CString &str);
+    void push_back(const A &value);
 
-    /*!
-     * \brief show       - демонтсрация содержимого объекта
-     */
-    void show();
 
     /*!
      * \brief size       - размер текущего объекта
@@ -63,10 +44,10 @@ public:
     unsigned size();
 
     /*!
-     * \brief push_front - добавление объекта CString в начало массива
+     * \brief push_front - добавление объекта типа А в начало CVector
      * \param str        - добавляемый объект
      */
-    void push_front(const CString &str);
+    void push_front(const A &str);
 
     /*!
      * \brief is_empty
@@ -79,31 +60,31 @@ public:
      * \param n  - номер элемента
      * \return   - возвращает указанный n-номер массива если n >= 0 или n <= m_count, возращает первый элемент если иначе
      */
-    CString& at(int n);
+    A &at(int n);
 
     /*!
      * \brief front - доступ к 1 элементу массива
-     * \return      - возвращает объект CString
+     * \return      - возвращает объект типа А
      */
-    CString& front();
+    A &front();
 
     /*!
      * \brief back - доступ к последнему элементу массива
-     * \return     - возвращает объект CString
+     * \return     - возвращает объект типа А
      */
-    CString& back();
+    A &back();
 
     /*!
      * \brief pop_front - доступ к 1 элементу массива с последующим его удалением
      * \return          - возвращает этот элемент
      */
-    CString pop_front();
+    A pop_front();
 
     /*!
      * \brief pop_back - доступ к последнему элементу массива с последующим его удалением
      * \return         - возвращает этот элемент
      */
-    CString pop_back();
+    A pop_back();
 
     /*!
      * \brief erase - удаляет объекты элементы массива с first по last функция предоставляет интерактивный выбор [) () (]
@@ -130,21 +111,38 @@ public:
      * \param str   - искомая строка
      * \return      - порядковый номер строки в массиве в первом вхождении
      */
-    int find(CString &str);
+    int find(A &str);
 
     /*!
      * \brief rfind - поиск строки в обратном порядке
      * \param str   - искомая строка
      * \return      - порядковый номер строки в массиве в первом вхождении
      */
-    int rfind(CString &str);
+    int rfind(A &str);
 
     /*!
-     * \brief sorting - сортировка массива по величине размера объекта CString
+     * \brief sorting - сортировка массива по величине размера объекта типа А
      * \return        - отсортированный объект CVector
      */
-    CVector& sorting();
+    CVector &sorting();
 
+
+    CVector &operator=(const CVector &vct);
+    CVector &operator=(const CVector *vct);
+
+    CVector &operator+=(const CVector &vct);
+    CVector &operator+=(const A &str);
+    CVector operator+(const CVector &vct) const;
+    CVector operator+(const A &str) const;
+
+    A& operator[] (int n);
+
+    bool operator!=(const CVector &vct);
+    bool operator==(const CVector &vct);
+    bool operator<=(const CVector &vct);
+    bool operator>=(const CVector &vct);
+    bool  operator>(const CVector &vct);
+    bool  operator<(const CVector &vct);
 
 };
 #endif // CVECTOR_H
