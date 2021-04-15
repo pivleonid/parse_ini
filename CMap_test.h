@@ -7,7 +7,11 @@ using namespace std;
 
 TEST(test037, test_CMap_CString_CString)
 {
+<<<<<<< HEAD
       CMap<CString, CString> a;
+=======
+      Map<CString, CString> a;
+>>>>>>> 4ac85f01b16f65741dd1c39777f40c3d1ce81c29
       CString k1(1); CString b("Zero");
       a.add_pair(k1, b);
 
@@ -50,14 +54,28 @@ TEST(test037, test_CMap_CString_CString)
       a.delete_key(k5);
       a.delete_key(k2);
       bool res = a.search(k4);
+<<<<<<< HEAD
       CString k;
       k = a.getValue(k3);
+=======
+<<<<<<< HEAD
+      CString k;
+      k = a.getValue(k3);
+=======
+      /*CString k;
+      k = a.getValue(k2);*/
+>>>>>>> dc63914f833218594477c9811b624317339d19a4
+>>>>>>> 4ac85f01b16f65741dd1c39777f40c3d1ce81c29
       ASSERT_TRUE(res);
 }
 
 TEST(test038, test_CMap_int_int)
 {
+<<<<<<< HEAD
     CMap<int, int> a;
+=======
+    Map<int, int> a;
+>>>>>>> 4ac85f01b16f65741dd1c39777f40c3d1ce81c29
     int k1 = 1; int b = 60;
     a.add_pair(k1, b);
 
@@ -67,11 +85,64 @@ TEST(test038, test_CMap_int_int)
     int k3 = 3; int d = 70;
     a.add_pair(k3, d);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+}
+
+TEST(test038, test_CMap_int_CString)
+{
+    Map<int, CString> a;
+    int k1(1); CString b("Zero");
+    a.add_pair(k1, b);
+
+    int k2(2); CString c("WALKYRIE");
+    a.add_pair(k2, c);
+
+    int k3(3); CString d("New");
+    a.add_pair(k3, d);
+}
+
+TEST(test038, test_CMap_int_CVector)
+{
+    Map<int, CVector> a;
+
+    CVector v;
+    CString b("Zero"); CString c("WALKYRIE"); CString d("New");
+    v.push_back(b); v.push_back(c); v.push_back(d);
+
+    int k1(1);
+
+    a.add_pair(k1, v);
+
+    CVector v1;
+    CString e("X-men"); CString g("developer");
+    v1.push_back(e); v1.push_back(g);
+
+    int k2(2);
+
+    a.add_pair(k2, v1);
+
+    CVector v2;
+    CString h("match"); CString i("view"); CString j("hero"); CString m("big_boss");
+    v2.push_back(h); v2.push_back(i); v2.push_back(j); v2.push_back(m);
+
+    int k3(3);
+
+    a.add_pair(k3, v2);
+    cout << "Good";
+>>>>>>> dc63914f833218594477c9811b624317339d19a4
+>>>>>>> 4ac85f01b16f65741dd1c39777f40c3d1ce81c29
 }
 
 TEST(test039, test_CMap_int_CString)
 {
+<<<<<<< HEAD
     CMap<int, CString> a;
+=======
+    Map<int, CString> a;
+>>>>>>> 4ac85f01b16f65741dd1c39777f40c3d1ce81c29
     int k1(1); CString b("Zero");
     a.add_pair(k1, b);
 
@@ -84,7 +155,11 @@ TEST(test039, test_CMap_int_CString)
 
 TEST(test040, test_CMap_int_CVector)
 {
+<<<<<<< HEAD
     CMap<int, CVector<CString>> a;
+=======
+    Map<int, CVector<CString>> a;
+>>>>>>> 4ac85f01b16f65741dd1c39777f40c3d1ce81c29
 
     CVector<CString> v;
     CString b("Zero"); CString c("WALKYRIE"); CString d("New");

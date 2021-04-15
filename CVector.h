@@ -18,9 +18,19 @@ private:
      *        m_capacity - ёмкость вектора
      *        container  - указатель на вектор
      */
+<<<<<<< HEAD
     int m_count;
     int m_capacity;
     A        * container;
+=======
+    unsigned int m_count;
+    unsigned int m_capacity;
+<<<<<<< HEAD
+    A        * container;
+=======
+    CString  * container;
+>>>>>>> dc63914f833218594477c9811b624317339d19a4
+>>>>>>> 4ac85f01b16f65741dd1c39777f40c3d1ce81c29
 
 
 public:
@@ -31,8 +41,18 @@ public:
     ~CVector();
 
     /*!
+<<<<<<< HEAD
      * \brief push_back - добавляет объект типа А в конец CVector
      * \param str       - объект типа А
+=======
+<<<<<<< HEAD
+     * \brief push_back - добавляет объект типа А в конец CVector
+     * \param str       - объект типа А
+=======
+     * \brief push_back - добавляет объект CString в конец CVector
+     * \param str       - объект CString
+>>>>>>> dc63914f833218594477c9811b624317339d19a4
+>>>>>>> 4ac85f01b16f65741dd1c39777f40c3d1ce81c29
      */
     void push_back(const A &value);
 
@@ -44,7 +64,15 @@ public:
     int  size();
 
     /*!
+<<<<<<< HEAD
      * \brief push_front - добавление объекта типа А в начало CVector
+=======
+<<<<<<< HEAD
+     * \brief push_front - добавление объекта типа А в начало CVector
+=======
+     * \brief push_front - добавление объекта CString в начало CVector
+>>>>>>> dc63914f833218594477c9811b624317339d19a4
+>>>>>>> 4ac85f01b16f65741dd1c39777f40c3d1ce81c29
      * \param str        - добавляемый объект
      */
     void push_front(const A &str);
@@ -125,6 +153,7 @@ public:
      * \return        - отсортированный объект CVector
      */
     CVector &sorting();
+<<<<<<< HEAD
 
 
     CVector &operator=(const CVector &vct);
@@ -134,8 +163,39 @@ public:
     CVector &operator+=(const A &str);
     CVector operator+(const CVector &vct) const;
     CVector operator+(const A &str) const;
+=======
+>>>>>>> 4ac85f01b16f65741dd1c39777f40c3d1ce81c29
 
     A& operator[] (int n);
+
+    bool operator!=(const CVector &vct);
+    bool operator==(const CVector &vct);
+    bool operator<=(const CVector &vct);
+    bool operator>=(const CVector &vct);
+    bool  operator>(const CVector &vct);
+    bool  operator<(const CVector &vct);
+
+    CVector &operator=(const CVector &vct);
+    CVector &operator=(const CVector *vct);
+
+    CVector &operator+=(const CVector &vct);
+    CVector &operator+=(const A &str);
+    CVector operator+(const CVector &vct) const;
+    CVector operator+(const A &str) const;
+
+<<<<<<< HEAD
+    A& operator[] (int n);
+=======
+    CVector& operator=(const CVector &vct);
+    CVector& operator=(const CVector *vct);
+
+    CVector& operator+=(const CVector &vct);
+    CVector& operator+=(const CString &str);
+    CVector operator+(const CVector &vct) const;
+    CVector operator+(const CString &str) const;
+
+    CString& operator[] (int n);
+>>>>>>> dc63914f833218594477c9811b624317339d19a4
 
     bool operator!=(const CVector &vct);
     bool operator==(const CVector &vct);

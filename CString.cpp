@@ -951,6 +951,7 @@ CString& CString::to_string(int n)
 
         //запись числа по одной цифре в массив
         cont[k] = value_n;
+<<<<<<< HEAD
 
         //перезапись степени для нахождения оставшихся цифр
         rate = int(pow(10, number - i));
@@ -1024,6 +1025,80 @@ CString& CString::operator=(char s)
 
 CString& CString::operator=(int n)
 {
+=======
+
+        //перезапись степени для нахождения оставшихся цифр
+        rate = int(pow(10, number - i));
+
+        //нахождение оставшихся цифр для записи
+        rest = n % rate;
+        value_n = rest;
+        k++;
+    }
+
+    delete [] m_word;
+    m_size = number + 1;
+    m_word = new char[m_size];
+    for(int i = 0; i < number; i++)
+    {
+        m_word[i] = cont[i] + '0';
+    }
+    m_word[m_size - 1] = empty_str;
+
+    delete [] cont;
+
+    return *this;
+}
+CString& CString::operator=(const CString &str)
+{
+    if(this == &str)
+        return *this;
+    m_size = str.m_size;
+    if(m_size == 1 && m_word[0] != empty_str)
+    {
+        delete [] m_word;
+    }
+    m_word = new char[m_size];
+    for (int i = 0; i < m_size; i++)
+        m_word[i] = str.m_word[i];
+    return *this;
+}
+
+CString& CString::operator=(const char *str)
+{
+    const char *temp = str;
+    m_size = 1;
+    while(*str++)
+    {
+        m_size++;
+    }
+    if(m_size == 1 && m_word[0] != empty_str)
+    {
+        delete [] m_word;
+    }
+    m_word = new char[m_size];
+    for(int i = 0; i < m_size - 1; i++)
+        m_word[i] = temp[i];
+    m_word[m_size - 1] = empty_str;
+    return *this;
+}
+
+CString& CString::operator=(char s)
+{
+    if(m_word[0] != empty_str)
+    {
+        delete [] m_word;
+    }
+    m_size = 2;
+    m_word = new char[m_size];
+    m_word[0] = s;
+    m_word[1] = empty_str;
+    return *this;
+}
+
+CString& CString::operator=(int n)
+{
+>>>>>>> 4ac85f01b16f65741dd1c39777f40c3d1ce81c29
     int temp_n = n;
     //количество цифр в числе
     int number = 0;

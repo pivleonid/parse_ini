@@ -35,7 +35,11 @@ CVector<A>::CVector(const A &vct)
     m_count = vct.m_count;
     m_capacity = vct.m_capacity;
     container = new A[m_capacity];
+<<<<<<< HEAD
     for(int  i = 0; i < m_count; i++)
+=======
+    for(unsigned i = 0; i < m_count; i++)
+>>>>>>> 4ac85f01b16f65741dd1c39777f40c3d1ce81c29
     {
         container[i] = vct.container[i];
     }
@@ -48,7 +52,11 @@ void CVector<A>::push_back(const A &value)
     {
         m_capacity *= 2;
         A *temp = new A[m_capacity];
+<<<<<<< HEAD
         for(int i = 0; i < m_count; i++)
+=======
+        for(unsigned int i = 0; i < m_count; i++)
+>>>>>>> 4ac85f01b16f65741dd1c39777f40c3d1ce81c29
         {
             temp[i] = container[i];
         }
@@ -61,15 +69,30 @@ void CVector<A>::push_back(const A &value)
     m_count++;
 }
 
+<<<<<<< HEAD
 template <typename A>
 void CVector<A>::push_front(const A &value)
+=======
+<<<<<<< HEAD
+template <typename A>
+void CVector<A>::push_front(const A &value)
+=======
+
+
+void CVector::push_front(const CString &str)
+>>>>>>> dc63914f833218594477c9811b624317339d19a4
+>>>>>>> 4ac85f01b16f65741dd1c39777f40c3d1ce81c29
 {
     if(m_count == m_capacity)
     {
         m_capacity *= 2;
         A *temp = new A[m_capacity];
         temp[0] = value;
+<<<<<<< HEAD
         for(int i = 1, j = 0; i < m_count; i++, j++)
+=======
+        for(unsigned int i = 1, j = 0; i < m_count; i++, j++)
+>>>>>>> 4ac85f01b16f65741dd1c39777f40c3d1ce81c29
         {
             temp[i] = container[j];
         }
@@ -82,7 +105,11 @@ void CVector<A>::push_front(const A &value)
     {
         A *temp = new A[m_capacity];
         temp[0] = value;
+<<<<<<< HEAD
         for(int i = 1, j = 0; i < m_count; i++, j++)
+=======
+        for(unsigned int i = 1, j = 0; i < m_count; i++, j++)
+>>>>>>> 4ac85f01b16f65741dd1c39777f40c3d1ce81c29
         {
             temp[i] = container[j];
         }
@@ -94,7 +121,11 @@ void CVector<A>::push_front(const A &value)
 }
 
 template <typename A>
+<<<<<<< HEAD
 int  CVector<A>::size()
+=======
+unsigned CVector<A>::size()
+>>>>>>> 4ac85f01b16f65741dd1c39777f40c3d1ce81c29
 {
     return m_count;
 }
@@ -179,7 +210,11 @@ A CVector<A>::pop_front()
     {
         first = container[0];
         A *temp = new A[m_capacity];
+<<<<<<< HEAD
         for(int i = 0, j = 1; j < m_count; i++, j++)
+=======
+        for(unsigned int i = 0, j = 1; j < m_count; i++, j++)
+>>>>>>> 4ac85f01b16f65741dd1c39777f40c3d1ce81c29
         {
             temp[i] = container[j];
         }
@@ -205,7 +240,11 @@ A CVector<A>::pop_back()
     {
         last = container[m_count - 1];
         A *temp = new A[m_capacity];
+<<<<<<< HEAD
         for(int i = 0; i < m_count - 1; i++)
+=======
+        for(unsigned i = 0; i < m_count - 1; i++)
+>>>>>>> 4ac85f01b16f65741dd1c39777f40c3d1ce81c29
         {
             temp[i] = container[i];
         }
@@ -219,7 +258,11 @@ A CVector<A>::pop_back()
 }
 
 template <typename A>
+<<<<<<< HEAD
 CVector<A>& CVector<A>::erase(int first, int last)
+=======
+CVector<A>& CVector<A>::erase(unsigned int first, unsigned int last)
+>>>>>>> 4ac85f01b16f65741dd1c39777f40c3d1ce81c29
 {
     int false0 = 0;
     //если first вне диапазона массива выводим предупреждение
@@ -485,7 +528,11 @@ CVector<A>& CVector<A>::erase(int first, int last)
 }
 
 template <typename A>
+<<<<<<< HEAD
 int CVector<A>::resize(int n)
+=======
+unsigned CVector<A>::resize(int n)
+>>>>>>> 4ac85f01b16f65741dd1c39777f40c3d1ce81c29
 {
 
     if(n < 0)
@@ -494,9 +541,15 @@ int CVector<A>::resize(int n)
     }
     if(n < m_count)
     {
+<<<<<<< HEAD
         m_count = n;
         A *temp = new A[m_count];
         for(int i = 0; i < m_count; i++)
+=======
+        m_count = n1;
+        A *temp = new A[m_count];
+        for(unsigned i = 0; i < m_count; i++)
+>>>>>>> 4ac85f01b16f65741dd1c39777f40c3d1ce81c29
         {
             temp[i] = container[i];
         }
@@ -504,7 +557,11 @@ int CVector<A>::resize(int n)
 
         delete [] container;
         container = new A[m_capacity];
+<<<<<<< HEAD
         for(int i = 0; i < m_count; i++)
+=======
+        for(unsigned i = 0; i < m_count; i++)
+>>>>>>> 4ac85f01b16f65741dd1c39777f40c3d1ce81c29
         {
             container[i] = temp[i];
         }
@@ -556,8 +613,19 @@ int CVector<A>::find(A &value)
     //если ни разу не совпало вывести предупреждение
     else if(coincidence == false)
     {
+<<<<<<< HEAD
         cout << "Enter the correct value for search." << endl;
     }
+=======
+<<<<<<< HEAD
+        cout << "Enter the correct value for search." << endl;
+    }
+=======
+        cout << "Enter the correct string for search." << endl;
+    }
+
+>>>>>>> dc63914f833218594477c9811b624317339d19a4
+>>>>>>> 4ac85f01b16f65741dd1c39777f40c3d1ce81c29
     return number;
 }
 
@@ -594,7 +662,15 @@ int CVector<A>::rfind(A &value)
     //если ни разу не совпало вывести предупреждение
     else if(coincidence == false)
     {
+<<<<<<< HEAD
         cout << "Enter the correct value for search." << endl;
+=======
+<<<<<<< HEAD
+        cout << "Enter the correct value for search." << endl;
+=======
+        cout << "Enter the correct string for search." << endl;
+>>>>>>> dc63914f833218594477c9811b624317339d19a4
+>>>>>>> 4ac85f01b16f65741dd1c39777f40c3d1ce81c29
     }
     return number;
 }
@@ -621,7 +697,7 @@ CVector<A>& CVector<A>::sorting()
                     j = i;
                     for(t = i; t < m_count; t++)
                     {
-                        if(container[j].m_size > container[t].m_size)
+                        if(container[j] > container[t])
                         {
                             j = t;
                         }
@@ -641,7 +717,7 @@ CVector<A>& CVector<A>::sorting()
                 {
                     for(int  i = 0; i + step < m_count; i++)
                     {
-                        if(container[i].m_size > container[i + step].m_size)
+                        if(container[i] > container[i + step])
                         {
                             A temp;
                             temp = container[i];
@@ -674,7 +750,11 @@ CVector<A>& CVector<A>::operator=(const CVector &vct)
     m_count = vct.m_count;
     m_capacity = vct.m_capacity;
     container = new A[m_capacity];
+<<<<<<< HEAD
     for(int i = 0; i < m_count; i++)
+=======
+    for(unsigned int i = 0; i < m_count; i++)
+>>>>>>> 4ac85f01b16f65741dd1c39777f40c3d1ce81c29
     {
         container[i] = vct.container[i];
     }
@@ -740,7 +820,11 @@ CVector<A>& CVector<A>::operator+=(const A &str)
     {
         m_capacity *= 2;
         A *temp = new A[m_capacity];
+<<<<<<< HEAD
         for(int i = 0; i < m_count; i++)
+=======
+        for(unsigned int i = 0; i < m_count; i++)
+>>>>>>> 4ac85f01b16f65741dd1c39777f40c3d1ce81c29
         {
             temp[i] = container[i];
         }
@@ -845,7 +929,11 @@ bool CVector<A>::operator<=(const CVector &vct)
 template <typename A>
 bool CVector<A>::operator>=(const CVector &vct)
 {
+<<<<<<< HEAD
     int  search_m_count = 0;
+=======
+    unsigned search_m_count = 0;
+>>>>>>> 4ac85f01b16f65741dd1c39777f40c3d1ce81c29
     bool more = false;
     if(m_count >= vct.m_count)
     {
@@ -902,7 +990,11 @@ CVector<A> CVector<A>::operator+(const A &str) const
     {
         vct.m_capacity *= 2;
         A *temp = new A[vct.m_capacity];
+<<<<<<< HEAD
         for(int i = 0; i < m_count; i++)
+=======
+        for(unsigned int i = 0; i < m_count; i++)
+>>>>>>> 4ac85f01b16f65741dd1c39777f40c3d1ce81c29
         {
             temp[i] = container[i];
         }
@@ -930,6 +1022,10 @@ A& CVector<A>::operator[] (int n)
     return container[n];
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 4ac85f01b16f65741dd1c39777f40c3d1ce81c29
 template <typename A>
 bool CVector<A>::operator>(const CVector &vct)
 {
@@ -973,8 +1069,32 @@ bool CVector<A>::operator<(const CVector &vct)
 
 
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> 4ac85f01b16f65741dd1c39777f40c3d1ce81c29
 
+=======
+bool  CVector::operator>(const CVector &vct)
+ {
+     bool more = false;
+     if(m_count > vct.m_count)
+     {
+         more = true;
+     }
+     return more;
+ }
+
+bool  CVector::operator<(const CVector &vct)
+ {
+     bool less = false;
+     if(m_count < vct.m_count)
+     {
+         less = true;
+     }
+     return less;
+ }
+>>>>>>> dc63914f833218594477c9811b624317339d19a4
 
 
 
