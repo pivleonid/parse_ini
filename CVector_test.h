@@ -2,7 +2,7 @@
 #define CVECTOR_TEST_H
 #include "CString.h"
 #include "CVector.h"
-
+#include "CVector.cpp"
 #include <gtest/include/gtest/gtest.h>
 using namespace std;
 
@@ -12,19 +12,17 @@ TEST(test022, test_operator_to_string)
     CString b("Sinodov");
     CString d("Andreich");
     CString f("some");
-    //std::vector<CString> vec;
-    CVector vec;
+    CVector<CString> vec;
     vec.push_back(a);
     vec.push_back(b);
     vec.push_back(d);
     vec.push_back(f);
-    for(unsigned i = 0; i < vec.size(); i++)
+    for(int  i = 0; i < vec.size(); i++)
     {
         cout << vec.at(i).data() <<endl;
     }
     cout << "//-------------------------//" <<endl;
-    //std::vector<bool> vec_bool;
-    CVector vec_bool;
+    CVector<bool> vec_bool;
     vec_bool.push_back(true);
     vec_bool.push_back(true);
     vec_bool.push_back(true);
@@ -32,13 +30,12 @@ TEST(test022, test_operator_to_string)
     vec_bool.push_back(true);
     vec_bool.push_back(false);
 
-    for(unsigned i = 0; i < vec_bool.size(); i++)
+    for(int  i = 0; i < vec_bool.size(); i++)
     {
-        cout << vec_bool.at(i).data() <<endl;
+        cout << vec_bool.at(i) <<endl;
     }
     cout << "//-------------------------//" <<endl;
-    //std::vector<int> vec_int;
-    CVector vec_int;
+    CVector<int> vec_int;
     vec_int.push_back(1);
     vec_int.push_back(2);
     vec_int.push_back(3);
@@ -46,9 +43,9 @@ TEST(test022, test_operator_to_string)
     vec_int.push_back(5);
     vec_int.push_back(6);
 
-    for(unsigned i = 0; i < vec_int.size(); i++)
+    for(int  i = 0; i < vec_int.size(); i++)
     {
-        cout << vec_int.at(i).data() <<endl;
+        cout << vec_int.at(i) <<endl;
     }
 
 }
@@ -61,22 +58,21 @@ TEST(test023, test_CVector_size_resize)
     CString d("Andreich");
     CString f("New");
     CString g("Funny");
-    CVector c;
-    CVector h;
+    CVector<CString> c;
+    CVector<CString> h;
     c.push_back(a);
     c.push_back(b);
     c.push_back(k);
     c.push_back(d);
     c.push_back(f);
     c.push_back(g);
-    unsigned res = c.size();
+    int  res = c.size();
     ASSERT_EQ(6, res);
     res = h.size();
     ASSERT_EQ(0, res);
     res = c.resize(3);
     ASSERT_EQ(3, res);
     c.resize(-1);
-    c.show();
 }
 
 TEST(test024, test_CVector_push)
@@ -86,19 +82,17 @@ TEST(test024, test_CVector_push)
     CString d("Andreich");
     CString f("New");
     CString g("Funny");
-    CVector c;
+    CVector<CString> c;
     c.push_back(a);
     c.push_back(b);
     c.push_back(d);
     c.push_back(f);
-    c.show();
     c.push_front(g);
-    c.show();
 }
 
 TEST(test025, test_CVector_empty)
 {
-    CVector a;
+    CVector<CString> a;
     bool res;
     res = a.is_empty();
     ASSERT_EQ(1, res);
@@ -116,7 +110,7 @@ TEST(test026, test_CVector_at)
     CString f("New");
     CString g("Funny");
     CString k;
-    CVector c;
+    CVector<CString> c;
     c.push_back(a);
     c.push_back(b);
     c.push_back(d);
@@ -136,7 +130,7 @@ TEST(test027, test_CVector_front_and_back)
     CString b("Sinodov");
     CString d("Andreich");
     CString j;
-    CVector c;
+    CVector<CString> c;
     CString e = c.front();
     ASSERT_TRUE(e == j);
     e = c.back();
@@ -157,7 +151,7 @@ TEST(test028, test_CVector_pop_front_and_pop_back)
     CString d("Andreich");
     CString f("New");
     CString g("Funny");
-    CVector c;
+    CVector<CString> c;
     c.push_back(a);
     c.push_back(b);
     c.push_back(d);
@@ -176,7 +170,7 @@ TEST(test028, test_CVector_pop_front_and_pop_back)
     CString d("Andreich");
     CString f("New");
     CString g("Funny");
-    CVector c;
+    CVector<CString> c;
     c.push_back(a);
     c.push_back(b);
     c.push_back(d);
@@ -186,7 +180,6 @@ TEST(test028, test_CVector_pop_front_and_pop_back)
     c.erase(2, -1);
     c.erase(10, 3);
     c.erase(1, 3);
-    c.show();
 }*/
 
 TEST(test030, test_CVector_find_rfind)
@@ -197,7 +190,7 @@ TEST(test030, test_CVector_find_rfind)
     CString d("Andreich");
     CString f("New");
     CString g("Funny");
-    CVector c;
+    CVector<CString> c;
     c.push_back(a);
     c.push_back(b);
     c.push_back(k);
@@ -219,17 +212,17 @@ TEST(test031, test_CVector_operator_equal)
     CString d("Andreich");
     CString f("New");
     CString g("Funny");
-    CVector c;
+    CVector<CString> c;
     c.push_back(a);
     c.push_back(b);
     c.push_back(k);
     c.push_back(d);
     c.push_back(f);
     c.push_back(g);
-    CVector h = c;
+    CVector<CString> h;
+    h = c;
     h.clear();
     h = c;
-    h.show();
 }
 
 TEST(test032, test_CVector_operator_equal_unequal)
@@ -237,11 +230,11 @@ TEST(test032, test_CVector_operator_equal_unequal)
     CString a("Nikita");
     CString b("Sinodov");
     CString k("New");
-    CVector c;
+    CVector<CString> c;
     c.push_back(a);
     c.push_back(b);
     c.push_back(k);
-    CVector g;
+    CVector<CString> g;
     g.push_back(a);
     g.push_back(b);
     g.push_back(k);
@@ -250,7 +243,7 @@ TEST(test032, test_CVector_operator_equal_unequal)
     CString h("Niketa");
     CString l("Sinodov");
     CString m("New");
-    CVector o;
+    CVector<CString> o;
     o.push_back(h);
     o.push_back(l);
     o.push_back(m);
@@ -267,13 +260,13 @@ TEST(test033, test_CVector_operator_less_or_eq)
     CString a("Nikita");
     CString b("Sinodov");
     CString k("New");
-    CVector c;
+    CVector<CString> c;
     c.push_back(a);
     c.push_back(b);
     c.push_back(k);
     CString h("Nikita");
     CString l("Sinodov");
-    CVector o;
+    CVector<CString> o;
     o.push_back(h);
     o.push_back(l);
     bool res = (o <= c);
@@ -291,38 +284,35 @@ TEST(test034, test_CVector_operator_plus)
     CString a("Nikita");
     CString b("Sinodov");
     CString k("New");
-    CVector c;
+    CVector<CString> c;
     c.push_back(a);
     c.push_back(b);
     c.push_back(k);
-    CVector f;
+    CVector<CString> f;
     CString d("Andreich");
     CString g("Funny");
     f.push_back(d);
     f.push_back(g);
-    CVector h;
+    CVector<CString> h;
     h = c + f;
     h.clear();
     CString j("Crazy");
     h = f + j;
-    h.show();
 }
 
 TEST(test035, test_CVector_operator_plus_and_eq)
 {
     CString a("Nikita");
     CString b("Sinodov");
-    CVector c;
+    CVector<CString> c;
     c.push_back(a);
     c += b;
-    c.show();
     CString d("Andreich");
     CString g("Funny");
-    CVector f;
+    CVector<CString> f;
     f.push_back(d);
     f.push_back(g);
     c += f;
-    c.show();
 }
 
 /*TEST(test036, test_CVector_sorting)
@@ -332,14 +322,13 @@ TEST(test035, test_CVector_operator_plus_and_eq)
     CString k("New");
     CString d("Andreich");
     CString g("Funny");
-    CVector c;
+    CVector<CString> c;
     c.push_back(a);
     c.push_back(b);
     c.push_back(d);
     c.push_back(k);
     c.push_back(g);
     c.sorting();
-    c.show();
 }*/
 
 #endif // CVECTOR_TEST_H
