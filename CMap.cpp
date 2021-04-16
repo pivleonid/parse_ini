@@ -1,245 +1,328 @@
 #include "CMap.h"
 
-Map::Map()
+template <typename A, typename B>
+CMap<A, B>::CMap()
 {
-    root  = NULL;
+    root = NULL;
 }
 
-Map::~Map()
+template <typename A, typename B>
+CMap<A, B>::~CMap()
 {
     delete_all(root);
 }
 
-void Map::delete_all(Node *tree)
+template <typename A, typename B>
+void CMap<A, B>::delete_all(Node *cur_node)
 {
-    if(tree != NULL)
+    if(cur_node != NULL)
     {
-        delete_all(tree->left);
-        delete_all(tree->right);
-        delete tree;
+        delete_all(cur_node->left);
+        delete_all(cur_node->right);
+        delete cur_node;
     }
 }
 
-void Map::add_pair(CString &key, CString &str)
+template <typename A, typename B>
+void CMap<A, B>::add_pair(const A &key,const B &value)
 {
-    root = add_pair(key, str, root);
+    //A temp_key = key;
+    //B temp_value = value;
+    root = add_pair_inner(key, value, root);
+
 }
 
-Node* Map::add_pair(CString & key, CString &str, Node *tree)
+template <typename A, typename B>
+typename CMap<A, B>::Node * CMap<A, B>::add_pair_inner(const A &key,const B &value, Node *cur_node)
 {
-    if(tree == NULL)
+    if(cur_node == NULL)
     {
-          tree        = new Node;
-          tree->left  = NULL;
-          tree->right = NULL;
-          tree->key   = key;
-          tree->value = str;
+          cur_node        = new Node;
+          cur_node->left  = NULL;
+          cur_node->right = NULL;
+          cur_node->key   = key;
+          cur_node->value = value;
     }
-    const char *value_tree = tree->value.data();
-    const char *value_new = str.data();
-    const char *key_tree = tree->key.data();
-    const char *key_new = key.data();
-    if(strcmp(key_tree, key_new) == 0)
+    //если данный ключ уже есть в дереве
+    if(cur_node->key == key)
     {
-        if(strcmp(value_tree, value_new) != 0)
+        //если для этого ключа введено другое значение
+        if(cur_node->value != value)
         {
-            tree->value = str;
+            //то меняем значение для этого ключа
+            cur_node->value = value;
         }
     }
-    else if(strcmp(value_tree, value_new) > 0)
+    //в противном случае идём дальше по дереву
+    else if(cur_node->value > value)
     {
-        if(strcmp(key_tree, key_new) == 0)
+        //если данный ключ уже есть в дереве
+        if(cur_node->key == key)
         {
-            tree->value = str;
+            //то меняем значение для этого ключа
+            cur_node->value = value;
         }
-        tree->left = add_pair(key, str, tree->left);
+        cur_node->left = add_pair_inner(key, value, cur_node->left);
     }
-    else if(strcmp(value_tree, value_new) < 0)
+    //в противном случае идём дальше по дереву
+    else if(cur_node->value < value)
     {
-        if(strcmp(key_tree, key_new) == 0)
+        //если данный ключ уже есть в дереве
+        if(cur_node->key == key)
         {
-            tree->value = str;
+            //то меняем значение для этого ключа
+            cur_node->value = value;
         }
-        tree->right = add_pair(key, str,  tree->right );
+        cur_node->right = add_pair_inner(key, value,  cur_node->right );
     }
-
-
-    return tree;
+    return cur_node;
 }
 
 
-bool Map::find(CString& target, Node *tree)
+template <typename A, typename B>
+bool CMap<A, B>::search_inner(const A &key, Node *cur_node)
 {
-    const char *temp0 = target.data();
-    const char *temp1 = tree->key.data();
     bool found = false;
-
-    if(strcmp(temp0, temp1) == 0)
+    if(cur_node->key == key)
     {
         found = true;
     }
     else
     {
-        if(tree->left != 0 && found == false)
+        if(cur_node->left != 0 && found == false)
         {
-            found = find(target, tree->left);
+            found = search_inner(key, cur_node->left);
         }
-        if(tree->right != 0 && found == false)
+        if(cur_node->right != 0 && found == false)
         {
-            found = find(target, tree->right);
+            found = search_inner(key, cur_node->right);
         }
     }
-
     return found;
 }
 
-bool Map::search(CString &target)
+template <typename A, typename B>
+bool CMap<A, B>::search(const A &key)
 {
       bool found = false;
-      found = find(target, root);
+      A temp_key = key;
+      found = search_inner(key, root);
       return found;
 }
 
-Node* Map::getAdress(CString &target, Node *tree)
+template <typename A, typename B>
+typename CMap<A, B>::Node * CMap<A, B>::getAdress(const A &key, Node *cur_node)
 {
-
-    const char *temp0 = target.data();
-    const char *temp1 = tree->key.data();
     Node *temp = NULL;
-    if(strcmp(temp0, temp1) == 0)
+    if(cur_node->key == key)
     {
-        temp = tree;
+        temp = cur_node;
     }
-    if(strcmp(temp0, temp1) != 0)
+    if(cur_node->key != key)
     {
-        if(tree->left != 0 && temp == NULL)
+        if(cur_node->left != 0 && temp == NULL)
         {
-            temp = getAdress(target, tree->left);
+            temp = getAdress(key, cur_node->left);
         }
-        if(tree->right != 0 && temp == NULL)
+        if(cur_node->right != 0 && temp == NULL)
         {
-            temp = getAdress(target, tree->right);
+            temp = getAdress(key, cur_node->right);
         }
     }
     return temp;
 }
 
-Node* Map::getAdressParent(Node *child, Node *tree)
+template <typename A, typename B>
+typename CMap<A, B>::Node * CMap<A, B>::getAdressParent(Node *child, Node *cur_node)
 {
     Node *temp = NULL;
-    if(tree->left == child || tree->right == child)
+    if(cur_node->left == child || cur_node->right == child)
     {
-        temp = tree;
+        temp = cur_node;
     }
-    else if(tree->left != child || tree->right != child)
+    else if(cur_node->left != child || cur_node->right != child)
     {
-        if(tree->left != 0 && temp == NULL)
+        if(cur_node->left != 0 && temp == NULL)
         {
-            temp = getAdressParent(child, tree->left);
+            temp = getAdressParent(child, cur_node->left);
         }
-        if(tree->right != 0 && temp == NULL)
+        if(cur_node->right != 0 && temp == NULL)
         {
-            temp = getAdressParent(child, tree->right);
+            temp = getAdressParent(child, cur_node->right);
         }
     }
     return temp;
 }
 
-Node *Map::search_replacing(Node *tree)
+template <typename A, typename B>
+typename CMap<A, B>::Node * CMap<A, B>::search_replacing(Node *cur_node)
 {
     Node *temp = NULL;
-    if(tree->right != 0 && temp == NULL)
+    if(cur_node->right != 0 && temp == NULL)
     {
-        temp = search_replacing(tree->right);
+        temp = search_replacing(cur_node->right);
     }
-    if(tree->right == 0)
+    if(cur_node->right == 0)
     {
-        temp = tree;
+        temp = cur_node;
     }
     return temp;
 }
 
-Node* Map::delete_key(CString &target)
+template <typename A, typename B>
+void CMap<A, B>::delete_key(const A &key)
 {
-    Node *adress = getAdress(target, root);
-    Node *parent = getAdressParent(adress, root);
-    //если удаляемый элемент не имеет дочерних узлов
-    if(adress->left == NULL && adress->right == NULL)
+    //удаляемый элемент
+    A temp_key = key;
+    Node *deletable = getAdress(key, root);
+    //его родитель
+    Node *parent = getAdressParent(deletable, root);
+    //если удаляемый элемент не имеет родителя(является корнем дерева)
+    if(parent == NULL)
     {
-        delete adress;
-        if(parent->left == adress)
+        //если удаляемый элемент не имеет дочерних узлов
+        if(deletable->left == NULL && deletable->right == NULL)
         {
-            parent->left = NULL;
+            delete deletable;
+            root = NULL;
         }
-        else if(parent->right == adress)
+        //если удаляемый элемент имеет только левый дочерний узел
+        else if(deletable->left != NULL && deletable->right == NULL)
         {
-            parent->right = NULL;
+            root = deletable->left;
+            delete deletable;
         }
-    }
-    //если удаляемый элемент имеет только левый дочерний узел
-    else if(adress->left != NULL && adress->right == NULL)
-    {
-        if(parent->left == adress)
+        //если удаляемый элемент имеет только правый дочерний узел
+        else if(deletable->left == NULL && deletable->right != NULL)
         {
-            parent->left = adress->left;
+            root = deletable->right;
+            delete deletable;
         }
-        else if(parent->right == adress)
+        //если удаляемый элемент имеет оба дочерних узла
+        else if(deletable->left != NULL && deletable->right != NULL)
         {
-            parent->right = adress->right;
-        }
-        delete adress;
-    }
-    //если удаляемый элемент имеет только правый дочерний узел
-    else if(adress->left == NULL && adress->right != NULL)
-    {
-        if(parent->left == adress)
-        {
-            parent->left = adress->left;
-        }
-        else if(parent->right == adress)
-        {
-            parent->right = adress->right;
-        }
-        delete adress;
-    }
+            //ищем элемент для замены
+            Node *replacing  = search_replacing(deletable->left);
+            //если у найденного элемента есть дочерний узел слева
+            //записываем его
+            Node *replacing_child = replacing->left;
+            //записываем адрес родителя этого элемента
+            Node *replacing_parent = getAdressParent(replacing, root);
+            //производим замену
+            //если элемент найденный для замены элемент не является левым дочерним узлом
+            //удаляемого элемента
+            if(deletable->left != replacing)
+            {
+                replacing->left = deletable->left;
+            }
+            //если элемент найденный для замены элемент не является правым дочерним узлом
+            //удаляемого элемента
+            if(deletable->right != replacing)
+            {
+                replacing->right = deletable->right;
+            }
 
-    //если удаляемый элемент имеет оба дочерних узла
-    else if(adress->left != NULL && adress->right != NULL)
-    {
-        //ищем элемент для замены
-        Node *temp  = search_replacing(adress->left);
-        //если у найденного элемента есть дочерний узел слева
-        //записываем его
-        Node *temp1 = temp->left;
-        //записываем адрес родителя этого элемента
-        Node *temp2 = getAdressParent(temp, root);
-        //производим замену
-        if(adress == parent->left)
-        {
-            parent->left = temp;
-        }
-        if(adress == parent->right)
-        {
-            parent->right = temp;
-        }
-        if(adress->left != temp)
-        {
-            temp->left = adress->left;
-        }
-        if(adress->right != temp)
-        {
-            temp->right = adress->right;
+            //если у элемента выбранного в качестве замены есть потомок слева
+            //то он становится дочерним узлом родителя элемента-замены
+            if(replacing_parent != deletable)
+            {
+                replacing_parent->right = replacing_child;
+            }
+            root = replacing;
+            delete deletable;
         }
 
-        if(temp2 != adress)
-        {
-            temp2->right = temp1;
-        }
-
-        delete adress;
     }
-    return adress;
+    //если у удаляемого элемента есть родитель(не является корнем дерева)
+    else if(parent != NULL)
+    {
+        //если удаляемый элемент не имеет дочерних узлов
+        if(deletable->left == NULL && deletable->right == NULL)
+        {
+            delete deletable;
+            if(parent->left == deletable)
+            {
+                parent->left = NULL;
+            }
+            else if(parent->right == deletable)
+            {
+                parent->right = NULL;
+            }
+        }
+        //если удаляемый элемент имеет только левый дочерний узел
+        else if(deletable->left != NULL && deletable->right == NULL)
+        {
+            if(parent->left == deletable)
+            {
+                parent->left = deletable->left;
+            }
+            else if(parent->right == deletable)
+            {
+                parent->right = deletable->right;
+            }
+            delete deletable;
+        }
+        //если удаляемый элемент имеет только правый дочерний узел
+        else if(deletable->left == NULL && deletable->right != NULL)
+        {
+            if(parent->left == deletable)
+            {
+                parent->left = deletable->left;
+            }
+            else if(parent->right == deletable)
+            {
+                parent->right = deletable->right;
+            }
+            delete deletable;
+        }
+        //если удаляемый элемент имеет оба дочерних узла
+        else if(deletable->left != NULL && deletable->right != NULL)
+        {
+            //ищем элемент для замены
+            Node *replacing  = search_replacing(deletable->left);
+            //если у найденного элемента есть дочерний узел слева
+            //записываем его
+            Node *replacing_child = replacing->left;
+            //записываем адрес родителя этого элемента
+            Node *replacing_parent = getAdressParent(replacing, root);
+            //производим замену
+            //если удаляемый элемент является левым дочерним узлом
+            if(deletable == parent->left)
+            {
+                parent->left = replacing;
+            }
+            //если удаляемый элемент является правым дочерним узлом
+            if(deletable == parent->right)
+            {
+                parent->right = replacing;
+            }
+            //если элемент найденный для замены элемент не является левым дочерним узлом
+            //удаляемого элемента
+            if(deletable->left != replacing)
+            {
+                replacing->left = deletable->left;
+            }
+            //если элемент найденный для замены элемент не является правым дочерним узлом
+            //удаляемого элемента
+            if(deletable->right != replacing)
+            {
+                replacing->right = deletable->right;
+            }
+            //если у элемента выбранного в качестве замены есть потомок слева
+            //то он становится дочерним узлом родителя элемента-замены
+            if(replacing_parent != deletable)
+            {
+                replacing_parent->right = replacing_child;
+            }
+            delete deletable;
+        }
+    }
+
 }
 
-
-
+template <typename A, typename B>
+B &CMap<A, B>::getValue(const A &key)
+{
+    Node *temp = getAdress(key, root);
+    return temp->value;
+}

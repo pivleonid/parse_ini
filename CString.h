@@ -8,7 +8,6 @@ private:
     //размер этого слова + нулевой символ
     int   m_size;
 public:
-    friend class CVector;
     CString();
     CString(char s);
     CString(const char *str);
@@ -16,21 +15,7 @@ public:
     CString(int n);
     ~CString();
 
-    CString& operator=(const CString &str);
-    CString& operator=(const char *str);
-    CString& operator=(char s);
-    CString& operator=(int n);
-    //char * operator[](int n);
-    CString& operator+=(const CString &str);
-    CString& operator+=(char s);
-    CString& operator+=(const char *str);
-    CString& operator+(char s);
-    CString& operator+(const char *str);
-    friend const char* operator+(const CString &str1, const CString &str2);
-    bool operator!=(const CString &str);
-    bool operator==(const CString &str);
-    bool operator<=(const CString &str);
-    bool operator>=(const CString &str);
+
 
     /*!
      * \brief size - возвращает размер m_word
@@ -183,5 +168,22 @@ public:
      * \brief clear - очищает объект CString
      */
     void clear();
+    CString& operator=(const CString &str);
+    CString& operator=(const char *str);
+    CString& operator=(char s);
+    CString& operator=(int n);
+    char &   operator[](int n);
+    CString& operator+=(const CString &str);
+    CString& operator+=(char s);
+    CString& operator+=(const char *str);
+    CString& operator+(char s);
+    CString& operator+(const char *str);
+    friend const char* operator+(const CString &str1, const CString &str2);
+    bool operator!=(const CString &str);
+    bool operator==(const CString &str);
+    bool operator<=(const CString &str);
+    bool operator>=(const CString &str);
+    bool operator<(const CString &str);
+    bool operator>(const CString &str);
 };
 #endif // CSTRING_H
