@@ -10,12 +10,11 @@ private:
 public:
     CString();
     CString(char s);
+    CString(char *str);
     CString(const char *str);
     CString(const CString &new_word);
     CString(int n);
     ~CString();
-
-
 
     /*!
      * \brief size - возвращает размер m_word
@@ -58,9 +57,9 @@ public:
      * \brief erase - удаляет символы m_word в диапазоне first - last
      * \param first - символ с которого начинается удаление
      * \param last  - символ на котором заканчивается
-     * \return      - изменённый m_word
+     * \return      - удалённый диапазон
      */
-    CString& erase(int first, int last);
+    char *erase(int first, int last);
 
     /*!
      * \brief erase - удаляет все символы s в m_word
@@ -68,6 +67,12 @@ public:
      * \return      - изменённый m_word
      */
     CString& erase(char s);
+
+    /*!
+     * \brief push_front - добавляет символ s в начало m_word
+     * \param s          - добавляемый символ
+     */
+    void push_front(char s);
 
     /*!
      * \brief push_back - добавляет символ s в конец m_word
@@ -79,7 +84,18 @@ public:
      * \brief push_back - добавляет str в конец m_word
      * \param str       - добавляемый объект
      */
+    void push_back(const char *str);
+
+    /*!
+     * \brief push_back - добавляет str в конец m_word
+     * \param str       - добавляемый объект
+     */
     void push_back(const CString &str);
+
+    /*!
+     * \brief pop_front - удаялет первый элемент
+     */
+    void pop_front();
 
     /*!
      * \brief pop_back - удаляет предпоследний элемент в m_word
@@ -169,6 +185,7 @@ public:
      */
     void clear();
     CString& operator=(const CString &str);
+    CString& operator=(char *str);
     CString& operator=(const char *str);
     CString& operator=(char s);
     CString& operator=(int n);

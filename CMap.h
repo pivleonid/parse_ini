@@ -6,7 +6,7 @@
 #include "cstring"
 #include <iostream>
 using namespace std;
-template <typename A, typename B>
+template <typename A, typename B, typename C>
 class CMap
 {
 public:
@@ -17,13 +17,15 @@ public:
         Node *right;
         A    key;
         B    value;
+        C    comment;
     };
 private:
     /*!
      * \brief root - корень дерева
+     * m_count     - счётчик элементов дерева
      */
     Node *root;
-
+    int m_count;
 
     /*!
      * \brief getAdress - получение адреса элемента по ключу
@@ -48,7 +50,8 @@ private:
     Node *search_replacing(Node *tree);
 
     bool search_inner(const A &key, Node *tree);
-    Node *add_pair_inner(const A &key,const B &value, Node *tree);
+    Node *add_pair_inner(const A &key, const B &value, const C &comment, Node *tree);
+    Node *operator_eq_inner(Node *this_tree, Node *tree);
     void delete_all(Node *tree);
 public:
     CMap();
@@ -59,7 +62,7 @@ public:
      * \param key      - ключ
      * \param value    - значение
      */
-    void add_pair(const A &key,const B &value);
+    void add_pair(const A &key, const B &value, const C &comment = "null");
 
     /*!
      * \brief search - поиск узла в дереве по ключу
@@ -75,11 +78,14 @@ public:
      */
     B &getValue(const A &key);
 
+    C &getComment(const A &key);
     /*!
      * \brief delete_key - удаление узла по ключу
      * \param target     - искомый ключ
      */
     void delete_key(const A &key);
+    int size();
+    CMap<A, B, C>  &operator=(const CMap &map);
 };
 #endif // MAP_H
 

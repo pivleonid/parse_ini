@@ -491,9 +491,11 @@ int CVector<A>::resize(int n)
     if(n < 0)
     {
         cout << "Enter the correct number" << endl;
+        return -1;
     }
     if(n < m_count)
     {
+
         m_count = n;
         A *temp = new A[m_count];
         for(int i = 0; i < m_count; i++)
@@ -509,6 +511,25 @@ int CVector<A>::resize(int n)
             container[i] = temp[i];
         }
 
+        delete [] temp;
+    }
+    if(n > m_count)
+    {
+        int old_m_capacity = m_capacity;
+        A *temp = new A[old_m_capacity];
+        for(int i = 0; i < old_m_capacity; i++)
+        {
+            temp[i] = container[i];
+        }
+        m_count = n + 1;
+        delete [] container;
+
+        m_capacity = n * 2;
+        container = new A[m_capacity];
+        for(int i = 0; i < old_m_capacity; i++)
+        {
+            container[i] = temp[i];
+        }
         delete [] temp;
     }
     return m_count;
@@ -598,6 +619,7 @@ int CVector<A>::rfind(A &value)
     }
     return number;
 }
+
 template <typename A>
 CVector<A>& CVector<A>::sorting()
 {
@@ -916,17 +938,20 @@ CVector<A> CVector<A>::operator+(const A &str) const
 }
 
 template <typename A>
-A& CVector<A>::operator[] (int n)
+  A& CVector<A>::operator[] (int n)
 {
     if(n < 0)
     {
         cout << "Enter the number \'n\' from 0 " << " to " << m_count - 1 << " ." << endl;
     }
-    if(n > m_count - 1)
+    else if(n == m_count)
+    {
+        return container[n];
+    }
+    else if(n > m_count - 1)
     {
         cout << "Enter the number \'n\' from 0 " << " to " << m_count - 1 << " ." << endl;
     }
-
     return container[n];
 }
 
@@ -938,6 +963,25 @@ bool CVector<A>::operator>(const CVector &vct)
     {
         more = true;
     }
+    else if(m_count == vct.m_count)
+    {
+        for(int i = 0; i < m_count; i++)
+        {
+            if(container[i] < vct.container[i])
+            {
+                more = false;
+                break;
+            }
+            else if(container[i] == vct.container[i])
+            {
+                continue;
+            }
+            else
+            {
+                more = true;
+            }
+        }
+    }
     return more;
 }
 
@@ -948,6 +992,26 @@ bool CVector<A>::operator<(const CVector &vct)
     if(m_count < vct.m_count)
     {
         less = true;
+    }
+    else if(m_count == vct.m_count)
+    {
+        for(int i = 0; i < m_count; i++)
+        {
+            if(container[i] > vct.container[i])
+            {
+                less = false;
+                break;
+            }
+
+            else if(container[i] == vct.container[i])
+            {
+                continue;
+            }
+            else
+            {
+                less = true;
+            }
+        }
     }
     return less;
 }

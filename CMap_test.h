@@ -6,7 +6,7 @@ using namespace std;
 
 TEST(test037, test_CMap_CString_CString)
 {
-      CMap<CString, CString> a;
+      CMap<CString, CString, CString> a;
       CString k1(1); CString b("Zero");
       a.add_pair(k1, b);
 
@@ -56,7 +56,7 @@ TEST(test037, test_CMap_CString_CString)
 
 TEST(test038, test_CMap_int_int)
 {
-    CMap<int, int> a;
+    CMap<int, int, CString> a;
     int k1 = 1; int b = 60;
     a.add_pair(k1, b);
 
@@ -70,7 +70,7 @@ TEST(test038, test_CMap_int_int)
 
 TEST(test039, test_CMap_int_CString)
 {
-    CMap<int, CString> a;
+    CMap<int, CString, CString> a;
     int k1(1); CString b("Zero");
     a.add_pair(k1, b);
 
@@ -83,7 +83,7 @@ TEST(test039, test_CMap_int_CString)
 
 TEST(test040, test_CMap_int_CVector)
 {
-    CMap<int, CVector<CString>> a;
+    CMap<int, CVector<CString>, CString> a;
 
     CVector<CString> v;
     CString b("Zero"); CString c("WALKYRIE"); CString d("New");
@@ -110,4 +110,44 @@ TEST(test040, test_CMap_int_CVector)
     a.add_pair(k3, v2);
 }
 
+TEST(test041, test_CMap_eq)
+{
+    CMap<CString, CString, CString> a;
+    CString k1(1); CString b("Zero");
+    a.add_pair(k1, b);
+
+    CString k2(2); CString c("WALKYRIE");
+    a.add_pair(k2, c);
+
+    CString k3(3); CString d("New");
+    a.add_pair(k3, d);
+
+    CString k4(4); CString e("X-men");
+    a.add_pair(k4, e);
+
+    CString k5(5); CString g("developer");
+    a.add_pair(k5, g);
+
+    CString k6(6); CString h("match");
+    a.add_pair(k6, h);
+
+    CString k7(7); CString i("view");
+    a.add_pair(k7, i);
+
+    CString k8(8); CString j("hero");
+    a.add_pair(k8, j);
+
+    CString k9(9); CString m("big_boss");
+    a.add_pair(k9, m);
+
+    CString k10(10); CString n("Titan");
+    a.add_pair(k10, n);
+
+    CString k11(11); CString p("Sub-zero");
+    a.add_pair(k11, p);
+
+    CMap<CString, CString, CString> l;
+
+    l = a;
+}
 #endif // MAP_TEST_H

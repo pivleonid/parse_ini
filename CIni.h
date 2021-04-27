@@ -8,12 +8,12 @@
 #include "CMap.cpp"
 using namespace std;
 
-class Section_data
+class Content_of_section
 {
 public:
-    CString section;                        //название секции
-    //CVector<CString> comment;             //комментарий к секции
-    CMap<CString, CString> key_value;       //содержимое секции
+    CString name_section;                                //название секции
+    CVector<CString> name_comment;               //комментарий к секции
+    CMap<CString, CVector<CString>, CVector<CString>> key_value;   //содержимое секции
 };
 
 class CIni
@@ -21,10 +21,11 @@ class CIni
 private:
     const char *file_path;                //путь к файлу
     CVector<CString> temp_container;
-    CVector<Section_data> data;
+    CVector<Content_of_section> data;
     void analyze_file();
+    void write_file_inner();
 public:
     void read_file(const char *file_path);
-
+    void write_file(const char *file_path);
 };
 #endif // CINI_H

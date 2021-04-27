@@ -1,19 +1,21 @@
 #include "CMap.h"
 
-template <typename A, typename B>
-CMap<A, B>::CMap()
+template <typename A, typename B, typename C>
+CMap<A, B, C>::CMap()
 {
+    root = NULL;
+    m_count = 0;
+}
+
+template <typename A, typename B, typename C>
+CMap<A, B, C>::~CMap()
+{
+    delete_all(root);
     root = NULL;
 }
 
-template <typename A, typename B>
-CMap<A, B>::~CMap()
-{
-    delete_all(root);
-}
-
-template <typename A, typename B>
-void CMap<A, B>::delete_all(Node *cur_node)
+template <typename A, typename B, typename C>
+void CMap<A, B, C>::delete_all(Node *cur_node)
 {
     if(cur_node != NULL)
     {
@@ -23,35 +25,27 @@ void CMap<A, B>::delete_all(Node *cur_node)
     }
 }
 
-template <typename A, typename B>
-void CMap<A, B>::add_pair(const A &key,const B &value)
+template <typename A, typename B, typename C>
+void CMap<A, B, C>::add_pair(const A &key, const B &value, const C &comment)
 {
     //A temp_key = key;
     //B temp_value = value;
-    root = add_pair_inner(key, value, root);
+    root = add_pair_inner(key, value, comment, root);
 
 }
 
-template <typename A, typename B>
-typename CMap<A, B>::Node * CMap<A, B>::add_pair_inner(const A &key,const B &value, Node *cur_node)
+template <typename A, typename B, typename C>
+typename CMap<A, B, C>::Node * CMap<A, B, C>::add_pair_inner(const A &key,const B &value, const C &comment, Node *cur_node)
 {
     if(cur_node == NULL)
     {
-          cur_node        = new Node;
-          cur_node->left  = NULL;
-          cur_node->right = NULL;
-          cur_node->key   = key;
-          cur_node->value = value;
-    }
-    //если данный ключ уже есть в дереве
-    if(cur_node->key == key)
-    {
-        //если для этого ключа введено другое значение
-        if(cur_node->value != value)
-        {
-            //то меняем значение для этого ключа
-            cur_node->value = value;
-        }
+          cur_node          = new Node;
+          cur_node->left    = NULL;
+          cur_node->right   = NULL;
+          cur_node->key     = key;
+          cur_node->value   = value;
+          cur_node->comment = comment;
+          m_count++;
     }
     //в противном случае идём дальше по дереву
     else if(cur_node->value > value)
@@ -62,7 +56,7 @@ typename CMap<A, B>::Node * CMap<A, B>::add_pair_inner(const A &key,const B &val
             //то меняем значение для этого ключа
             cur_node->value = value;
         }
-        cur_node->left = add_pair_inner(key, value, cur_node->left);
+        cur_node->left = add_pair_inner(key, value, comment, cur_node->left);
     }
     //в противном случае идём дальше по дереву
     else if(cur_node->value < value)
@@ -73,14 +67,14 @@ typename CMap<A, B>::Node * CMap<A, B>::add_pair_inner(const A &key,const B &val
             //то меняем значение для этого ключа
             cur_node->value = value;
         }
-        cur_node->right = add_pair_inner(key, value,  cur_node->right );
+        cur_node->right = add_pair_inner(key, value, comment, cur_node->right );
     }
     return cur_node;
 }
 
 
-template <typename A, typename B>
-bool CMap<A, B>::search_inner(const A &key, Node *cur_node)
+template <typename A, typename B, typename C>
+bool CMap<A, B, C>::search_inner(const A &key, Node *cur_node)
 {
     bool found = false;
     if(cur_node->key == key)
@@ -101,8 +95,8 @@ bool CMap<A, B>::search_inner(const A &key, Node *cur_node)
     return found;
 }
 
-template <typename A, typename B>
-bool CMap<A, B>::search(const A &key)
+template <typename A, typename B, typename C>
+bool CMap<A, B, C>::search(const A &key)
 {
       bool found = false;
       A temp_key = key;
@@ -110,8 +104,8 @@ bool CMap<A, B>::search(const A &key)
       return found;
 }
 
-template <typename A, typename B>
-typename CMap<A, B>::Node * CMap<A, B>::getAdress(const A &key, Node *cur_node)
+template <typename A, typename B, typename C>
+typename CMap<A, B, C>::Node * CMap<A, B, C>::getAdress(const A &key, Node *cur_node)
 {
     Node *temp = NULL;
     if(cur_node->key == key)
@@ -132,8 +126,8 @@ typename CMap<A, B>::Node * CMap<A, B>::getAdress(const A &key, Node *cur_node)
     return temp;
 }
 
-template <typename A, typename B>
-typename CMap<A, B>::Node * CMap<A, B>::getAdressParent(Node *child, Node *cur_node)
+template <typename A, typename B, typename C>
+typename CMap<A, B, C>::Node * CMap<A, B, C>::getAdressParent(Node *child, Node *cur_node)
 {
     Node *temp = NULL;
     if(cur_node->left == child || cur_node->right == child)
@@ -154,8 +148,8 @@ typename CMap<A, B>::Node * CMap<A, B>::getAdressParent(Node *child, Node *cur_n
     return temp;
 }
 
-template <typename A, typename B>
-typename CMap<A, B>::Node * CMap<A, B>::search_replacing(Node *cur_node)
+template <typename A, typename B, typename C>
+typename CMap<A, B, C>::Node * CMap<A, B, C>::search_replacing(Node *cur_node)
 {
     Node *temp = NULL;
     if(cur_node->right != 0 && temp == NULL)
@@ -169,8 +163,8 @@ typename CMap<A, B>::Node * CMap<A, B>::search_replacing(Node *cur_node)
     return temp;
 }
 
-template <typename A, typename B>
-void CMap<A, B>::delete_key(const A &key)
+template <typename A, typename B, typename C>
+void CMap<A, B, C>::delete_key(const A &key)
 {
     //удаляемый элемент
     A temp_key = key;
@@ -317,12 +311,60 @@ void CMap<A, B>::delete_key(const A &key)
             delete deletable;
         }
     }
+    m_count--;
 
 }
 
-template <typename A, typename B>
-B &CMap<A, B>::getValue(const A &key)
+template <typename A, typename B, typename C>
+B &CMap<A, B, C>::getValue(const A &key)
 {
     Node *temp = getAdress(key, root);
     return temp->value;
+}
+
+template <typename A, typename B, typename C>
+C &CMap<A, B, C>::getComment(const A &key)
+{
+    Node *temp = getAdress(key, root);
+    return temp->comment;
+}
+
+template <typename A, typename B, typename C>
+typename CMap<A, B, C>::Node * CMap<A, B, C>::operator_eq_inner(Node *new_map, Node *old_map)
+{
+    if(old_map != NULL)
+    {
+        new_map->left    = NULL;
+        new_map->right   = NULL;
+        new_map->key     = old_map->key;
+        new_map->value   = old_map->value;
+        new_map->comment = old_map->comment;
+        m_count++;
+    }
+    if(old_map->left != NULL)
+    {
+        new_map->left = new Node;
+        new_map->left = operator_eq_inner(new_map->left, old_map->left);
+    }
+    if(old_map->right != NULL)
+    {
+        new_map->right = new Node;
+        new_map->right = operator_eq_inner(new_map->right, old_map->right);
+    }
+    return new_map;
+}
+
+template <typename A, typename B, typename C>
+int CMap<A, B, C>::size()
+{
+   return m_count;
+}
+
+
+template <typename A, typename B, typename C>
+CMap<A, B, C> &CMap<A, B, C>::operator=(const CMap &map)
+{
+    root = new Node;
+    root = operator_eq_inner(root, map.root);
+    return *this;
 }

@@ -36,6 +36,43 @@ CString::CString(const char *str)
     m_word[m_size - 1] = empty_str;
 }
 
+CString::CString(char *str)
+{
+    char *temp = str;
+    m_size = 1;
+    while(*str++)
+    {
+        m_size++;
+    }
+    int count = 0;
+    for(int i = 0; i < m_size; i++)
+    {
+        if(temp[i] >= ' ' && temp[i] <= '~')
+        {
+            count++;
+            continue;
+        }
+        else if(temp[i] == '\n' || temp[i] == '\t')
+        {
+            count++;
+            continue;
+        }
+        else
+        {
+            break;
+        }
+    }
+    m_size = count + 1;
+    if(m_size == 1 && m_word[0] != empty_str)
+    {
+        delete [] m_word;
+    }
+    m_word = new char[m_size];
+    for(int i = 0; i < m_size - 1; i++)
+        m_word[i] = temp[i];
+    m_word[m_size - 1] = empty_str;
+}
+
 CString::CString(const CString &new_word)
 {
     m_size = new_word.m_size;
@@ -156,9 +193,13 @@ bool CString::empty()
     return empty;
 }
 
-CString& CString::erase(int first, int last)
+char *CString::erase(int first, int last)
 {
     int false0 = 0;
+    int new_m_size = m_size - (last - first + 1);
+    int new_m_size1 = m_size - new_m_size;
+    char *temp  = new char[new_m_size];
+    char *temp1 = new char[new_m_size1];
     //если first вне диапазона массива выводим предупреждение
     if(first < 0 || first > m_size - 3)
     {
@@ -180,9 +221,9 @@ CString& CString::erase(int first, int last)
     //в противном случае меняем m_word
     else if(false0 == 0)
     {
-        int new_m_size = m_size - (last - first + 1);
-        char *temp = new char[new_m_size];
+
         int k = 0;
+        int l = 0;
         for(int i = 0; i < m_size - 1; i++)
         {
             if(i < first || i > last)
@@ -192,7 +233,8 @@ CString& CString::erase(int first, int last)
             }
             else
             {
-                continue;
+                temp1[l] = m_word[i];
+                l++;
             }
         }
         delete [] m_word;
@@ -203,8 +245,7 @@ CString& CString::erase(int first, int last)
         m_word[m_size - 1] = empty_str;
         delete [] temp;
     }
-
-    return *this;
+    return temp1;
 }
 
 CString& CString::erase(char s)
@@ -257,6 +298,26 @@ CString& CString::erase(char s)
     return *this;
 }
 
+void CString::push_front(char s)
+{
+    int new_m_size = m_size + 1;
+    char *temp = new char[new_m_size];
+    for(int i = 0, j = 1; j < new_m_size - 1; i++, j++)
+    {
+        temp[j] = m_word[i];
+    }
+    temp[0] = s;
+    temp[new_m_size - 1] = empty_str;
+    delete [] m_word;
+    m_size = new_m_size;
+    m_word = new char[m_size];
+    for(int i = 0; i < m_size; i++)
+    {
+        m_word[i] = temp[i];
+    }
+    delete [] temp;
+}
+
 void CString::push_back(char s)
 {
     int new_m_size = m_size + 1;
@@ -275,6 +336,32 @@ void CString::push_back(char s)
         m_word[i] = temp[i];
     }
     delete [] temp;
+}
+
+void CString::push_back(const char *str)
+{
+    const char *temp = str;
+    int new_m_size = 1;
+    while(*str++)
+    {
+        new_m_size++;
+    }
+    new_m_size = new_m_size + m_size - 1;
+    char *temp1 = new char[new_m_size];
+    for(int i = 0; i < m_size - 1; i++)
+    {
+        temp1[i] = m_word[i];
+    }
+    for(int i = m_size - 1, j = 0; i < new_m_size - 1; i++, j++)
+    {
+        temp1[i] = temp[j];
+    }
+    delete [] m_word;
+    m_size = new_m_size;
+    m_word = new char[m_size];
+    for(int i = 0; i < m_size - 1; i++)
+        m_word[i] = temp1[i];
+    m_word[m_size - 1] = empty_str;
 }
 
 void CString::push_back(const CString &str)
@@ -296,6 +383,21 @@ void CString::push_back(const CString &str)
     delete [] m_word;
     m_size = new_m_size;
     m_word = new char[new_m_size];
+    for(int i = 0; i < m_size; i++)
+        m_word[i] = temp[i];
+    delete [] temp;
+}
+
+void CString::pop_front()
+{
+    int new_m_size = m_size - 1;
+    char *temp = new char[new_m_size];
+    for(int i = 0, j = 1; i < new_m_size; i++, j++)
+        temp[i] = m_word[j];
+    temp[new_m_size - 1] = empty_str;
+    delete [] m_word;
+    m_size = new_m_size;
+    m_word = new char[m_size];
     for(int i = 0; i < m_size; i++)
         m_word[i] = temp[i];
     delete [] temp;
@@ -987,6 +1089,44 @@ CString& CString::operator=(const CString &str)
     m_word = new char[m_size];
     for (int i = 0; i < m_size; i++)
         m_word[i] = str.m_word[i];
+    return *this;
+}
+
+CString& CString::operator=(char *str)
+{
+    char *temp = str;
+    m_size = 1;
+    while(*str++)
+    {
+        m_size++;
+    }
+    int count = 0;
+    for(int i = 0; i < m_size; i++)
+    {
+        if(temp[i] >= ' ' && temp[i] <= '~')
+        {
+            count++;
+            continue;
+        }
+        else if(temp[i] == '\n' || temp[i] == '\t')
+        {
+            count++;
+            continue;
+        }
+        else
+        {
+            break;
+        }
+    }
+    m_size = count + 1;
+    if(m_size == 1 && m_word[0] != empty_str)
+    {
+        delete [] m_word;
+    }
+    m_word = new char[m_size];
+    for(int i = 0; i < m_size - 1; i++)
+        m_word[i] = temp[i];
+    m_word[m_size - 1] = empty_str;
     return *this;
 }
 
