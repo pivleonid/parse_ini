@@ -100,10 +100,7 @@ TEST(test008, test_CString_empty)
 TEST(test008, test_CString_erase)
 {
     CString a("WORLDS");
-    a.erase(0, 5);
     CString res;
-    res = "\0";
-    ASSERT_TRUE(a == res);
 
     a = "WORLDS";
     a.erase(0, 3);

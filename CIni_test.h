@@ -36,8 +36,8 @@
 TEST(test053, test_CIni_write_file)
 {
     CIni ini;
-    ini.read_file("C:\\FilesC++\\parse\\file3.ini");
-    ini.write_file("C:\\FilesC++\\parse\\file4.ini");
+    ini.read_file("C:\\FilesC++\\parse_ini\\file3.ini");
+    ini.write_file("C:\\FilesC++\\parse_ini\\file4.ini");
     cout << "//-------------------------//" <<endl;
 }
 #endif // CINI_TEST_H
