@@ -8,9 +8,7 @@ INCLUDEPATH += "gtest"
 
 SOURCES += \
         CIni.cpp \
-        CMap.cpp \
         CString.cpp \
-        CVector.cpp \
         main.cpp \
         gtest/src/gtest-all.cc \
         gtest/src/gtest-death-test.cc \
@@ -31,3 +29,6 @@ HEADERS += \
     CString_test.h \
     CVector.h \
     CVector_test.h
+
+QMAKE_CXXFLAGS += -O0
+QMAKE_CXXFLAGS_WARN_ON += -Wall
