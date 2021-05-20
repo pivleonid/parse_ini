@@ -8,18 +8,17 @@ using namespace std;
 
 CString::CString()
 {
-    m_size = 1;
-    m_word = new char[m_size];
+    m_size    = 1;
+    m_word    = new char[m_size];
     m_word[0] = empty_str;
 }
 
 CString::CString(char s)
 {
-    m_size = 2;
-    m_word = new char[m_size];
+    m_size    = 2;
+    m_word    = new char[m_size];
     m_word[0] = s;
     m_word[1] = empty_str;
-
 }
 
 CString::CString(const char *str)
@@ -31,8 +30,10 @@ CString::CString(const char *str)
         m_size++;
     }
     m_word = new char[m_size];
-    for(int i = 0; i < m_size - 1; i++)
+    for(unsigned i = 0; i < m_size - 1; i++)
+    {
         m_word[i] = temp[i];
+    }
     m_word[m_size - 1] = empty_str;
 }
 
@@ -77,108 +78,119 @@ CString::CString(const CString &new_word)
 {
     m_size = new_word.m_size;
     m_word = new char[m_size];
-    for(int i = 0; i < m_size; i++)
+    for(unsigned i = 0; i < m_size; i++)
+    {
         m_word[i] = new_word.m_word[i];
-
+    }
 }
 
 CString::CString(int n)
 {
-    int temp_n = n;
-    //количество цифр в числе
-    int number = 0;
-
-    //определение количества цифр в числе
-    while (temp_n)
+    if(n == 0)
     {
-        temp_n = temp_n / 10;
-        number++;
+        m_size    = 2;
+        m_word    = new char[m_size];
+        m_word[0] = n + '0';
+        m_word[1] = empty_str;
     }
-
-    //массив для хранения цифр из которых состоит число
-    int *cont = new int[number];
-    int k = 0;
-
-
-    int value_n = n;                                    //значение числа
-    int rest = 0;                                       //оставшиеся цифры для записи
-
-    //степень числа
-    int rate = 0;
-    for(int i = 1; i < number + 1; i++)
+    else
     {
+        int temp_n = n;
+        //количество цифр в числе
+        int number = 0;
+        //определение количества цифр в числе
+        while (temp_n)
+        {
+            temp_n = temp_n / 10;
+            number++;
+        }
 
-        value_n = value_n / int(pow(10, number - i));
-
-        //запись числа по одной цифре в массив
-        cont[k] = value_n;
-
-        //перезапись степени для нахождения оставшихся цифр
-        rate = int(pow(10, number - i));
-
-        //нахождение оставшихся цифр для записи
-        rest = n % rate;
-        value_n = rest;
-        k++;
+        //массив для хранения цифр из которых состоит число
+        int *cont = new int[number];
+        int k = 0;
+        //значение числа
+        int value_n = n;
+        //оставшиеся цифры для записи
+        int rest = 0;
+        //степень числа
+        int rate = 0;
+        for(int i = 1; i < number + 1; i++)
+        {
+            value_n = value_n / int(pow(10, number - i));
+            //запись числа по одной цифре в массив
+            cont[k] = value_n;
+            //перезапись степени для нахождения оставшихся цифр
+            rate = int(pow(10, number - i));
+            //нахождение оставшихся цифр для записи
+            rest = n % rate;
+            value_n = rest;
+            k++;
+        }
+        m_size = number + 1;
+        m_word = new char[m_size];
+        for(int i = 0; i < number; i++)
+        {
+            m_word[i] = cont[i] + '0';
+        }
+        m_word[m_size - 1] = empty_str;
+        delete [] cont;
     }
-    m_size = number + 1;
-    m_word = new char[m_size];
-    for(int i = 0; i < number; i++)
-    {
-        m_word[i] = cont[i] + '0';
-    }
-    m_word[m_size - 1] = empty_str;
-
-    delete [] cont;
-
-}
-
-void CString::clear()
-{
-    delete [] m_word;
-    m_size = 1;
-    m_word = new char[m_size];
-    m_word[0] = empty_str;
 }
 
 CString::~CString()
 {
     m_size = 0;
-
     delete [] m_word;
 }
 
-int CString::size()
+unsigned CString::size()
 {
     return m_size;
 }
 
-char& CString::at(int n)
+char &CString::at(int n)
 {
-    if(n >= 0 && n <= m_size - 2)
+    try
     {
-        return m_word[n];
+        if(n < 0)
+        {
+            throw "The value can't be negative.";
+        }
+        else if(n > int(m_size) - 2)
+        {
+            throw "The value can't more than size of m_word.";
+        }
     }
-    //если n > n_mize - 1 или < 0, то возращается empty_str
-    else
+    catch(const char *a)
     {
-        cout << "Enter the number from 0 " << "to " << m_size - 2 << " ." << endl;
-        m_word[m_size - 1] = empty_str;
-        return m_word[m_size - 1];
+        cerr << a << endl;
+        cerr << "Enter the number from 0 " << "to " << m_size - 2 << " ." << endl;
     }
+    return m_word[n];
 }
 
-char& CString::front()
+char &CString::front()
 {
     return m_word[0];
 }
 
-char& CString::back()
+char &CString::back()
 {
+    try
+    {
+        if(m_size == 1 && m_word[0] == empty_str)
+        {
+            throw "The massive shouldn't be empty.";
+        }
+    }
+    catch (const char *a)
+    {
+        cerr << a << endl;
+    }
     return m_word[m_size - 2];
 }
 
-const char* CString::data()
+const char *CString::data()
 {
     return this->m_word;
 }
@@ -193,6 +205,12 @@ bool CString::empty()
     return empty;
 }
 
+<<<<<<< HEAD
+CString& CString::erase(char s)
+{
+    int count = 0; //для подсчёта сколько раз символ встречается в строке
+    for(unsigned i = 0; i < m_size - 1; i++)
+=======
 char *CString::erase(int first, int last)
 {
     int false0 = 0;
@@ -202,56 +220,7 @@ char *CString::erase(int first, int last)
     char *temp1 = new char[new_m_size1];
     //если first вне диапазона массива выводим предупреждение
     if(first < 0 || first > m_size - 3)
-    {
-        false0 = 1;
-    }
-    if(false0 == 1)
-    {
-        cout << "The first number should be from 0 " << "to " <<m_size - 3 << " ." << endl;
-    }
-    //если last вне диапазона массива выводим предупреждение
-    if(last < 1 || last > m_size - 2)
-    {
-        false0 = 2;
-    }
-    if(false0 == 2)
-    {
-        cout << "The last number should be from 1 " << "to " << m_size - 2 << " ." << endl;
-    }
-    //в противном случае меняем m_word
-    else if(false0 == 0)
-    {
-
-        int k = 0;
-        int l = 0;
-        for(int i = 0; i < m_size - 1; i++)
-        {
-            if(i < first || i > last)
-            {
-                temp[k] = m_word[i];
-                k++;
-            }
-            else
-            {
-                temp1[l] = m_word[i];
-                l++;
-            }
-        }
-        delete [] m_word;
-        m_size = new_m_size;
-        m_word = new char[m_size];
-        for(int i = 0; i < m_size - 1; i++)
-            m_word[i] = temp[i];
-        m_word[m_size - 1] = empty_str;
-        delete [] temp;
-    }
-    return temp1;
-}
-
-CString& CString::erase(char s)
-{
-    int count = 0; //для подсчёта сколько раз символ встречается в строке
-    for(int i = 0; i < m_size - 1; i++)
+>>>>>>> 2cfe95f891e7f8f9a32ba1a515491c986c0d2386
     {
         if(m_word[i] == s)
         {
@@ -260,20 +229,38 @@ CString& CString::erase(char s)
     }
     char MIN = m_word[0];
     char MAX = m_word[0];
-    for(int i = 0; i < m_size - 1; i++)
+    for(unsigned i = 0; i < m_size - 1; i++)
     {
         MAX < m_word[i] ? MAX = m_word[i] : MIN = m_word[i];
     }
     //если указанный символ не встречается в m_word, то выводим предупреждение
-    if(count == 0)
+    try
+    {
+        if(count == 0)
+        {
+            throw "This string doesn't contain this symbol.";
+        }
+    }
+    catch (const char *a)
+    {
+        cout << a << endl;
         cout << "Enter the from \'" << MIN << "\' to \'" << MAX <<"\'." << endl;
-    int new_m_size = m_size - count;
+    }
+
+    unsigned new_m_size = m_size - count;
     char *temp = new char[new_m_size];
     int k = 0;
     //если символ найден в m_word
     if (count > 0)
     {
+<<<<<<< HEAD
+        for(unsigned i = 0; i < m_size - 1; i++)
+=======
+
+        int k = 0;
+        int l = 0;
         for(int i = 0; i < m_size - 1; i++)
+>>>>>>> 2cfe95f891e7f8f9a32ba1a515491c986c0d2386
         {
             if(m_word[i] == s)
             {
@@ -281,23 +268,287 @@ CString& CString::erase(char s)
             }
             else
             {
+<<<<<<< HEAD
                 temp[k] = m_word[i];
                 k++;
+=======
+                temp1[l] = m_word[i];
+                l++;
+>>>>>>> 2cfe95f891e7f8f9a32ba1a515491c986c0d2386
             }
         }
         delete [] m_word;
         m_size = new_m_size;
         m_word = new char[m_size];
-        for(int i = 0; i < m_size - 1; i++)
+        for(unsigned i = 0; i < m_size - 1; i++)
         {
             m_word[i] = temp[i];
         }
         m_word[m_size - 1] = empty_str;
     }
+<<<<<<< HEAD
     delete [] temp;
+    return *this;
+=======
+    return temp1;
+>>>>>>> 2cfe95f891e7f8f9a32ba1a515491c986c0d2386
+}
+
+CString &CString::erase(int fr, int lt, char f,  char l)
+{
+    try
+    {
+        if(fr < 0 || fr > int(m_size) - 3)
+        {
+            throw 1;
+        }
+        if(lt < 1 || lt > int(m_size) - 2)
+        {
+            throw 1.0;
+        }
+    }
+    catch (int a)
+    {
+        cout << "The first number should be from 0 " << "to " << m_size - 3 << " ." << endl;
+    }
+    catch (double a)
+    {
+        cout << "The last number should be from 1 " << "to " << m_size - 2 << " ." << endl;
+    }
+    unsigned first = unsigned(fr);
+    unsigned last  = unsigned(lt);
+    if(f == '[' && l == ']')
+    {
+        if(first == 0 && last == m_size - 2)
+        {
+            delete [] m_word;
+            m_size = 1;
+            m_word = new char[m_size];
+            m_word[0] = empty_str;
+        }
+        else if(first == 0 && last != m_size - 2)
+        {
+            unsigned new_m_size = m_size - last - 1;
+            char *temp = new char[new_m_size];
+            for(unsigned i = 0, j = last + 1; j < m_size; i++, j++)
+            {
+                temp[i] = m_word[j];
+            }
+            delete [] m_word;
+            m_size = new_m_size;
+            m_word = temp;
+        }
+        else if(first != 0 && last == m_size - 2)
+        {
+            unsigned new_m_size = first + 1;
+            char *temp = new char[new_m_size];
+            for(unsigned i = 0, j = 0; j < first; i++, j++)
+            {
+                temp[i] = m_word[j];
+            }
+            temp[new_m_size - 1] = empty_str;
+            delete [] m_word;
+            m_size = new_m_size;
+            m_word = temp;
+        }
+        else if(first != 0 && last != m_size - 2)
+        {
+            unsigned new_m_size = m_size - last + 1;
+            char *temp = new char[new_m_size];
+            unsigned i = 0;
+            for(unsigned j = 0; j < first; i++, j++)
+            {
+                temp[i] = m_word[j];
+            }
+            for(unsigned j = last + 1; j < m_size; i++, j++)
+            {
+                temp[i] = m_word[j];
+            }
+            delete [] m_word;
+            m_size = new_m_size;
+            m_word = temp;
+        }
+    }
+    else if(f == '(' && l == ')')
+    {
+        if(first == 0 && last == m_size - 2)
+        {
+            unsigned new_m_size = 3;
+            char *temp = new char[new_m_size];
+            temp[0] = m_word[first];
+            temp[1] = m_word[last];
+            temp[2] = empty_str;
+            delete [] m_word;
+            m_size = new_m_size;
+            m_word = temp;
+        }
+        else if(first == 0 && last != m_size - 2)
+        {
+            unsigned new_m_size = m_size - last + 1;
+            char *temp = new char[new_m_size];
+            temp[0] = m_word[first];
+            for(unsigned i = 1, j = last; j < m_size; i++, j++)
+            {
+                temp[i] = m_word[j];
+            }
+            delete [] m_word;
+            m_size = new_m_size;
+            m_word = temp;
+        }
+        else if(first != 0 && last == m_size - 2)
+        {
+            unsigned new_m_size = m_size - last + first + 1;
+            char *temp = new char[new_m_size];
+            for(unsigned i = 0, j = 0; j < first + 1; i++, j++)
+            {
+                temp[i] = m_word[j];
+            }
+            temp[new_m_size - 2] = m_word[m_size - 2];
+            temp[new_m_size - 1] = empty_str;
+            delete [] m_word;
+            m_size = new_m_size;
+            m_word = temp;
+        }
+        else if(first != 0 && last != m_size - 2)
+        {
+            unsigned new_m_size = m_size - (last - first - 1);
+            char *temp = new char[new_m_size];
+            unsigned i = 0;
+            for(unsigned j = 0; j < first + 1; i++, j++)
+            {
+                temp[i] = m_word[j];
+            }
+            for(unsigned j = last; j < m_size; i++, j++)
+            {
+                temp[i] = m_word[j];
+            }
+            delete [] m_word;
+            m_size = new_m_size;
+            m_word = temp;
+        }
+    }
+    else if(f == '[' && l == ')')
+    {
+        if(first == 0 && last == m_size - 2)
+        {
+            unsigned new_m_size = 2;
+            char *temp = new char[new_m_size];
+            temp[0] = m_word[last];
+            temp[1] = empty_str;
+            delete [] m_word;
+            m_size = new_m_size;
+            m_word = temp;
+        }
+        else if(first == 0 && last != m_size - 2)
+        {
+            unsigned new_m_size = m_size - last;
+            char *temp = new char[new_m_size];
+            for(unsigned i = 0, j = last; j < m_size; i++, j++)
+            {
+                temp[i] = m_word[j];
+            }
+            delete [] m_word;
+            m_size = new_m_size;
+            m_word = temp;
+        }
+        else if(first != 0 && last == m_size - 2)
+        {
+            unsigned new_m_size = m_size - (last - first);
+            char *temp = new char[new_m_size];
+            unsigned i = 0;
+            for(unsigned j = 0; j < first; i++, j++)
+            {
+                temp[i] = m_word[j];
+            }
+            for(unsigned j = last; j < m_size; i++, j++)
+            {
+                temp[i] = m_word[j];
+            }
+            delete [] m_word;
+            m_size = new_m_size;
+            m_word = temp;
+        }
+        else if(first != 0 && last != m_size - 2)
+        {
+            unsigned new_m_size = last - first + 1;
+            char *temp = new char[new_m_size];
+            unsigned i = 0;
+            for(unsigned j = 0; j < first; i++, j++)
+            {
+                temp[i] = m_word[j];
+            }
+            for(unsigned j = last; j < m_size; i++, j++)
+            {
+                temp[i] = m_word[j];
+            }
+            delete [] m_word;
+            m_size = new_m_size;
+            m_word = temp;
+        }
+    }
+    else if(f == '(' && l == ']')
+    {
+        if(first == 0 && last == m_size - 2)
+        {
+            unsigned new_m_size = 2;
+            char *temp = new char[new_m_size];
+            temp[0] = m_word[first];
+            temp[1] = empty_str;
+            delete [] m_word;
+            m_size = new_m_size;
+            m_word = temp;
+        }
+        else if(first == 0 && last != m_size - 2)
+        {
+            unsigned new_m_size = m_size - last;
+            char *temp = new char[new_m_size];
+            temp[0] = m_word[0];
+            for(unsigned i = 1, j = last + 1; j < m_size; i++, j++)
+            {
+                temp[i] = m_word[j];
+            }
+            delete [] m_word;
+            m_size = new_m_size;
+            m_word = temp;
+        }
+        else if(first != 0 && last == m_size - 2)
+        {
+            unsigned new_m_size = m_size - (last - first);
+            char *temp = new char[new_m_size];
+
+            for(unsigned i = 0, j = 0; j < first + 1; i++, j++)
+            {
+                temp[i] = m_word[j];
+            }
+            temp[new_m_size - 1] = empty_str;
+            delete [] m_word;
+            m_size = new_m_size;
+            m_word = temp;
+        }
+        else if(first != 0 && last != m_size - 2)
+        {
+            unsigned new_m_size = last - first + 1;
+            char *temp = new char[new_m_size];
+            unsigned i = 0;
+            for(unsigned j = 0; j < first + 1; i++, j++)
+            {
+                temp[i] = m_word[j];
+            }
+            for(unsigned j = last + 1; j < m_size; i++, j++)
+            {
+                temp[i] = m_word[j];
+            }
+            delete [] m_word;
+            m_size = new_m_size;
+            m_word = temp;
+        }
+    }
     return *this;
 }
 
+<<<<<<< HEAD
+void CString::clear()
+=======
 void CString::push_front(char s)
 {
     int new_m_size = m_size + 1;
@@ -319,35 +570,133 @@ void CString::push_front(char s)
 }
 
 void CString::push_back(char s)
+>>>>>>> 2cfe95f891e7f8f9a32ba1a515491c986c0d2386
 {
-    int new_m_size = m_size + 1;
+    delete [] m_word;
+    m_size = 1;
+    m_word = new char[m_size];
+    m_word[0] = empty_str;
+}
+
+void CString::push_front(char s)
+{
+    unsigned new_m_size = m_size + 1;
     char *temp = new char[new_m_size];
-    for(int i = 0; i < m_size - 1; i++)
+    for(unsigned i = 0, j = 1; j < new_m_size - 1; i++, j++)
     {
-        temp[i] = m_word[i];
+        temp[j] = m_word[i];
     }
-    temp[new_m_size - 2] = s;
+    temp[0] = s;
     temp[new_m_size - 1] = empty_str;
     delete [] m_word;
     m_size = new_m_size;
     m_word = new char[m_size];
-    for(int i = 0; i < m_size; i++)
+    for(unsigned i = 0; i < m_size; i++)
     {
         m_word[i] = temp[i];
     }
     delete [] temp;
 }
 
+<<<<<<< HEAD
+void CString::push_front(const char *str)
+{
+    const char *temp = str;
+    unsigned new_m_size = 0;
+    while(*str++)
+    {
+        new_m_size++;
+    }
+    new_m_size = new_m_size + m_size;
+    char *temp1 = new char[new_m_size];
+    for(unsigned i = 0; i < new_m_size - m_size; i++)
+    {
+        temp1[i] = temp[i];
+    }
+    for(unsigned i = new_m_size - m_size, j = 0; i < new_m_size; i++, j++)
+    {
+        temp1[i] = m_word[j];
+    }
+    delete [] m_word;
+    m_size = new_m_size;
+    m_word = temp1;
+}
+
+void CString::push_front(const CString &str)
+{
+    unsigned new_m_size = m_size + str.m_size - 1;
+    //temp для хранения 2 массивов
+    char *temp = new char[new_m_size];
+    for(unsigned k = 0, i = 0; i < str.m_size - 1; i++, k++)
+    {
+        temp[k] = str.m_word[i];
+    }
+    for(unsigned k = str.m_size - 1, i = 0; i < m_size; i++, k++)
+    {
+        temp[k] = m_word[i];
+    }
+    delete [] m_word;
+    m_size = new_m_size;
+    m_word = temp;
+}
+
+void CString::push_back(char s)
+{
+    unsigned new_m_size = m_size + 1;
+    char *temp = new char[new_m_size];
+    if(!this->empty())
+    {
+        for(unsigned i = 0; i < m_size - 1; i++)
+        {
+            temp[i] = m_word[i];
+        }
+    }
+    temp[new_m_size - 2] = s;
+    temp[new_m_size - 1] = empty_str;
+    delete [] m_word;
+    m_size = new_m_size;
+    m_word = temp;
+}
+
+void CString::push_back(const char *str)
+{
+    const char *temp = str;
+    unsigned new_m_size = 1;
+=======
 void CString::push_back(const char *str)
 {
     const char *temp = str;
     int new_m_size = 1;
+>>>>>>> 2cfe95f891e7f8f9a32ba1a515491c986c0d2386
     while(*str++)
     {
         new_m_size++;
     }
     new_m_size = new_m_size + m_size - 1;
     char *temp1 = new char[new_m_size];
+<<<<<<< HEAD
+    if(!this->empty())
+    {
+        for(unsigned i = 0; i < m_size - 1; i++)
+        {
+            temp1[i] = m_word[i];
+        }
+        for(unsigned i = m_size - 1, j = 0; i < new_m_size - 1; i++, j++)
+        {
+            temp1[i] = temp[j];
+        }
+    }
+    else
+    {
+        for(unsigned i = 0, j = 0; i < new_m_size - 1; i++, j++)
+        {
+            temp1[i] = temp[j];
+        }
+    }
+    delete [] m_word;
+    m_size = new_m_size;
+    m_word = temp1;
+=======
     for(int i = 0; i < m_size - 1; i++)
     {
         temp1[i] = m_word[i];
@@ -362,30 +711,38 @@ void CString::push_back(const char *str)
     for(int i = 0; i < m_size - 1; i++)
         m_word[i] = temp1[i];
     m_word[m_size - 1] = empty_str;
+>>>>>>> 2cfe95f891e7f8f9a32ba1a515491c986c0d2386
 }
 
 void CString::push_back(const CString &str)
 {
-    int new_m_size = m_size + str.m_size - 1;
+    unsigned new_m_size = m_size + str.m_size - 1;
     //temp для хранения 2 массивов
     char *temp = new char[new_m_size];
-    int k = 0;
-    for(int i = 0; i < m_size - 1; i++)
+    for(unsigned k = 0, i = 0; i < m_size - 1; i++, k++)
     {
         temp[k] = m_word[i];
-        k++;
     }
-    for(int i = 0; i < str.m_size; i++)
+    for(unsigned k = m_size - 1, i = 0; i < str.m_size; i++, k++)
     {
         temp[k] = str.m_word[i];
-        k++;
     }
     delete [] m_word;
     m_size = new_m_size;
-    m_word = new char[new_m_size];
-    for(int i = 0; i < m_size; i++)
-        m_word[i] = temp[i];
-    delete [] temp;
+    m_word = temp;
+}
+
+void CString::pop_front()
+{
+    unsigned new_m_size = m_size - 1;
+    char *temp = new char[new_m_size];
+    for(unsigned i = 0, j = 1; j < m_size; i++, j++)
+    {
+        temp[i] = m_word[j];
+    }
+    delete [] m_word;
+    m_size = new_m_size;
+    m_word = temp;
 }
 
 void CString::pop_front()
@@ -405,26 +762,25 @@ void CString::pop_front()
 
 void CString::pop_back()
 {
-    int new_m_size = m_size - 1;
+    unsigned new_m_size = m_size - 1;
     char *temp = new char[new_m_size];
-    for(int i = 0; i < new_m_size; i++)
+    for(unsigned i = 0; i < new_m_size; i++)
+    {
         temp[i] = m_word[i];
+    }
     temp[new_m_size - 1] = empty_str;
     delete [] m_word;
     m_size = new_m_size;
-    m_word = new char[m_size];
-    for(int i = 0; i < m_size; i++)
-        m_word[i] = temp[i];
-    delete [] temp;
+    m_word = temp;
 }
 
 bool CString::compare(const CString &str)
 {
-    int count = 0;
+    unsigned count = 0;
     bool compare = false;
     if(str.m_size == m_size)
     {
-        for(int i = 0; i < m_size; i++)
+        for(unsigned i = 0; i < m_size; i++)
         {
             if(str.m_word[i] == m_word[i])
             {
@@ -437,27 +793,27 @@ bool CString::compare(const CString &str)
         }
     }
     if(count == m_size)
+    {
         compare = true;
+    }
     return compare;
 }
 
-int CString::find(char s)
+unsigned CString::find(char s)
 {
     bool find = false;
     //номер с которого начинается первое совпадение
-    int number = 0;
+    unsigned number = 0;
     //количество совпадений
-    int count = 0;
-
+    unsigned count = 0;
     char MIN = m_word[0];
     char MAX = m_word[0];
-
-    for(int i = 0; i < m_size - 1; i++)
+    for(unsigned i = 0; i < m_size - 1; i++)
     {
         MAX < m_word[i] ? MAX = m_word[i] : MIN = m_word[i];
     }
 
-    for(int i = 0; i < m_size - 1; i++)
+    for(unsigned i = 0; i < m_size - 1; i++)
     {
         if(m_word[i] == s)
         {
@@ -466,21 +822,26 @@ int CString::find(char s)
             break;
         }
     }
-
-    for(int i = number + 1; i < m_size - 1; i++)
+    for(unsigned i = number + 1; i < m_size - 1; i++)
     {
         if(m_word[i] == s)
         {
             count++;
         }
     }
-
     //Если символ отсутствует в строке
-    if(find == false)
+    try
     {
+        if(find == false)
+        {
+            throw "This string doesn't contain the symbol with that number.";
+        }
+    }
+    catch (const char *a)
+    {
+        cout << a << endl;
         cout << "Enter the symbol from \'" << MIN << "\' to \'" << MAX << "\'."<< endl;
     }
-
     //если совпадений несколько, то вывести сколько раз
     if(count > 1)
     {
@@ -490,18 +851,18 @@ int CString::find(char s)
     return number;
 }
 
-int CString::find(const CString &str)
+unsigned CString::find(const CString &str)
 {
     int k = 0;
     //размер str
-    int count = 0;
+    unsigned count = 0;
     //номер с которого начинается первое совпадение
-    int number = 0;
+    unsigned number = 0;
     //количество совпадений
-    int n_word = 0;
+    unsigned n_word = 0;
     //если полностью совпало
-    bool coincidence = false;
-    for(int i = 0; i < m_size - 1; i++)
+    bool find = false;
+    for(unsigned i = 0; i < m_size - 1; i++)
     {
         if(str.m_word[k] != m_word[i])
         {
@@ -520,15 +881,15 @@ int CString::find(const CString &str)
         }
         if(count == str.m_size - 1)
         {
-            coincidence = true;
+            find = true;
             break;
         }
     }
-    if(coincidence == true)
+    if(find == true)
     {
         k = 0;
         count = 0;
-        for(int i = number; i < m_size - 1; i++)
+        for(unsigned i = number; i < m_size - 1; i++)
         {
             if(str.m_word[k] != m_word[i])
             {
@@ -549,15 +910,23 @@ int CString::find(const CString &str)
         }
     }
     //если ни разу не совпало вывести предупреждение
-    else if(coincidence == false)
+    try
     {
+        if(find == false)
+        {
+            throw "This phrase doesn't contain that string.";
+        }
+    }
+    catch (const char *a)
+    {
+        cout << a << endl;
         cout << "Enter the correct string for search." << endl;
     }
     //если совпадений несколько вывести, то сколько раз
     if(n_word > 1)
     {
         cout << "From the symbol number " << number << " the string contains word \'";
-        for(int i = 0; i < str.m_size - 1; i++)
+        for(unsigned i = 0; i < str.m_size - 1; i++)
         {
             cout << str.m_word[i];
         }
@@ -566,23 +935,21 @@ int CString::find(const CString &str)
     return number;
 }
 
-int CString::rfind(char s)
+unsigned CString::rfind(char s)
 {
     bool rfind = false;
     //номер с которого начинается первое совпадение
-    int number = 0;
+    unsigned number = 0;
     //количество совпадений
-    int count = 0;
-
+    unsigned count = 0;
     char MIN = m_word[0];
     char MAX = m_word[0];
-
-    for(int i = 0; i < m_size - 1; i++)
+    for(unsigned i = 0; i < m_size - 1; i++)
     {
         MAX < m_word[i] ? MAX = m_word[i] : MIN = m_word[i];
     }
 
-    for(int i = m_size - 2; i >= 0; i--)
+    for(int i = int(m_size) - 2; i >= 0; i--)
     {
         if(m_word[i] == s)
         {
@@ -591,8 +958,7 @@ int CString::rfind(char s)
             break;
         }
     }
-
-    for(int i = m_size - 2; i >= 0; i--)
+    for(int i = int(m_size) - 2; i >= 0; i--)
     {
         if(m_word[i] == s)
         {
@@ -601,13 +967,21 @@ int CString::rfind(char s)
     }
 
     //Если символ отсутствует в строке
-    if(rfind == false)
+    try
     {
+        if(rfind == false)
+        {
+            throw "This string doesn't contain the symbol with that number.";
+        }
+    }
+    catch (const char *a)
+    {
+        cout << a << endl;
         cout << "Enter the symbol from \'" << MIN << "\' to \'" << MAX << "\'."<< endl;
     }
 
     //если совпадений несколько, то вывести сколько раз
-    else if(count > 1)
+    if(count > 1)
     {
         cout << "From the position number " << number << " the string contains \'" << s << "\' " << count << " of times." << endl;
     }
@@ -615,19 +989,19 @@ int CString::rfind(char s)
     return number;
 }
 
-int CString::rfind(const CString &str)
+unsigned CString::rfind(const CString &str)
 {
-    int k = str.m_size - 2;
+    unsigned k = str.m_size - 2;
     //размер str
-    int count = 0;
+    unsigned count = 0;
     //номер с которого начинается первое совпадение
-    int number = 0;
+    unsigned number = 0;
     //количество совпадений
-    int n_word = 0;
+    unsigned n_word = 0;
     //если полностью совпало
-    int coincidence = false;
+    int rfind = false;
 
-    for(int i = m_size - 2; i >= 0; i--)
+    for(int i = int(m_size) - 2; i >= 0; i--)
     {
         if(str.m_word[k] != m_word[i])
         {
@@ -646,12 +1020,12 @@ int CString::rfind(const CString &str)
         }
         if(count == str.m_size - 1)
         {
-            coincidence = true;
+            rfind = true;
             break;
         }
     }
 
-    if(coincidence == true)
+    if(rfind == true)
     {
         k = str.m_size - 2;
         count = 0;
@@ -676,18 +1050,24 @@ int CString::rfind(const CString &str)
         }
 
     }
-
     //если ни разу не совпало вывести предупреждение
-    else if(coincidence == false)
+    try
     {
+        if(rfind == false)
+        {
+            throw "This phrase doesn't contain that string.";
+        }
+    }
+    catch (const char *a)
+    {
+        cout << a << endl;
         cout << "Enter the correct string for search." << endl;
     }
-
     //если совпадений несколько, то вывести сколько раз
     if(n_word > 1)
     {
         cout << "From the symbol number " << number << " the string contains word \'";
-        for(int i = 0; i < str.m_size - 1; i++)
+        for(unsigned i = 0; i < str.m_size - 1; i++)
         {
             cout << str.m_word[i];
         }
@@ -709,9 +1089,8 @@ int CString::stoi()
     bool f_zero = false;
 
     //временный массив для перевода из char в int
-    int new_m_size = m_size - 1;
+    unsigned new_m_size = m_size - 1;
     int *temp =new int[new_m_size];
-
     if(m_word[0] == '0')
     {
         f_zero = true;
@@ -719,7 +1098,7 @@ int CString::stoi()
 
     if(f_zero == false)
     {
-        for(int i = 0; i < m_size - 1; i++)
+        for(unsigned i = 0; i < m_size - 1; i++)
         {
             if(m_word[i] >= '0' && m_word[i] <= '9')
             {
@@ -728,13 +1107,21 @@ int CString::stoi()
             //предпреждение если в строке не число типа int
             else
             {
-                cout << "Enter the correct number!" << endl;
-                count = 0;
-                break;
+                try
+                {
+                    throw "You enter incorrect number.";
+                }
+                catch (const char *a)
+                {
+                    cout << a << endl;
+                    cout << "Enter the correct number!" << endl;
+                    count = 0;
+                    break;
+                }
+
             }
         }
     }
-
     if(count > 0)
     {
         //вычисление степени числа и заполнение массива типа int
@@ -743,16 +1130,14 @@ int CString::stoi()
                 temp[i] = m_word[i] - '0';
                 rate++;
             }
-        int k = 1;
+
         //создание числа
-        for(int i = 0; i < count; i++)
+        for(int k = 1, i = 0; i < count; i++, k++)
         {
             number += temp[i] * int(pow(10, rate - k));
-            k++;
         }
     }
     delete [] temp;
-
     return number;
 }
 
@@ -774,7 +1159,7 @@ double CString::stof()
     int count = 0;
 
     //Анализ массива на предмет корректности
-    for(int i = 0; i < m_size - 1; i++)
+    for(unsigned i = 0; i < m_size - 1; i++)
     {
         if(m_word[i] >= '0' && m_word[i] <= '9')
         {
@@ -806,7 +1191,6 @@ double CString::stof()
     }
 
     int *temp =new int[count];
-
     //Если строка корректна, то
     if (good == true)
     {
@@ -819,35 +1203,37 @@ double CString::stof()
                 temp[l] = m_word[i] - '0';
                 l++;
             }
-
             //находим точку
             else if(m_word[i] == ',' || m_word[i] == '.')
             {
                 dot = 1;
                 continue;
             }
-
             //подсчитываем количество цифр после точки
             if(dot == 1)
             {
                 after_dot++;
             }
         }
-
         //Создаём число:
-        int k = 1;
-        for(int i = 0; i < count; i++)
+        for(int k = 1, i = 0; i < count; i++, k++)
         {
             number += temp[i] * (pow(10,count - k));
-            k++;
         }
         number1 = number / (pow(10, after_dot));
     }
-
     //если строка не корректна, выводим предупреждение
-    else if (good == false)
+    try
     {
-        cout << "Enter the correct string." << endl;
+        if(good == false)
+        {
+            throw "You enter incorrect number.";
+        }
+    }
+    catch (const char *a)
+    {
+        cout << a << endl;
+        cout << "Enter the correct number." << endl;
     }
     delete [] temp;
     return number1;
@@ -867,7 +1253,7 @@ int CString::stoi(const CString &str)
     delete [] m_word;
     m_size = str.m_size;
     m_word = new char[m_size];
-    for(int i = 0; i < m_size; i++)
+    for(unsigned i = 0; i < m_size; i++)
     {
         m_word[i] = str.m_word[i];
     }
@@ -884,24 +1270,31 @@ int CString::stoi(const CString &str)
     //если пройдена продолжаем
     if(f_zero == false)
     {
-        for(int i = 0; i < m_size - 1; i++)
+        for(unsigned i = 0; i < m_size - 1; i++)
         {
             //проверка остальных значений массива
             if(m_word[i] >= '0' && m_word[i] <= '9')
             {
                 count++;
             }
-
             //если массив не корректен выводим предупреждение
             else
             {
-                cout << "Enter the correct number!" << endl;
-                count = 0;
-                break;
+                try
+                {
+                    throw "You enter incorrect number.";
+                }
+                catch (const char *a)
+                {
+                    cout << a << endl;
+                    cout << "Enter the correct number!" << endl;
+                    count = 0;
+                    break;
+                }
             }
+
         }
     }
-
     //продолжаем если с массивом всё в порядке
     if(count > 0)
     {
@@ -933,7 +1326,7 @@ double CString::stof(const CString &str)
     //для проверки если точек несколько
     int f_dot = 0;
     //для сигнала что точка найдена
-    int dot = 0;
+    bool dot = false;
     //для проверки что строка корректна
     bool good = false;
     //общее количество цифр
@@ -943,13 +1336,13 @@ double CString::stof(const CString &str)
     delete [] m_word;
     m_size = str.m_size;
     m_word = new char[m_size];
-    for(int i = 0; i < m_size; i++)
+    for(unsigned i = 0; i < m_size; i++)
     {
         m_word[i] = str.m_word[i];
     }
 
     //Анализ массива на предмет корректности
-    for(int i = 0; i < m_size - 1; i++)
+    for(unsigned i = 0; i < m_size - 1; i++)
     {
         if(m_word[i] >= '0' && m_word[i] <= '9')
         {
@@ -974,8 +1367,7 @@ double CString::stof(const CString &str)
         }
     }
 
-    int *temp =new int[count];
-
+    int *temp = new int[count];
     //Если строка корректна, то
     if (good == true)
     {
@@ -992,30 +1384,34 @@ double CString::stof(const CString &str)
             //находим точку
             else if(m_word[i] == ',' || m_word[i] == '.')
             {
-                dot = 1;
+                dot = true;
                 continue;
             }
-
             //подсчитываем количество цифр после точки
-            if(dot == 1)
+            if(dot == true)
             {
                 after_dot++;
             }
         }
-        int k = 1;
-
         //Создаём число:
-        for(int i = 0; i < count; i++)
+        for(int k = 1, i = 0; i < count; i++, k++)
         {
             number += temp[i] * (pow(10, count - k));
-            k++;
         }
         number1 = number / (pow(10, after_dot));
     }
 
     //если строка не корректна, выводим предупреждение
-    else if (good == false)
+    try
     {
+        if(good == false)
+        {
+            throw "You enter incorrect string.";
+        }
+    }
+    catch (const char *a)
+    {
+        cout << a << endl;
         cout << "Enter the correct string." << endl;
     }
     delete [] temp;
@@ -1028,39 +1424,30 @@ CString& CString::to_string(int n)
     int temp_n = n;
     //количество цифр в числе
     int number = 0;
-
     //определение количества цифр в числе
     while (temp_n)
     {
         temp_n = temp_n / 10;
         number++;
     }
-
     //массив для хранения цифр из которых состоит число
     int *cont = new int[number];
-    int k = 0;
-
-
-    int value_n = n;                                    //значение числа
-    int rest = 0;                                       //оставшиеся цифры для записи
-
+    //значение числа
+    int value_n = n;
+    //оставшиеся цифры для записи
+    int rest = 0;
     //степень числа
     int rate = 0;
-    for(int i = 1; i < number + 1; i++)
+    for(int k = 0, i = 1; i < number + 1; i++, k++)
     {
-
         value_n = value_n / int(pow(10, number - i));
-
         //запись числа по одной цифре в массив
         cont[k] = value_n;
-
         //перезапись степени для нахождения оставшихся цифр
         rate = int(pow(10, number - i));
-
         //нахождение оставшихся цифр для записи
         rest = n % rate;
         value_n = rest;
-        k++;
     }
 
     delete [] m_word;
@@ -1071,24 +1458,23 @@ CString& CString::to_string(int n)
         m_word[i] = cont[i] + '0';
     }
     m_word[m_size - 1] = empty_str;
-
     delete [] cont;
-
     return *this;
 }
 
 CString& CString::operator=(const CString &str)
 {
     if(this == &str)
-        return *this;
-    m_size = str.m_size;
-    if(m_size == 1 && m_word[0] != empty_str)
     {
-        delete [] m_word;
+        return *this;
     }
+    delete [] m_word;
+    m_size = str.m_size;
     m_word = new char[m_size];
-    for (int i = 0; i < m_size; i++)
+    for (unsigned i = 0; i < m_size; i++)
+    {
         m_word[i] = str.m_word[i];
+    }
     return *this;
 }
 
@@ -1133,18 +1519,18 @@ CString& CString::operator=(char *str)
 CString& CString::operator=(const char *str)
 {
     const char *temp = str;
-    m_size = 1;
+    unsigned temp_m_size = 1;
     while(*str++)
     {
-        m_size++;
+        temp_m_size++;
     }
-    if(m_size == 1 && m_word[0] != empty_str)
-    {
-        delete [] m_word;
-    }
+    delete [] m_word;
+    m_size = temp_m_size;
     m_word = new char[m_size];
-    for(int i = 0; i < m_size - 1; i++)
+    for(unsigned i = 0; i < m_size - 1; i++)
+    {
         m_word[i] = temp[i];
+    }
     m_word[m_size - 1] = empty_str;
     return *this;
 }
@@ -1167,7 +1553,6 @@ CString& CString::operator=(int n)
     int temp_n = n;
     //количество цифр в числе
     int number = 0;
-
     //определение количества цифр в числе
     while (temp_n)
     {
@@ -1178,24 +1563,19 @@ CString& CString::operator=(int n)
     //массив для хранения цифр из которых состоит число
     int *cont = new int[number];
     int k = 0;
-
-
-    int value_n = n;                                    //значение числа
-    int rest = 0;                                       //оставшиеся цифры для записи
-
+    //значение числа
+    int value_n = n;
+    //оставшиеся цифры для записи
+    int rest = 0;
     //степень числа
     int rate = 0;
     for(int i = 1; i < number + 1; i++)
     {
-
         value_n = value_n / int(pow(10, number - i));
-
         //запись числа по одной цифре в массив
         cont[k] = value_n;
-
         //перезапись степени для нахождения оставшихся цифр
         rate = int(pow(10, number - i));
-
         //нахождение оставшихся цифр для записи
         rest = n % rate;
         value_n = rest;
@@ -1210,40 +1590,112 @@ CString& CString::operator=(int n)
         m_word[i] = cont[i] + '0';
     }
     m_word[m_size - 1] = empty_str;
-
     delete [] cont;
-
     return *this;
 }
 
-CString& CString::operator+=(const CString &str)
+CString & CString::operator=(unsigned n)
 {
-    int new_m_size = m_size + str.m_size - 1;
-    char *temp = new char[new_m_size];
-    int k = 0;
-    for(int i = 0; i < m_size - 1; i++, k++)
+    unsigned temp_n = n;
+    //количество цифр в числе
+    unsigned number = 0;
+    //определение количества цифр в числе
+    while (temp_n)
     {
-        temp[k] = m_word[i];
+        temp_n = temp_n / 10;
+        number++;
+    }
 
-    }
-    for(int i = 0; i < str.m_size; i++, k++)
+    //массив для хранения цифр из которых состоит число
+    unsigned *cont = new unsigned[number];
+    int k = 0;
+    //значение числа
+    int value_n = n;
+    //оставшиеся цифры для записи
+    int rest = 0;
+    //степень числа
+    int rate = 0;
+    for(unsigned i = 1; i < number + 1; i++)
     {
-        temp[k] = str.m_word[i];
+        value_n = value_n / int(pow(10, number - i));
+        //запись числа по одной цифре в массив
+        cont[k] = value_n;
+        //перезапись степени для нахождения оставшихся цифр
+        rate = int(pow(10, number - i));
+        //нахождение оставшихся цифр для записи
+        rest = n % rate;
+        value_n = rest;
+        k++;
     }
+
     delete [] m_word;
-    m_size = new_m_size;
+    m_size = number + 1;
     m_word = new char[m_size];
-    for(int i = 0; i < m_size; i++)
-        m_word[i] = temp[i];
-    delete [] temp;
+    for(unsigned i = 0; i < number; i++)
+    {
+        m_word[i] = cont[i] + '0';
+    }
+    m_word[m_size - 1] = empty_str;
+    delete [] cont;
     return *this;
+}
+
+bool CString::operator==(const CString &str)
+{
+    unsigned count = 0;
+    if(m_size == str.m_size)
+    {
+        for(unsigned i = 0; i < m_size - 1; i++)
+        {
+            if(m_word[i] == str.m_word[i])
+            {
+                count++;
+            }
+            else
+                break;
+        }
+    }
+    if(count == 0)
+    {
+        return false;
+    }
+    else if(count == m_size - 1)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+
+}
+
+char &CString::operator[](int n)
+{
+    try
+    {
+        if(n < 0)
+        {
+            throw "The value can't be negative.";
+        }
+        else if(n > int(m_size) - 2)
+        {
+            throw "The value can't more than size of m_word.";
+        }
+    }
+    catch(const char *a)
+    {
+        cerr << a << endl;
+        cerr << "Enter the number from 0 " << "to " << m_size - 2 << " ." << endl;
+    }
+    return m_word[n];
 }
 
 CString& CString::operator+=(char s)
 {
-    int new_m_size = m_size + 1;
+    unsigned new_m_size = m_size + 1;
     char *temp = new char[new_m_size];
-    for(int i = 0; i < m_size - 1; i++)
+    for(unsigned i = 0; i < m_size - 1; i++)
     {
         temp[i] = m_word[i];
     }
@@ -1251,48 +1703,64 @@ CString& CString::operator+=(char s)
     temp[new_m_size - 1] = empty_str;
     delete [] m_word;
     m_size = new_m_size;
-    m_word = new char[m_size];
-    for(int i = 0; i < m_size; i++)
-    {
-        m_word[i] = temp[i];
-    }
-    delete [] temp;
+    m_word = temp;
     return *this;
 }
 
 CString& CString::operator+=(const char *str)
 {
     const char *temp0 = str;
-    int new_m_size = 0;
+    unsigned new_m_size = 0;
     while(*temp0++)
     {
         new_m_size++;
     }
-    temp0 = NULL;
     char *temp1 = new char[m_size];
-    for(int i = 0; i < m_size; i++)
+    for(unsigned i = 0; i < m_size; i++)
+    {
         temp1[i] = m_word[i];
-    int temp_m_size = m_size;
+    }
+    unsigned temp_m_size = m_size;
     new_m_size += m_size;
     delete [] m_word;
     m_size = new_m_size;
     m_word = new char[m_size];
-    for(int i = 0; i < temp_m_size - 1; i++)
+    for(unsigned i = 0; i < temp_m_size - 1; i++)
     {
         m_word[i] = temp1[i];
     }
-    for(int i = temp_m_size - 1, j = 0; i < m_size - 1; i++, j++)
+    for(unsigned i = temp_m_size - 1, j = 0; i < m_size - 1; i++, j++)
+    {
         m_word[i] = str[j];
+    }
     m_word[m_size - 1] = empty_str;
     delete [] temp1;
     return *this;
 }
 
+CString& CString::operator+=(const CString &str)
+{
+    unsigned new_m_size = m_size + str.m_size - 1;
+    char *temp = new char[new_m_size];
+    for(unsigned k = 0, i = 0; i < m_size - 1; i++, k++)
+    {
+        temp[k] = m_word[i];
+    }
+    for(unsigned k = m_size - 1, i = 0; i < str.m_size; i++, k++)
+    {
+        temp[k] = str.m_word[i];
+    }
+    delete [] m_word;
+    m_size = new_m_size;
+    m_word = temp;
+    return *this;
+}
+
 CString& CString::operator+(char s)
 {
-    int new_m_size = m_size + 1;
+    unsigned new_m_size = m_size + 1;
     char *temp = new char[new_m_size];
-    for(int i = 0; i < m_size - 1; i++)
+    for(unsigned i = 0; i < m_size - 1; i++)
     {
         temp[i] = m_word[i];
     }
@@ -1300,38 +1768,36 @@ CString& CString::operator+(char s)
     temp[new_m_size - 1] = empty_str;
     delete [] m_word;
     m_size = new_m_size;
-    m_word = new char[m_size];
-    for(int i = 0; i < m_size; i++)
-    {
-        m_word[i] = temp[i];
-    }
-    delete [] temp;
+    m_word = temp;
     return *this;
 }
 
 CString& CString::operator+(const char *str)
 {
     const char *temp0 = str;
-    int new_m_size = 0;
+    unsigned new_m_size = 0;
     while(*temp0++)
     {
         new_m_size++;
     }
-    temp0 = NULL;
     char *temp1 = new char[m_size - 1];
-    for(int i = 0; i < m_size - 1; i++)
+    for(unsigned i = 0; i < m_size - 1; i++)
+    {
         temp1[i] = m_word[i];
-    int temp_m_size = m_size;
+    }
+    unsigned temp_m_size = m_size;
     new_m_size += m_size;
     delete [] m_word;
     m_size = new_m_size;
     m_word = new char[m_size];
-    for(int i = 0; i < temp_m_size - 1; i++)
+    for(unsigned i = 0; i < temp_m_size - 1; i++)
     {
         m_word[i] = temp1[i];
     }
-    for(int i = temp_m_size - 1, j = 0; i < m_size - 1; i++, j++)
-        m_word[i] = str[j];
+    for(unsigned i = temp_m_size - 1, j = 0; i < m_size - 1; i++, j++)
+    {
+            m_word[i] = str[j];
+    }
     m_word[m_size - 1] = empty_str;
     delete [] temp1;
     return *this;
@@ -1339,100 +1805,100 @@ CString& CString::operator+(const char *str)
 
 const char* operator+(const CString &str1, const CString &str2)
 {
-    int new_m_size = str1.m_size + str2.m_size - 1;
+    unsigned new_m_size = str1.m_size + str2.m_size - 1;
     char *temp = new char[new_m_size];
-    for(int i = 0; i < str1.m_size - 1; i++)
+    for(unsigned i = 0; i < str1.m_size - 1; i++)
+    {
         temp[i] = str1.m_word[i];
-    for(int i = str1.m_size - 1, j = 0; j < str2.m_size - 1; i++, j++)
+    }
+    for(unsigned i = str1.m_size - 1, j = 0; j < str2.m_size; i++, j++)
+    {
         temp[i] = str2.m_word[j];
-    temp[new_m_size - 1] = empty_str;
+    }
     return temp;
 }
 
 bool CString::operator!=(const CString &str)
 {
-    int count = 0;
+    unsigned count = 0;
     if(m_size == str.m_size)
     {
-        for(int i = 0; i < m_size - 1; i++)
+        for(unsigned i = 0; i < m_size - 1; i++)
         {
             if(m_word[i] == str.m_word[i])
             {
                 count++;
             }
             else
+            {
                 break;
+            }
         }
     }
     if(count != m_size - 1)
-        return true;
-    else
-        return false;
-}
-
-bool CString::operator==(const CString &str)
-{
-    int count = 0;
-    if(m_size == str.m_size)
     {
-        for(int i = 0; i < m_size - 1; i++)
-        {
-            if(m_word[i] == str.m_word[i])
-            {
-                count++;
-            }
-            else
-                break;
-        }
-    }
-    if(count == m_size - 1)
         return true;
+    }
     else
+    {
         return false;
+    }
+
 }
 
 bool CString::operator<=(const CString &str)
 {
-
-    int count = 0;
+    unsigned count = 0;
     if(m_size <= str.m_size)
     {
-        for(int i = 0; i < m_size - 1; i++)
+        for(unsigned i = 0; i < m_size - 1; i++)
         {
             if(m_word[i] == str.m_word[i])
             {
                 count++;
             }
             else
+            {
                 break;
+            }
         }
     }
     if(count <= str.m_size - 1)
+    {
         return true;
+    }
     else
+    {
         return false;
+    }
 }
 
 bool CString::operator>=(const CString &str)
 {
 
-    int count = 0;
+    unsigned count = 0;
     if(m_size >= str.m_size)
     {
-        for(int i = 0; i < str.m_size - 1; i++)
+        for(unsigned i = 0; i < str.m_size - 1; i++)
         {
             if(m_word[i] == str.m_word[i])
             {
                 count++;
             }
             else
+            {
                 break;
+            }
         }
     }
     if(count <= m_size - 1)
+    {
         return true;
+    }
     else
+    {
         return false;
+    }
 }
 
 bool CString::operator>(const CString &str)
@@ -1460,11 +1926,22 @@ bool CString::operator<(const CString &str)
     }
     return less;
 }
-
-char &CString::operator[](int n)
+/*CString CString::operator+(const CString &str)
 {
-    return m_word[n];
-}
+    CString temp;
+    unsigned new_m_size = m_size + str.m_size - 1;
+    temp.m_size = new_m_size;
+    for(unsigned i = 0; i < m_size - 1; i++)
+    {
+        temp.m_word[i] = m_word[i];
+    }
+    for(unsigned i = m_size - 1, j = 0; j < str.m_size; i++, j++)
+    {
+        temp.m_word[i] = str.m_word[j];
+    }
+    return temp;
+
+}*/
 
 /*CString& CString::to_string(double n)
 {
@@ -1551,6 +2028,7 @@ char &CString::operator[](int n)
     delete [] cont;
     return *this;
 }*/
+
 
 
 

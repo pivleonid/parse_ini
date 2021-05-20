@@ -3,10 +3,14 @@
 class CString
 {
 private:
-    // добавляемое слово
+    /*!
+     * \brief m_word - добавляемое слово
+     */
     char *m_word;
-    //размер этого слова + нулевой символ
-    int   m_size;
+    /*!
+     * \brief m_size - размер этого слова + нулевой символ
+     */
+    unsigned   m_size;
 public:
     CString();
     CString(char s);
@@ -20,14 +24,14 @@ public:
      * \brief size - возвращает размер m_word
      * \return     - m_size
      */
-    int size();
+    unsigned size();
 
     /*!
-     * \brief at - доступ к символу массива m_word
+     * \brief at - доступ к символу массива m_word под номером n
      * \param n  - порядковый номер символа
      * \return   - возвращает ссылку на выбранный символ
      */
-    char& at(int n);
+    char &at(int n);
 
     /*!
      * \brief front - возвращает 1 элемент m_word
@@ -59,13 +63,20 @@ public:
      * \param last  - символ на котором заканчивается
      * \return      - удалённый диапазон
      */
+<<<<<<< HEAD
+    CString & erase(int first = 0, int last = 1, char f = '[',  char l = ']');
+=======
     char *erase(int first, int last);
+>>>>>>> 2cfe95f891e7f8f9a32ba1a515491c986c0d2386
 
     /*!
      * \brief erase - удаляет все символы s в m_word
      * \param s     - выбранный для удаления символ
      * \return      - изменённый m_word
      */
+<<<<<<< HEAD
+    CString & erase(char s);
+=======
     CString& erase(char s);
 
     /*!
@@ -163,23 +174,152 @@ public:
      * \return     - полученное число
      */
     double stof(const CString &str);
+>>>>>>> 2cfe95f891e7f8f9a32ba1a515491c986c0d2386
 
     /*!
-     * \brief to_string  - переводит n типа int в m_word объекта класса
-                           CString
-     * \param n
-     * \return           - полученный объект
+     * \brief clear - очищает объект CString
      */
-    CString& to_string(int n);
+    void clear();
 
     /*!
-     * \brief to_string - переводит n типа double в m_word объекта класса
-                          CString
-     * \param n
-     * \return          - полученный объект
+     * \brief push_front - добавляет символ s в начало m_word
+     * \param s          - добавляемый символ
      */
-    CString& to_string(double n);
+    void push_front(char s);
 
+    /*!
+     * \brief push_front - добавляет str в начало m_word
+     * \param s          - добавляемая строка
+     */
+     void push_front(const char *str);
+
+     /*!
+      * \brief push_fornt - добавляет str в начало m_word
+      * \param str        - добавляемый объект
+      */
+     void push_front(const CString &str);
+
+     /*!
+      * \brief push_back  - добавляет символ s в конец m_word
+      * \param s          - добавляемый символ
+      */
+     void push_back(char s);
+
+     /*!
+      * \brief push_front - добавляет str в конец m_word
+      * \param s          - добавляемая строка
+      */
+     void push_back(const char *str);
+
+     /*!
+      * \brief push_fornt - добавляет str в начало m_word
+      * \param str        - добавляемый объект
+      */
+     void push_back(const CString &str);
+
+     /*!
+      * \brief pop_front - удаляет первый элемент
+      */
+     void pop_front();
+
+     /*!
+      * \brief pop_back - удаляет предпоследний элемент в m_word
+      */
+     void pop_back();
+
+     /*!
+      * \brief compare - сравнивает два объекта
+      * \param str     - объект с которым сравниваем
+      * \return        - true если совпали все символы
+      */
+     bool compare(const CString &str);
+
+     /*!
+      * \brief find - ищет s в m_word
+      * \param s    - искомый символ
+      * \return     - порядковый номер символа, если совпадений несколько
+                      то возвращает сколько раз
+      */
+     unsigned find(char s);
+
+     /*!
+      * \brief find - ищет str в m_word
+      * \param str  - искомая строка
+      * \return     - номер в m_word, с которого начинается str
+      */
+     unsigned find(const CString &str);
+
+     /*!
+      * \brief rfind - ищет s в m_word с конца
+      * \param s     - искомый символ
+      * \return      - порядковый номер s в первом вхождении
+      */
+     unsigned rfind(char s);
+
+     /*!
+      * \brief rfind - ищет str в m_word с конца
+      * \param str   - искомая строка
+      * \return      - порядковый номер str в первом вхождении
+      */
+     unsigned rfind(const CString &str);
+
+     /*!
+      * \brief stoi - переводит массив char в число типа int
+      * \return     - полученное число
+      */
+     int  stoi();
+
+     /*!
+      * \brief stof - переводит массив char в число типа double
+      * \return     - полученное число
+      */
+     double stof();
+
+     /*!
+      * \brief stoi - переводит m_word объекта str в число типа int
+      * \param str  - объект для обработки
+      * \return     - полученное число
+      */
+     int stoi(const CString &str);
+
+     /*!
+      * \brief stof - переводит m_word объекта str в число типа double
+      * \param str  - объект для обработки
+      * \return     - полученное число
+      */
+     double stof(const CString &str);
+
+     /*!
+      * \brief to_string  - переводит число n типа int в m_word
+                            объекта класса CString
+      * \param n          - число для обработки
+      * \return           - полученный объект
+      */
+     CString& to_string(int n);
+
+
+
+
+    CString & operator=(const CString &str);
+    CString & operator=(char *str);
+    CString & operator=(const char *str);
+    CString & operator=(char s);
+    CString & operator=(int n);
+    CString & operator=(unsigned n);
+
+    char & operator[](int n);
+
+    CString & operator+=(char s);
+    CString & operator+=(const char *str);
+    CString & operator+=(const CString &str);
+
+    CString & operator+(char s);
+    CString & operator+(const char *str);
+    friend const char * operator+(const CString &str1, const CString &str2);
+    //CString operator+(const CString &str);
+
+<<<<<<< HEAD
+=======
     /*!
      * \brief clear - очищает объект CString
      */
@@ -196,10 +336,13 @@ public:
     CString& operator+(char s);
     CString& operator+(const char *str);
     friend const char* operator+(const CString &str1, const CString &str2);
+>>>>>>> 2cfe95f891e7f8f9a32ba1a515491c986c0d2386
     bool operator!=(const CString &str);
     bool operator==(const CString &str);
+
     bool operator<=(const CString &str);
     bool operator>=(const CString &str);
+
     bool operator<(const CString &str);
     bool operator>(const CString &str);
 };
