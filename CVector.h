@@ -10,8 +10,7 @@ using namespace std;
 enum type_sorting
 {
     buble = 1,
-    hairbrush = 2,
-    exit_ = 3
+    hairbrush = 2
 };
 
 template <typename A>
