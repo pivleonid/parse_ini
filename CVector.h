@@ -6,12 +6,12 @@
 #include <cmath>
 #include <iostream>
 using namespace std;
-//template class CVector<CString>;
+//template class CVector<CString>;S
 enum type_sorting
 {
     buble = 1,
     hairbrush = 2,
-    //exit,
+    exit_ = 3
 };
 
 template <typename A>
