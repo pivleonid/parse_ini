@@ -63,27 +63,37 @@ public:
      * \param last  - символ на котором заканчивается
      * \return      - удалённый диапазон
      */
-<<<<<<< HEAD
     CString & erase(int first = 0, int last = 1, char f = '[',  char l = ']');
-=======
-    char *erase(int first, int last);
->>>>>>> 2cfe95f891e7f8f9a32ba1a515491c986c0d2386
 
     /*!
      * \brief erase - удаляет все символы s в m_word
      * \param s     - выбранный для удаления символ
      * \return      - изменённый m_word
      */
-<<<<<<< HEAD
     CString & erase(char s);
-=======
-    CString& erase(char s);
+
+    /*!
+     * \brief clear - очищает объект CString
+     */
+    void clear();
 
     /*!
      * \brief push_front - добавляет символ s в начало m_word
      * \param s          - добавляемый символ
      */
     void push_front(char s);
+
+    /*!
+     * \brief push_front - добавляет str в начало m_word
+     * \param str        - добавляемая строка
+     */
+    void push_front(const char *str);
+
+    /*!
+     * \brief push_front - добавляет str в начало m_word
+     * \param str        - добавляемый объект
+     */
+    void push_front(const CString &str);
 
     /*!
      * \brief push_back - добавляет символ s в конец m_word
