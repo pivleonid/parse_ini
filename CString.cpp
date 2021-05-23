@@ -37,43 +37,6 @@ CString::CString(const char *str)
     m_word[m_size - 1] = empty_str;
 }
 
-CString::CString(char *str)
-{
-    char *temp = str;
-    m_size = 1;
-    while(*str++)
-    {
-        m_size++;
-    }
-    int count = 0;
-    for(int i = 0; i < m_size; i++)
-    {
-        if(temp[i] >= ' ' && temp[i] <= '~')
-        {
-            count++;
-            continue;
-        }
-        else if(temp[i] == '\n' || temp[i] == '\t')
-        {
-            count++;
-            continue;
-        }
-        else
-        {
-            break;
-        }
-    }
-    m_size = count + 1;
-    if(m_size == 1 && m_word[0] != empty_str)
-    {
-        delete [] m_word;
-    }
-    m_word = new char[m_size];
-    for(int i = 0; i < m_size - 1; i++)
-        m_word[i] = temp[i];
-    m_word[m_size - 1] = empty_str;
-}
-
 CString::CString(const CString &new_word)
 {
     m_size = new_word.m_size;
@@ -83,6 +46,8 @@ CString::CString(const CString &new_word)
         m_word[i] = new_word.m_word[i];
     }
 }
+
+
 
 CString::CString(int n)
 {
@@ -205,22 +170,10 @@ bool CString::empty()
     return empty;
 }
 
-<<<<<<< HEAD
 CString& CString::erase(char s)
 {
     int count = 0; //для подсчёта сколько раз символ встречается в строке
     for(unsigned i = 0; i < m_size - 1; i++)
-=======
-char *CString::erase(int first, int last)
-{
-    int false0 = 0;
-    int new_m_size = m_size - (last - first + 1);
-    int new_m_size1 = m_size - new_m_size;
-    char *temp  = new char[new_m_size];
-    char *temp1 = new char[new_m_size1];
-    //если first вне диапазона массива выводим предупреждение
-    if(first < 0 || first > m_size - 3)
->>>>>>> 2cfe95f891e7f8f9a32ba1a515491c986c0d2386
     {
         if(m_word[i] == s)
         {
@@ -246,21 +199,13 @@ char *CString::erase(int first, int last)
         cout << a << endl;
         cout << "Enter the from \'" << MIN << "\' to \'" << MAX <<"\'." << endl;
     }
-
     unsigned new_m_size = m_size - count;
     char *temp = new char[new_m_size];
     int k = 0;
     //если символ найден в m_word
-    if (count > 0)
+    if(count > 0)
     {
-<<<<<<< HEAD
         for(unsigned i = 0; i < m_size - 1; i++)
-=======
-
-        int k = 0;
-        int l = 0;
-        for(int i = 0; i < m_size - 1; i++)
->>>>>>> 2cfe95f891e7f8f9a32ba1a515491c986c0d2386
         {
             if(m_word[i] == s)
             {
@@ -268,13 +213,8 @@ char *CString::erase(int first, int last)
             }
             else
             {
-<<<<<<< HEAD
                 temp[k] = m_word[i];
                 k++;
-=======
-                temp1[l] = m_word[i];
-                l++;
->>>>>>> 2cfe95f891e7f8f9a32ba1a515491c986c0d2386
             }
         }
         delete [] m_word;
@@ -285,16 +225,14 @@ char *CString::erase(int first, int last)
             m_word[i] = temp[i];
         }
         m_word[m_size - 1] = empty_str;
+
     }
-<<<<<<< HEAD
     delete [] temp;
     return *this;
-=======
-    return temp1;
->>>>>>> 2cfe95f891e7f8f9a32ba1a515491c986c0d2386
 }
 
-CString &CString::erase(int fr, int lt, char f,  char l)
+
+CString & CString::erase(int fr, int lt, char f,  char l)
 {
     try
     {
@@ -546,31 +484,8 @@ CString &CString::erase(int fr, int lt, char f,  char l)
     return *this;
 }
 
-<<<<<<< HEAD
-void CString::clear()
-=======
-void CString::push_front(char s)
-{
-    int new_m_size = m_size + 1;
-    char *temp = new char[new_m_size];
-    for(int i = 0, j = 1; j < new_m_size - 1; i++, j++)
-    {
-        temp[j] = m_word[i];
-    }
-    temp[0] = s;
-    temp[new_m_size - 1] = empty_str;
-    delete [] m_word;
-    m_size = new_m_size;
-    m_word = new char[m_size];
-    for(int i = 0; i < m_size; i++)
-    {
-        m_word[i] = temp[i];
-    }
-    delete [] temp;
-}
 
-void CString::push_back(char s)
->>>>>>> 2cfe95f891e7f8f9a32ba1a515491c986c0d2386
+void CString::clear()
 {
     delete [] m_word;
     m_size = 1;
@@ -598,7 +513,6 @@ void CString::push_front(char s)
     delete [] temp;
 }
 
-<<<<<<< HEAD
 void CString::push_front(const char *str)
 {
     const char *temp = str;
@@ -662,19 +576,12 @@ void CString::push_back(const char *str)
 {
     const char *temp = str;
     unsigned new_m_size = 1;
-=======
-void CString::push_back(const char *str)
-{
-    const char *temp = str;
-    int new_m_size = 1;
->>>>>>> 2cfe95f891e7f8f9a32ba1a515491c986c0d2386
     while(*str++)
     {
         new_m_size++;
     }
     new_m_size = new_m_size + m_size - 1;
     char *temp1 = new char[new_m_size];
-<<<<<<< HEAD
     if(!this->empty())
     {
         for(unsigned i = 0; i < m_size - 1; i++)
@@ -696,22 +603,6 @@ void CString::push_back(const char *str)
     delete [] m_word;
     m_size = new_m_size;
     m_word = temp1;
-=======
-    for(int i = 0; i < m_size - 1; i++)
-    {
-        temp1[i] = m_word[i];
-    }
-    for(int i = m_size - 1, j = 0; i < new_m_size - 1; i++, j++)
-    {
-        temp1[i] = temp[j];
-    }
-    delete [] m_word;
-    m_size = new_m_size;
-    m_word = new char[m_size];
-    for(int i = 0; i < m_size - 1; i++)
-        m_word[i] = temp1[i];
-    m_word[m_size - 1] = empty_str;
->>>>>>> 2cfe95f891e7f8f9a32ba1a515491c986c0d2386
 }
 
 void CString::push_back(const CString &str)
@@ -743,21 +634,6 @@ void CString::pop_front()
     delete [] m_word;
     m_size = new_m_size;
     m_word = temp;
-}
-
-void CString::pop_front()
-{
-    int new_m_size = m_size - 1;
-    char *temp = new char[new_m_size];
-    for(int i = 0, j = 1; i < new_m_size; i++, j++)
-        temp[i] = m_word[j];
-    temp[new_m_size - 1] = empty_str;
-    delete [] m_word;
-    m_size = new_m_size;
-    m_word = new char[m_size];
-    for(int i = 0; i < m_size; i++)
-        m_word[i] = temp[i];
-    delete [] temp;
 }
 
 void CString::pop_back()
@@ -1478,44 +1354,6 @@ CString& CString::operator=(const CString &str)
     return *this;
 }
 
-CString& CString::operator=(char *str)
-{
-    char *temp = str;
-    m_size = 1;
-    while(*str++)
-    {
-        m_size++;
-    }
-    int count = 0;
-    for(int i = 0; i < m_size; i++)
-    {
-        if(temp[i] >= ' ' && temp[i] <= '~')
-        {
-            count++;
-            continue;
-        }
-        else if(temp[i] == '\n' || temp[i] == '\t')
-        {
-            count++;
-            continue;
-        }
-        else
-        {
-            break;
-        }
-    }
-    m_size = count + 1;
-    if(m_size == 1 && m_word[0] != empty_str)
-    {
-        delete [] m_word;
-    }
-    m_word = new char[m_size];
-    for(int i = 0; i < m_size - 1; i++)
-        m_word[i] = temp[i];
-    m_word[m_size - 1] = empty_str;
-    return *this;
-}
-
 CString& CString::operator=(const char *str)
 {
     const char *temp = str;
@@ -1535,7 +1373,7 @@ CString& CString::operator=(const char *str)
     return *this;
 }
 
-CString& CString::operator=(char s)
+CString & CString::operator=(char s)
 {
     if(m_word[0] != empty_str)
     {
@@ -1548,7 +1386,7 @@ CString& CString::operator=(char s)
     return *this;
 }
 
-CString& CString::operator=(int n)
+CString & CString::operator=(int n)
 {
     int temp_n = n;
     //количество цифр в числе
@@ -1645,7 +1483,7 @@ bool CString::operator==(const CString &str)
     unsigned count = 0;
     if(m_size == str.m_size)
     {
-        for(unsigned i = 0; i < m_size - 1; i++)
+        for(unsigned i = 0; i < m_size; i++)
         {
             if(m_word[i] == str.m_word[i])
             {
@@ -1659,7 +1497,7 @@ bool CString::operator==(const CString &str)
     {
         return false;
     }
-    else if(count == m_size - 1)
+    else if(count == m_size)
     {
         return true;
     }
@@ -1823,7 +1661,7 @@ bool CString::operator!=(const CString &str)
     unsigned count = 0;
     if(m_size == str.m_size)
     {
-        for(unsigned i = 0; i < m_size - 1; i++)
+        for(unsigned i = 0; i < m_size; i++)
         {
             if(m_word[i] == str.m_word[i])
             {
@@ -1835,7 +1673,7 @@ bool CString::operator!=(const CString &str)
             }
         }
     }
-    if(count != m_size - 1)
+    if(count != m_size)
     {
         return true;
     }
@@ -1851,7 +1689,7 @@ bool CString::operator<=(const CString &str)
     unsigned count = 0;
     if(m_size <= str.m_size)
     {
-        for(unsigned i = 0; i < m_size - 1; i++)
+        for(unsigned i = 0; i < m_size; i++)
         {
             if(m_word[i] == str.m_word[i])
             {
@@ -1863,7 +1701,7 @@ bool CString::operator<=(const CString &str)
             }
         }
     }
-    if(count <= str.m_size - 1)
+    if(count <= str.m_size)
     {
         return true;
     }
@@ -1879,7 +1717,7 @@ bool CString::operator>=(const CString &str)
     unsigned count = 0;
     if(m_size >= str.m_size)
     {
-        for(unsigned i = 0; i < str.m_size - 1; i++)
+        for(unsigned i = 0; i < str.m_size; i++)
         {
             if(m_word[i] == str.m_word[i])
             {
@@ -1891,7 +1729,7 @@ bool CString::operator>=(const CString &str)
             }
         }
     }
-    if(count <= m_size - 1)
+    if(count <= m_size)
     {
         return true;
     }
