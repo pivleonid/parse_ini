@@ -7,9 +7,18 @@
 #include <iostream>
 using namespace std;
 //template class CVector<CString>;S
+/*!
+ * \brief The type_sorting - варианты сортировок
+ */
 enum type_sorting
 {
+    /*!
+     * \brief buble - сортировка методом пузырька
+     */
     buble = 1,
+    /*!
+     * \brief haibrush - сортировка методом расчёски
+     */
     hairbrush = 2
 };
 
@@ -79,25 +88,25 @@ public:
      * \param n  - номер элемента
      * \return   - возвращает указанный n-номер массива если n >= 0 или n <= m_count, возращает первый элемент если иначе
      */
-    A &at(int n);
+    A & at(int n);
 
     /*!
      * \brief data - возвращает указатель на m_container
      * \return     - указатель на m_container
      */
-    const A *data();
+    const A * data();
 
     /*!
      * \brief front - доступ к 1 элементу объекта CVector
      * \return      - возвращает объект типа А
      */
-    A &front();
+    A & front();
 
     /*!
      * \brief back - доступ к последнему элементу объекта CVector
      * \return     - возвращает объект типа А
      */
-    A &back();
+    A & back();
 
     /*!
      * \brief pop_front - удаление первого элемента CVector
@@ -119,7 +128,7 @@ public:
      * \param n     - порядковый номер
      * \return      - изменённый CVector
      */
-    CVector <A>&erase(unsigned a);
+    CVector <A> & erase(unsigned a);
 
     /*!
      * \brief erase - удаляет символы m_word в диапазоне first - last
@@ -127,7 +136,7 @@ public:
      * \param last  - символ на котором заканчивается
      * \return      - изменённый CVector
      */
-    CVector <A>&erase(int first = 0, int last = 1, char f = '[',  char l = ']');
+    CVector <A> & erase(int first = 0, int last = 1, char f = '[',  char l = ']');
 
     /*!
      * \brief find  - поиск объекта типа А
@@ -296,7 +305,6 @@ unsigned CVector<A>::resize(int n, A str)
     }
     return m_count;
 }
-
 
 template <typename A>
 void CVector<A>::push_front(const A &value)
