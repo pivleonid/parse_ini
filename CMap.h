@@ -124,8 +124,6 @@ private:
     CMap<A, B> & operator=(const CMap &map);
 };
 
-
-
 template <typename A, typename B>
 CMap<A, B>::CMap()
 {

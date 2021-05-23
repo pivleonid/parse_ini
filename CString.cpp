@@ -600,6 +600,7 @@ void CString::push_back(const char *str)
         {
             temp1[i] = temp[j];
         }
+        temp1[new_m_size - 1] = empty_str;
     }
     delete [] m_word;
     m_size = new_m_size;
