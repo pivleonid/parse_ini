@@ -592,6 +592,7 @@ void CString::push_back(const char *str)
         {
             temp1[i] = temp[j];
         }
+        temp1[new_m_size - 1] = empty_str;
     }
     else
     {
@@ -1764,6 +1765,7 @@ bool CString::operator<(const CString &str)
     }
     return less;
 }
+
 /*CString CString::operator+(const CString &str)
 {
     CString temp;

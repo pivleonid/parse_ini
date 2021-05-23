@@ -6,12 +6,8 @@
 #include "cstring"
 #include <iostream>
 using namespace std;
-<<<<<<< HEAD
 
 template <typename A, typename B>
-=======
-template <typename A, typename B, typename C>
->>>>>>> 2cfe95f891e7f8f9a32ba1a515491c986c0d2386
 class CMap
 {
 public:
@@ -22,14 +18,12 @@ public:
         Node *right;
         A    key;
         B    value;
-        C    comment;
     };
 private:
     /*!
-<<<<<<< HEAD
      * \brief root    - корень дерева
      */
-    Node     *root;
+    Node    *root;
     /*!
      * \brief m_count - счётчик элементов дерева
      */
@@ -50,16 +44,7 @@ private:
      * \param root           - корень дерева в которое добавляем ключ значение
      * \return               - возвращает корень дерева
      */
-    Node *add_pair_inner(const A &key, const B &value, Node *root);
-
-
-=======
-     * \brief root - корень дерева
-     * m_count     - счётчик элементов дерева
-     */
-    Node *root;
-    int m_count;
->>>>>>> 2cfe95f891e7f8f9a32ba1a515491c986c0d2386
+    Node * add_pair_inner(const A &key, const B &value, Node *root);
 
     /*!
      * \brief search_inner - поиск узла в дереве по ключу
@@ -76,7 +61,7 @@ private:
      * \param tree      - дерево в котором этот элемент ищем
      * \return          - возвращает полученный адрес
      */
-    Node *getAdress(const A &key, Node *tree);
+    Node * getAdress(const A &key, Node *tree);
 
     /*!
      * \brief getAdressParent - получение адреса родителя искомого элемента
@@ -84,24 +69,17 @@ private:
      * \param tree            - дерево в котором ищем адрес родителя
      * \return                - возвращает полученный адрес
      */
-    Node *getAdressParent(Node *child, Node *tree);
+    Node * getAdressParent(Node *child, Node *tree);
 
     /*!
      * \brief search_replacing - поиск замены для удаляемого элемента
      * \param tree             - дерево в котором ищем замену
      * \return                 - возвращет адрес узла для замены
      */
-    Node *search_replacing(Node *tree);
+    Node * search_replacing(Node *tree);
 
-<<<<<<< HEAD
     Node *operator_eq_inner(Node *this_tree, Node *tree);
-=======
-    bool search_inner(const A &key, Node *tree);
-    Node *add_pair_inner(const A &key, const B &value, const C &comment, Node *tree);
-    Node *operator_eq_inner(Node *this_tree, Node *tree);
-    void delete_all(Node *tree);
->>>>>>> 2cfe95f891e7f8f9a32ba1a515491c986c0d2386
-public:
+ public:
     CMap();
     ~CMap();
 
@@ -110,11 +88,7 @@ public:
      * \param key      - ключ
      * \param value    - значение
      */
-<<<<<<< HEAD
     void add_pair(const A &key, const B &value);
-=======
-    void add_pair(const A &key, const B &value, const C &comment = "null");
->>>>>>> 2cfe95f891e7f8f9a32ba1a515491c986c0d2386
 
     /*!
      * \brief search - поиск узла в дереве по ключу
@@ -136,21 +110,18 @@ public:
      */
     B & getValue(const A &key);
 
-    C &getComment(const A &key);
     /*!
      * \brief delete_key - удаление узла по ключу
      * \param target     - искомый ключ
      */
     void delete_key(const A &key);
-<<<<<<< HEAD
 
+    /*!
+     * \brief clear - очистка объекта CMap
+     */
     void clear();
 
     CMap<A, B> & operator=(const CMap &map);
-=======
-    int size();
-    CMap<A, B, C>  &operator=(const CMap &map);
->>>>>>> 2cfe95f891e7f8f9a32ba1a515491c986c0d2386
 };
 
 
@@ -289,7 +260,14 @@ template <typename A, typename B>
 B & CMap<A, B>::getValue(const A &key)
 {
     Node *temp = getAdress(key, root);
-    return temp->value;
+    if(temp != NULL)
+    {
+        return temp->value;
+    }
+    else
+    {
+        return temp->value = root->value;
+    }
 }
 
 template <typename A, typename B>
@@ -512,7 +490,6 @@ typename CMap<A, B>::Node * CMap<A, B>::search_replacing(Node *cur_node)
     }
     return temp;
 }
-
 
 template <typename A, typename B>
 void CMap<A, B>::clear()

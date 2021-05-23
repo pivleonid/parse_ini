@@ -4,17 +4,11 @@
 #include <gtest/include/gtest/gtest.h>
 using namespace std;
 
-/*TEST(test049, test_CMap_add_pair_size_search_getValue)
+TEST(test049, test_CMap_add_pair_size_search_getValue)
 {
-<<<<<<< HEAD
     CMap<CString, CString> map;
     CString k1(1); CString A("ABCDEFGHIJKLM");
     map.add_pair(1, A);
-=======
-      CMap<CString, CString, CString> a;
-      CString k1(1); CString b("Zero");
-      a.add_pair(k1, b);
->>>>>>> 2cfe95f891e7f8f9a32ba1a515491c986c0d2386
 
     CString k2(2); CString B("ABCDEFGH");
     map.add_pair(2, B);
@@ -55,16 +49,8 @@ using namespace std;
     CString k14(14); CString N("ABCDEFGHIJKLMNO");
     map.add_pair(14, N);
 
-<<<<<<< HEAD
     CString k15(15); CString P("ABCDEFGHIJKLMN");
     map.add_pair(15, P);
-=======
-TEST(test038, test_CMap_int_int)
-{
-    CMap<int, int, CString> a;
-    int k1 = 1; int b = 60;
-    a.add_pair(k1, b);
->>>>>>> 2cfe95f891e7f8f9a32ba1a515491c986c0d2386
 
     CString k16(16); CString Q("ABCDEFGHIJKLMNOPQ");
     map.add_pair(16, Q);
@@ -75,16 +61,8 @@ TEST(test038, test_CMap_int_int)
     CString k18(18); CString S("ABCDEFGHIJKLMNOPQR");
     map.add_pair(18, S);
 
-<<<<<<< HEAD
     CString k19(19); CString T("ABCDEFGHIJKLMNOPQRSTUV");
     map.add_pair(19, T);
-=======
-TEST(test039, test_CMap_int_CString)
-{
-    CMap<int, CString, CString> a;
-    int k1(1); CString b("Zero");
-    a.add_pair(k1, b);
->>>>>>> 2cfe95f891e7f8f9a32ba1a515491c986c0d2386
 
     CString k20(20); CString U("ABCDEFGHIJKLMNOPQRSTU");
     map.add_pair(20, U);
@@ -130,11 +108,10 @@ TEST(test039, test_CMap_int_CString)
         cout << map1.getValue(node).data() << endl;
         cout << endl;
     }
-}*/
+}
 
 TEST(test050, test_CMap_operator_eq_delete_key)
 {
-<<<<<<< HEAD
     CMap<CString, CString> map;
     CString k1(1); CString A("ABCDEFGHIJKLM");
     map.add_pair(1, A);
@@ -150,9 +127,6 @@ TEST(test050, test_CMap_operator_eq_delete_key)
 
     CString k5(5); CString E("ABC");
     map.add_pair(5, E);
-=======
-    CMap<int, CVector<CString>, CString> a;
->>>>>>> 2cfe95f891e7f8f9a32ba1a515491c986c0d2386
 
     CString k6(6); CString F("A");
     map.add_pair(6, F);
@@ -216,6 +190,15 @@ TEST(test050, test_CMap_operator_eq_delete_key)
 
     map.delete_key(k17);
     map.delete_key(k22);
+    map.delete_key(k15);
+    map.delete_key(k8);
+    /*for(unsigned  i = 1; i < map.size() + 1; i++)
+    {
+        CString node;
+        node = i;
+        cout << map.getValue(node).data() << endl;
+        cout << endl;
+    }*/
     cout << "Good";
 }
 
@@ -293,48 +276,4 @@ TEST(test051, test_CMap_CVector)
     }
 }
 
-<<<<<<< HEAD
 #endif // CMAP_TEST_H
-=======
-TEST(test041, test_CMap_eq)
-{
-    CMap<CString, CString, CString> a;
-    CString k1(1); CString b("Zero");
-    a.add_pair(k1, b);
-
-    CString k2(2); CString c("WALKYRIE");
-    a.add_pair(k2, c);
-
-    CString k3(3); CString d("New");
-    a.add_pair(k3, d);
-
-    CString k4(4); CString e("X-men");
-    a.add_pair(k4, e);
-
-    CString k5(5); CString g("developer");
-    a.add_pair(k5, g);
-
-    CString k6(6); CString h("match");
-    a.add_pair(k6, h);
-
-    CString k7(7); CString i("view");
-    a.add_pair(k7, i);
-
-    CString k8(8); CString j("hero");
-    a.add_pair(k8, j);
-
-    CString k9(9); CString m("big_boss");
-    a.add_pair(k9, m);
-
-    CString k10(10); CString n("Titan");
-    a.add_pair(k10, n);
-
-    CString k11(11); CString p("Sub-zero");
-    a.add_pair(k11, p);
-
-    CMap<CString, CString, CString> l;
-
-    l = a;
-}
-#endif // MAP_TEST_H
->>>>>>> 2cfe95f891e7f8f9a32ba1a515491c986c0d2386

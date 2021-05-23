@@ -3,7 +3,7 @@
 #include "CString.h"
 #include "CVector.h"
 #include <gtest/include/gtest/gtest.h>
-TEST(test029, test_CVector_push_back_and_size)
+TEST(test031, test_CVector_push_back_and_size)
 {
         CString a("Big");
         CString b("Bang");
@@ -50,7 +50,7 @@ TEST(test029, test_CVector_push_back_and_size)
         }
 }
 
-TEST(test030, test_CVector_resize)
+TEST(test032, test_CVector_resize)
 {
     CString a("Big");
     CString b("Bang");
@@ -69,7 +69,7 @@ TEST(test030, test_CVector_resize)
     vec.resize(5, g);
 }
 
-TEST(test031, test_CVector_push_front)
+TEST(test033, test_CVector_push_front)
 {
     CString a("Big");
     CString b("Bang");
@@ -84,7 +84,7 @@ TEST(test031, test_CVector_push_front)
     vec.push_front(g);
 }
 
-TEST(test032, test_CVector_empty)
+TEST(test034, test_CVector_empty)
 {
     CVector<CString> vec;
     bool res;
@@ -97,7 +97,7 @@ TEST(test032, test_CVector_empty)
     ASSERT_EQ(0, res);
 }
 
-TEST(test033, test_CVector_at)
+TEST(test035, test_CVector_at)
 {
     CString a("Big");
     CString b("Bang");
@@ -125,7 +125,7 @@ TEST(test033, test_CVector_at)
     cout << "//-------------------------//" <<endl;
 }
 
-TEST(test034, test_CVector_front_and_back)
+TEST(test035, test_CVector_front_and_back)
 {
     CString a("Big");
     CString b("Bang");
@@ -150,7 +150,7 @@ TEST(test034, test_CVector_front_and_back)
     cout << "//-------------------------//" <<endl;
 }
 
-TEST(test035, test_CVector_pop_front_and_back)
+TEST(test036, test_CVector_pop_front_and_back)
 {
     CString a("Big");
     CString b("Bang");
@@ -175,29 +175,6 @@ TEST(test035, test_CVector_pop_front_and_back)
     }
     cout << "//-------------------------//" <<endl;
     vec.pop_back();
-    for(unsigned  i = 0; i < vec.size(); i++)
-    {
-        cout << vec.at(i).data() <<endl;
-    }
-    cout << "//-------------------------//" <<endl;
-}
-
-TEST(test036, test_CVector_erase)
-{
-    CString a("Big");
-    CString b("Bang");
-    CString d("Theory");
-    CString f("New");
-    CString g("Funny");
-    CString k("Happy");
-    CVector<CString> vec;
-    vec.push_back(a);
-    vec.push_back(b);
-    vec.push_back(d);
-    vec.push_back(f);
-    vec.push_back(g);
-    vec.push_back(k);
-    vec.erase(2);
     for(unsigned  i = 0; i < vec.size(); i++)
     {
         cout << vec.at(i).data() <<endl;
@@ -518,19 +495,6 @@ TEST(test040, test_CVector_operator_equal)
     }
     cout << "//-------------------------//" <<endl;
     vec1.clear();
-
-    /*CVector<CString> *vec2;
-    vec2->push_back(a);
-    vec2->push_back(b);
-    vec2->push_back(d);
-    vec2->push_back(f);
-    vec2->push_back(g);
-    vec1 = vec2;
-    for(unsigned  i = 0; i < vec1.size(); i++)
-    {
-        cout << vec1.at(i).data() <<endl;
-    }
-    cout << "//-------------------------//" <<endl;*/
 
 }
 
