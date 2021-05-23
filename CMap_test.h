@@ -192,13 +192,20 @@ TEST(test050, test_CMap_operator_eq_delete_key)
     map.delete_key(k22);
     map.delete_key(k15);
     map.delete_key(k8);
-    /*for(unsigned  i = 1; i < map.size() + 1; i++)
+    for(unsigned  i = 1; i < map.size() + 1; i++)
     {
         CString node;
         node = i;
-        cout << map.getValue(node).data() << endl;
-        cout << endl;
-    }*/
+        if(map.search(node))
+        {
+            cout << map.getValue(node).data() << endl;
+            cout << endl;
+        }
+        else
+        {
+            continue;
+        }
+    }
     cout << "Good";
 }
 
