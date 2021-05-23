@@ -97,10 +97,13 @@ TEST(test008, test_CString_empty)
     ASSERT_EQ(1, res);
 }
 
-TEST(test008, test_CString_erase)
+TEST(test009, test_CString_erase)
 {
     CString a("WORLDS");
     CString res;
+    a.erase(0, 5);
+    res = "\0";
+    ASSERT_TRUE(a == res);
 
     a = "WORLDS";
     a.erase(0, 3);
@@ -118,7 +121,7 @@ TEST(test008, test_CString_erase)
     ASSERT_TRUE(a == res);
 }
 
-TEST(test008, test_CString_erase1)
+TEST(test010, test_CString_erase1)
 {
     CString a("WORLDS");
     a.erase(0, 5, '(', ')');
@@ -142,7 +145,7 @@ TEST(test008, test_CString_erase1)
     ASSERT_TRUE(a == res);
 }
 
-TEST(test009, test_CString_erase2)
+TEST(test011, test_CString_erase2)
 {
     CString a;
     a = "WORLDS";
@@ -167,7 +170,7 @@ TEST(test009, test_CString_erase2)
     ASSERT_TRUE(a == res);
 }
 
-TEST(test010, test_CString_erase3)
+TEST(test012, test_CString_erase3)
 {
     CString a;
     a = "WORLDS";
@@ -192,7 +195,7 @@ TEST(test010, test_CString_erase3)
     ASSERT_TRUE(a == res);
 }
 
-TEST(test011, test_CString_erase_symbol)
+TEST(test013, test_CString_erase_symbol)
 {
     CString a("Something new");
     a.erase('g');
@@ -205,7 +208,7 @@ TEST(test011, test_CString_erase_symbol)
     ASSERT_TRUE(e == c);
 }
 
-TEST(test012, test_CString_push_front)
+TEST(test014, test_CString_push_front)
 {
     CString a("omething new!");
     a.push_front('S');
@@ -224,7 +227,7 @@ TEST(test012, test_CString_push_front)
     ASSERT_TRUE(f == g);
 }
 
-TEST(test013, test_CString_push_back)
+TEST(test015, test_CString_push_back)
 {
     CString a("Something new");
     a.push_back('!');
@@ -243,7 +246,7 @@ TEST(test013, test_CString_push_back)
     ASSERT_TRUE(e == g);
 }
 
-TEST(test014, test_CString_pop_front)
+TEST(test016, test_CString_pop_front)
 {
     CString a("Weather");
     a.pop_front();
@@ -251,7 +254,7 @@ TEST(test014, test_CString_pop_front)
     ASSERT_TRUE(a == b);
 }
 
-TEST(test015, test_CString_pop_back)
+TEST(test017, test_CString_pop_back)
 {
     CString a("Good luck!");
     a.pop_back();
@@ -259,7 +262,7 @@ TEST(test015, test_CString_pop_back)
     ASSERT_TRUE(b == a);
 }
 
-TEST(test016, test_CString_compare)
+TEST(test018, test_CString_compare)
 {
     CString a("Crazy");
     CString b("Crazy");
@@ -270,7 +273,7 @@ TEST(test016, test_CString_compare)
     ASSERT_FALSE(res);
 }
 
-TEST(test017, test_CString_find)
+TEST(test019, test_CString_find)
 {
     CString a("Lucky Strike!");
     int num = a.find('S');
@@ -299,7 +302,7 @@ TEST(test017, test_CString_find)
     ASSERT_EQ(11, num);
 }
 
-TEST(test018, test_CString_rfind)
+TEST(test020, test_CString_rfind)
 {
     CString a("Big Bang Theory!");
     int num = a.rfind('i');
@@ -319,11 +322,7 @@ TEST(test018, test_CString_rfind)
 
 }
 
-TEST(test019, test_CString_rfind)
-{
- }
-
-TEST(test020, test_CString_stoi)
+TEST(test021, test_CString_stoi)
 {
     CString a = "1234";
     int res = a.stoi();
@@ -360,7 +359,7 @@ TEST(test020, test_CString_stoi)
 
 }
 
-TEST(test021, test_CString_stof)
+TEST(test022, test_CString_stof)
 {
     CString a = "123,4";
     double res = a.stof();
@@ -392,7 +391,7 @@ TEST(test021, test_CString_stof)
     ASSERT_TRUE(0 == res);
 }
 
-TEST(test022, test_CString_to_string)
+TEST(test023, test_CString_to_string)
 {
     CString a;
     a.to_string(12345);
@@ -400,7 +399,7 @@ TEST(test022, test_CString_to_string)
     ASSERT_TRUE(a == b);
 }
 
-TEST(test023, test_CString_operator_square_bracket)
+TEST(test024, test_CString_operator_square_bracket)
 {
     CString a("some");
     char b = a[0];
@@ -415,7 +414,7 @@ TEST(test023, test_CString_operator_square_bracket)
     ASSERT_TRUE(a == d);
 }
 
-TEST(test024, test_CString_operator_plus_eq)
+TEST(test025, test_CString_operator_plus_eq)
 {
     CString a("Happy ");
     CString b("Birthday! ");
@@ -432,7 +431,7 @@ TEST(test024, test_CString_operator_plus_eq)
     ASSERT_TRUE(a == c);
 }
 
-TEST(test025, test_CString_operator_plus)
+TEST(test026, test_CString_operator_plus)
 {
     CString a("Craz");
     a = a + 'y';
@@ -449,7 +448,7 @@ TEST(test025, test_CString_operator_plus)
     ASSERT_TRUE(a == d);
 }
 
-TEST(test026, test_CString_operator_equal)
+TEST(test027, test_CString_operator_equal)
 {
     CString a("MoDern");
     CString b("MoBern");
@@ -460,7 +459,7 @@ TEST(test026, test_CString_operator_equal)
     ASSERT_EQ(1, res);
 }
 
-TEST(test027, test_CString_operator_unequal)
+TEST(test028, test_CString_operator_unequal)
 {
     CString a("Big");
     CString b("Bigger");
@@ -473,7 +472,7 @@ TEST(test027, test_CString_operator_unequal)
     ASSERT_EQ(1, res);
 }
 
-TEST(test028, test_CString_operator_more)
+TEST(test029, test_CString_operator_more)
 {
     CString a("A");
     CString b("B");
@@ -488,7 +487,7 @@ TEST(test028, test_CString_operator_more)
     ASSERT_TRUE(a > b);
 }
 
-TEST(test029, test_CString_operator_less)
+TEST(test030, test_CString_operator_less)
 {
     CString a("A");
     CString b("B");
