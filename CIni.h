@@ -74,7 +74,43 @@ public:
      * \param file_path  - путь к пустому ini-файлу
      */
     void write_file(const char *file_path);
+
+    /*!
+     * \brief change_name_section - поменять название секции
+     * \param old_name            - старое название
+     * \param new_name            - новое название
+     */
+    void change_name_section(CString &old_name, CString &new_name);
+
+    /*!
+     * \brief delete_value        - удалить полностью значение по ключу
+     * \param name_section        - секция в которой удаляем
+     * \param key                 - ключ по котором удаляем
+     */
+    void delete_value(CString &name_section, CString &key);
+
+    /*!
+     * \brief show_all            - демонстрация содержимого всего ini-файла
+     */
+    void show_all();
+
+    /*!
+     * \brief change_value        - полностью меняет значение, указанное по ключу
+     * \param name_section        - секция в которой меняем значение
+     * \param key                 - ключ для поиска значения
+     * \param value               - значение для замены
+     */
+    void change_value(CString &name_section, CString &key, CVector<CString> &value);
+
+    /*!
+     * \brief add_value           - добавляет значение которого нет в секции
+     * \param name_section        - секция в которую добавляем
+     * \param key                 - ключ для добавления
+     * \param value               - значение для добваления
+     */
+    void add_value(CString &name_section, CString &key, CVector<CString> &value);
 };
+
 #endif // CINI_H
 
 

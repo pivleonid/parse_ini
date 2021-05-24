@@ -2,7 +2,7 @@
 #define CINI_TEST_H
 #include "CIni.h"
 #include <gtest/include/gtest/gtest.h>
-/*TEST(test052, test_CIni_read_file)
+/*TEST(test054, test_CIni_read_file)
 {
     CIni ini;
     ini.read_file("C:\\FilesC++\\parse\\file3.ini");
@@ -34,11 +34,21 @@
 <<<<<<< HEAD
 }*/
 
-TEST(test053, test_CIni_write_file)
+TEST(test055, test_CIni_write_file)
 {
     CIni ini;
     ini.read_file("C:\\FilesC++\\test\\parse_ini\\file3.ini");
     ini.write_file("C:\\FilesC++\\test\\parse_ini\\file4.ini");
     cout << "//-------------------------//" <<endl;
 }
+
+/*TEST(test056, test_CIni_change_name_section)
+{
+    CIni ini;
+    ini.read_file("C:\\FilesC++\\test\\parse_ini\\file3.ini");
+    CString section1;
+    section1 = "Numbers";
+    CString section2;
+
+}*/
 #endif // CINI_TEST_H

@@ -148,10 +148,10 @@ void CIni::write_file_inner()
     {
         CString temp;
         temp = data.at(i).name_section;
+        temp.push_front('[');
+        temp.push_back(']');
+        temp.push_back('\n');
         temp_container.push_back(temp);
-        temp_container.at(k).push_front('[');
-        temp_container.at(k).push_back(']');
-        temp_container.at(k).push_back('\n');
         k++;
         if(!data.at(i).name_comment.is_empty())
         {
@@ -169,30 +169,155 @@ void CIni::write_file_inner()
         }
         temp.clear();
         //unsigned size = data.at(i).key_value.size();
-        for (unsigned j = 1; j < data.at(i).key_value.size() + 1; j++)
+        unsigned j = 1;
+        CString node;
+        unsigned count = 0;
+        node = j;
+        while(count != data.at(i).key_value.size())
         {
-            temp_container.push_back(temp);
-            CString number;
-            number = j;
-            temp_container.at(k).push_back(number);
-            temp_container.at(k).push_back(" = ");
-            CString node;
-            node = j;
-            //unsigned size = data.at(i).key_value.getValue(node).size();
-            for(unsigned l = 0; l < data.at(i).key_value.getValue(node).size(); l++)
+            if(data.at(i).key_value.search(node))
             {
-                temp_container.at(k).push_back(data.at(i).key_value.getValue(node).at(l).data());
-                temp_container.at(k).push_back(", ");
+                temp_container.push_back(temp);
+                temp_container.at(k).push_back(node);
+                temp_container.at(k).push_back(" = ");
+                for(unsigned l = 0; l < data.at(i).key_value.getValue(node).size(); l++)
+                {
+                    temp_container.at(k).push_back(data.at(i).key_value.getValue(node).at(l).data());
+                    temp_container.at(k).push_back(", ");
+                }
+                temp_container.at(k).pop_back();
+                temp_container.at(k).pop_back();
+                temp_container.at(k).push_back('\n');
+                count++;
+                k++;
             }
-            temp_container.at(k).pop_back();
-            temp_container.at(k).pop_back();
-            temp_container.at(k).push_back('\n');
-            k++;
+            j++;
+            node = j;
             temp.clear();
         }
-        temp_container.push_back(temp);
-        k++;
-        temp_container.at(k).push_back('\n');
     }
 }
+
+void CIni::change_name_section(CString &old_name, CString &new_name)
+{
+    for(unsigned i = 0; i < data.size(); i++)
+    {
+        if(old_name == data.at(i).name_section)
+        {
+            data.at(i).name_section = new_name;
+        }
+    }
+}
+
+void CIni::show_all()
+{
+    for(unsigned i = 0; i < data.size(); i++)
+    {
+        CString node;
+        cout << data.at(i).name_section.data() << endl;
+        if(!data.at(i).name_comment.is_empty())
+        {
+            for(unsigned j = 0; j < data.at(i).name_comment.size(); j++)
+            {
+                cout << data.at(i).name_comment.at(j).data() << ' ';
+            }
+            cout << endl;
+        }
+        unsigned k = 1;
+        unsigned count = 0;
+        node = k;
+        while (count != data.at(i).key_value.size())
+        {
+            if(data.at(i).key_value.search(node))
+            {
+                cout << k << " = ";
+                for(unsigned l = 0; l < data.at(i).key_value.getValue(node).size(); l++)
+                {
+                    cout << data.at(i).key_value.getValue(node).at(l).data() << ' ';
+                }
+                cout << endl;
+                count++;
+            }
+            node.clear();
+            k++;
+            node = k;
+        }
+    }
+}
+
+void CIni::delete_value(CString &name_section, CString &key)
+{
+    for(unsigned i = 0; i < data.size(); i++)
+    {
+        if(name_section == data.at(i).name_section)
+        {
+            if(data.at(i).key_value.search(key))
+            {
+                data.at(i).key_value.delete_key(key);
+            }
+        }
+    }
+}
+
+void CIni::change_value(CString &name_section, CString &key, CVector<CString> &value)
+{
+    for(unsigned i = 0; i < data.size(); i++)
+    {
+        if(name_section == data.at(i).name_section)
+        {
+            if(data.at(i).key_value.search(key))
+            {
+                data.at(i).key_value.delete_key(key);
+                data.at(i).key_value.add_pair(key, value);
+            }
+        }
+    }
+}
+
+void CIni::add_value(CString &name_section, CString &key, CVector<CString> &value)
+{
+    for(unsigned i = 0; i < data.size(); i++)
+    {
+        if(name_section == data.at(i).name_section)
+        {
+            data.at(i).key_value.add_pair(key, value);
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
