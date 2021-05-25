@@ -125,7 +125,7 @@ public:
      */
     void add_value(CString &name_section, CString &key, CVector<CString> &value);
     /*!
-     * \brief add_value          - добавляет значение CString в CVector, указанный по ключу
+     * \brief add_value          - добавляет значение CString в CVector, по указанному ключу
      * \param name_section       - секция в которую добавляем
      * \param key                - ключ для добавления
      * \param value              - значение для добавления
