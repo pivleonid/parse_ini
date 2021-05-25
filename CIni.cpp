@@ -259,6 +259,25 @@ void CIni::delete_value(CString &name_section, CString &key)
     }
 }
 
+void CIni::delete_value(CString &name_section, CString &key, unsigned n)
+{
+    for(unsigned i = 0; i < data.size(); i++)
+    {
+        if(name_section == data.at(i).name_section)
+        {
+            if(data.at(i).key_value.search(key))
+            {
+                CVector<CString> temp;
+                temp = data.at(i).key_value.getValue(key);
+                data.at(i).key_value.delete_key(key);
+
+                temp.erase(n);
+                data.at(i).key_value.add_pair(key, temp);
+            }
+        }
+    }
+}
+
 void CIni::change_value(CString &name_section, CString &key, CVector<CString> &value)
 {
     for(unsigned i = 0; i < data.size(); i++)
@@ -274,6 +293,22 @@ void CIni::change_value(CString &name_section, CString &key, CVector<CString> &v
     }
 }
 
+void CIni::change_value(CString &name_section, CString &key, CString &value, unsigned n)
+{
+    for(unsigned i = 0; i < data.size(); i++)
+    {
+        if(name_section == data.at(i).name_section)
+        {
+            CVector<CString> temp;
+            temp = data.at(i).key_value.getValue(key);
+            data.at(i).key_value.delete_key(key);
+
+            temp.at(n) = value;
+            data.at(i).key_value.add_pair(key, temp);
+        }
+    }
+}
+
 void CIni::add_value(CString &name_section, CString &key, CVector<CString> &value)
 {
     for(unsigned i = 0; i < data.size(); i++)
@@ -285,7 +320,21 @@ void CIni::add_value(CString &name_section, CString &key, CVector<CString> &valu
     }
 }
 
+void CIni::add_value(CString &name_section, CString &key, CString &value)
+{
+    for(unsigned i = 0; i < data.size(); i++)
+    {
+        if(name_section == data.at(i).name_section)
+        {
+            CVector<CString> temp;
+            temp = data.at(i).key_value.getValue(key);
+            data.at(i).key_value.delete_key(key);
 
+            temp.push_back(value);
+            data.at(i).key_value.add_pair(key, temp);
+        }
+    }
+}
 
 
 

@@ -504,7 +504,7 @@ CVector <A>& CVector<A>::erase(unsigned n)
         {
             throw 1;
         }
-        if(n > int(m_count) - 1)
+        if(int(n) > int(m_count) - 1)
         {
             throw 1.0;
         }

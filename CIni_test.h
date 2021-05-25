@@ -67,7 +67,9 @@ TEST(test057, test_CIni_delete_value)
     CString key1 = 3;
     CString key2 = 4;
     CString key3 = 23;
+    CString key4 = 11;
     ini.delete_value(section1, key1);
+    ini.delete_value(section1, key4, 1);
     ini.delete_value(section2, key2);
     ini.delete_value(section2, key3);
     ini.write_file("C:\\FilesC++\\test\\parse_ini\\file4.ini");
@@ -82,17 +84,20 @@ TEST(test058, test_CIni_change_value)
 
     CString section1 = "Numbers";
     CString key1 = 14;
+    CString key2 = 11;
     CString num1 = 65;
+    CString num2 = 80;
     CVector<CString> vec1;
     vec1.push_back(num1);
     ini.change_value(section1, key1, vec1);
+    ini.change_value(section1, key2, num2, 1);
 
     CString section2 = "Strings";
-    CString key2 = 20;
+    CString key3 = 20;
     CString str1 = "HZ";
     CVector<CString> vec2;
     vec2.push_back(str1);
-    ini.change_value(section2, key2, vec2);
+    ini.change_value(section2, key3, vec2);
     ini.write_file("C:\\FilesC++\\test\\parse_ini\\file4.ini");
     //ini.show_all();
     cout << "//-------------------------//" <<endl;
@@ -104,16 +109,19 @@ TEST(test059, test_CIni_add_value)
     ini.read_file("C:\\FilesC++\\test\\parse_ini\\file3.ini");
     CString section = "Numbers";
     CString key = 15;
+    CString key1 = 11;
     CVector<CString> vec;
     CString num1 = 90;
     CString num2 = 79;
     CString num3 = 35;
     CString num4 = 40;
+    CString num5 = 34;
     vec.push_back(num1);
     vec.push_back(num2);
     vec.push_back(num3);
     vec.push_back(num4);
     ini.add_value(section, key, vec);
+    ini.add_value(section, key1, num5);
     ini.write_file("C:\\FilesC++\\test\\parse_ini\\file4.ini");
     //ini.show_all();
     cout << "//-------------------------//" <<endl;
