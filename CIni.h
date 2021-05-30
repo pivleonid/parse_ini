@@ -35,28 +35,28 @@ class CIni
 {
 private:
     /*!
-     * \brief file_path - путь к ini-файлу
+     * \brief m_file_path - путь к ini-файлу
      */
-    const char *file_path;
+    const char *m_file_path;
 
     /*!
-     * \brief data           - объект CVector для хранения обработанных данных
+     * \brief m_data           - объект CVector для хранения обработанных данных
                                ini-файла
      */
-    CVector<Content_of_section> data;
+    CVector<Content_of_section> m_data;
     /*!
-     * \brief temp_container - объект CVector для хранения необработанных данных
+     * \briefm_temp_container - объект CVector для хранения необработанных данных
                                ini-файла
      */
-    CVector<CString> temp_container;
+    CVector<CString>m_temp_container;
 
     /*!
-     * \brief analyze_file   - функция для анализа содержимого temp_container
+     * \brief analyze_file   - функция для анализа содержимогоm_temp_container
      */
     void analyze_file();
 
     /*!
-     * \brief write_file_inner - запись данных из data обратно в temp_container
+     * \brief write_file_inner - запись данных из m_data обратно вm_temp_container
                                  чтобы их записать в пустой ini-файл
      */
     void write_file_inner();
@@ -65,15 +65,15 @@ public:
 
     /*!
      * \brief read_file - чтение данных из ini-файл
-     * \param file_path - путь к ini-файлу
+     * \param m_file_path - путь к ini-файлу
      */
-    void read_file(const char *file_path);
+    void read_file(const char *m_file_path);
 
     /*!
      * \brief write_file - запись данных в пустой ini-файл
-     * \param file_path  - путь к пустому ini-файлу
+     * \param m_file_path  - путь к пустому ini-файлу
      */
-    void write_file(const char *file_path);
+    void write_file(const char *m_file_path);
 
     /*!
      * \brief change_m_name_section - поменять название секции
