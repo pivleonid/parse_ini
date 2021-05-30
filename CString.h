@@ -40,8 +40,8 @@ public:
     char& front();
 
     /*!
-     * \brief back - возвращает предпоследний элемент m_word
-     * \return     - ссылка на предпоследний элемент m_word
+     * \brief back - возвращает последний элемент m_word
+     * \return     - ссылка на последний элемент m_word
      */
     char& back();
 

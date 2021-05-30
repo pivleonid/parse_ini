@@ -90,11 +90,11 @@ public:
     void delete_value(CString &m_name_section, CString &key);
     /*!
      * \brief delete_value        - удалить значение под номером n в CVector
-     * \param m_name_section        - секция в которой удаляем
+     * \param m_name_section      - секция в которой удаляем
      * \param key                 - ключ по которому удаляем
-     * \param n                   - номер в CVector для удаления
+     * \param value               - значение в CVector для удаления
      */
-    void delete_value(CString &m_name_section, CString &key, unsigned n);
+    void delete_value(CString &m_name_section, CString &key, CString &value);
 
     /*!
      * \brief show_all            - демонстрация содержимого всего ini-файла
@@ -109,13 +109,13 @@ public:
      */
     void change_value(CString &m_name_section, CString &key, CVector<CString> &value);
     /*!
-     * \brief change_value         - меняет значение под номером n в CVector, по указанному ключу
-     * \param m_name_section       - секция в которой меняем значение
-     * \param key                - ключ для поиска значения
-     * \param value              - значение для замены
-     * \param n                  - номер значения в CVector для замены
+     * \brief change_value               - меняет значение под номером n в CVector, по указанному ключу
+     * \param m_name_section             - секция в которой меняем значение
+     * \param key                        - ключ для поиска значения
+     * \param new_value                  - значение для замены
+     * \param old_value                  - номер значения в CVector для замены
      */
-    void change_value(CString &m_name_section, CString &key, CString &value, unsigned n);
+    void change_value(CString &m_name_section, CString &key, CString &new_value, CString &old_value);
 
     /*!
      * \brief add_value             - добавляет значение которого нет в секции

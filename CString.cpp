@@ -119,17 +119,20 @@ char &CString::at(int n)
     {
         if(n < 0)
         {
-            throw "The value can't be negative.";
+            throw 1;
         }
         else if(n > int(m_size) - 2)
         {
-            throw "The value can't more than size of m_word.";
+            throw 1.0;
         }
     }
-    catch(const char *a)
+    catch(int a)
     {
-        cerr << a << endl;
-        cerr << "Enter the number from 0 " << "to " << m_size - 2 << " ." << endl;
+        return m_word[m_size - 1];
+    }
+    catch(double)
+    {
+        return m_word[m_size - 1];
     }
     return m_word[n];
 }
@@ -145,12 +148,12 @@ char &CString::back()
     {
         if(m_size == 1 && m_word[0] == empty_str)
         {
-            throw "The massive shouldn't be empty.";
+            throw 1;
         }
     }
-    catch (const char *a)
+    catch (int a)
     {
-        cerr << a << endl;
+        return m_word[m_size - 1];
     }
     return m_word[m_size - 2];
 }
@@ -170,7 +173,7 @@ bool CString::empty()
     return empty;
 }
 
-CString& CString::erase(char s)
+CString & CString::erase(char s)
 {
     int count = 0; //для подсчёта сколько раз символ встречается в строке
     for(unsigned i = 0; i < m_size - 1; i++)
@@ -712,19 +715,18 @@ unsigned CString::find(char s)
     {
         if(find == false)
         {
-            throw "This string doesn't contain the symbol with that number.";
+            throw 1;
         }
     }
-    catch (const char *a)
+    catch (int a)
     {
-        cout << a << endl;
-        cout << "Enter the symbol from \'" << MIN << "\' to \'" << MAX << "\'."<< endl;
+        return 0;
     }
     //если совпадений несколько, то вывести сколько раз
-    if(count > 1)
+    /*if(count > 1)
     {
         cout << "From the position number " << number << " the string contains \'" << s << "\' " << count << " of times." << endl;
-    }
+    }*/
 
     return number;
 }
@@ -792,16 +794,15 @@ unsigned CString::find(const CString &str)
     {
         if(find == false)
         {
-            throw "This phrase doesn't contain that string.";
+            throw 0;
         }
     }
-    catch (const char *a)
+    catch (int a)
     {
-        cout << a << endl;
-        cout << "Enter the correct string for search." << endl;
+        return 0;
     }
     //если совпадений несколько вывести, то сколько раз
-    if(n_word > 1)
+    /*if(n_word > 1)
     {
         cout << "From the symbol number " << number << " the string contains word \'";
         for(unsigned i = 0; i < str.m_size - 1; i++)
@@ -809,7 +810,7 @@ unsigned CString::find(const CString &str)
             cout << str.m_word[i];
         }
         cout << "\' " << n_word << " times." << endl;
-    }
+    }*/
     return number;
 }
 
@@ -849,20 +850,19 @@ unsigned CString::rfind(char s)
     {
         if(rfind == false)
         {
-            throw "This string doesn't contain the symbol with that number.";
+            throw 0;
         }
     }
-    catch (const char *a)
+    catch (int a)
     {
-        cout << a << endl;
-        cout << "Enter the symbol from \'" << MIN << "\' to \'" << MAX << "\'."<< endl;
+        return 0;
     }
 
     //если совпадений несколько, то вывести сколько раз
-    if(count > 1)
+    /*if(count > 1)
     {
         cout << "From the position number " << number << " the string contains \'" << s << "\' " << count << " of times." << endl;
-    }
+    }*/
 
     return number;
 }
@@ -933,16 +933,15 @@ unsigned CString::rfind(const CString &str)
     {
         if(rfind == false)
         {
-            throw "This phrase doesn't contain that string.";
+            throw 0;
         }
     }
-    catch (const char *a)
+    catch (int a)
     {
-        cout << a << endl;
-        cout << "Enter the correct string for search." << endl;
+        return 0;
     }
     //если совпадений несколько, то вывести сколько раз
-    if(n_word > 1)
+    /*if(n_word > 1)
     {
         cout << "From the symbol number " << number << " the string contains word \'";
         for(unsigned i = 0; i < str.m_size - 1; i++)
@@ -950,7 +949,7 @@ unsigned CString::rfind(const CString &str)
             cout << str.m_word[i];
         }
         cout << "\' " << n_word << " times." << endl;
-    }
+    }*/
 
     return number;
 }
@@ -968,7 +967,7 @@ int CString::stoi()
 
     //временный массив для перевода из char в int
     unsigned new_m_size = m_size - 1;
-    int *temp =new int[new_m_size];
+    int *temp = new int[new_m_size];
     if(m_word[0] == '0')
     {
         f_zero = true;
@@ -985,19 +984,10 @@ int CString::stoi()
             //предпреждение если в строке не число типа int
             else
             {
-                try
-                {
-                    throw "You enter incorrect number.";
-                }
-                catch (const char *a)
-                {
-                    cout << a << endl;
-                    cout << "Enter the correct number!" << endl;
-                    count = 0;
-                    break;
-                }
-
+                count = 0;
+                break;
             }
+
         }
     }
     if(count > 0)
@@ -1014,6 +1004,17 @@ int CString::stoi()
         {
             number += temp[i] * int(pow(10, rate - k));
         }
+    }
+    try
+    {
+        if(count == 0)
+        {
+            throw 0;
+        }
+    }
+    catch (int a)
+    {
+        return a;
     }
     delete [] temp;
     return number;
@@ -1105,13 +1106,12 @@ double CString::stof()
     {
         if(good == false)
         {
-            throw "You enter incorrect number.";
+            throw 0;
         }
     }
-    catch (const char *a)
+    catch (int a)
     {
-        cout << a << endl;
-        cout << "Enter the correct number." << endl;
+        return a;
     }
     delete [] temp;
     return number1;
@@ -1158,17 +1158,8 @@ int CString::stoi(const CString &str)
             //если массив не корректен выводим предупреждение
             else
             {
-                try
-                {
-                    throw "You enter incorrect number.";
-                }
-                catch (const char *a)
-                {
-                    cout << a << endl;
-                    cout << "Enter the correct number!" << endl;
-                    count = 0;
-                    break;
-                }
+                count = 0;
+                break;
             }
 
         }
@@ -1188,6 +1179,17 @@ int CString::stoi(const CString &str)
             number += temp[i] * int(pow(10, rate - k));
             k++;
         }
+    }
+    try
+    {
+        if(count == 0)
+        {
+            throw 0;
+        }
+    }
+    catch (int a)
+    {
+        return a;
     }
     delete [] temp;
     return number;
@@ -1284,13 +1286,12 @@ double CString::stof(const CString &str)
     {
         if(good == false)
         {
-            throw "You enter incorrect string.";
+            throw 0;
         }
     }
-    catch (const char *a)
+    catch (int a)
     {
-        cout << a << endl;
-        cout << "Enter the correct string." << endl;
+        return a;
     }
     delete [] temp;
     return number1;
@@ -1512,22 +1513,6 @@ bool CString::operator==(const CString &str)
 
 char &CString::operator[](int n)
 {
-    try
-    {
-        if(n < 0)
-        {
-            throw "The value can't be negative.";
-        }
-        else if(n > int(m_size) - 2)
-        {
-            throw "The value can't more than size of m_word.";
-        }
-    }
-    catch(const char *a)
-    {
-        cerr << a << endl;
-        cerr << "Enter the number from 0 " << "to " << m_size - 2 << " ." << endl;
-    }
     return m_word[n];
 }
 

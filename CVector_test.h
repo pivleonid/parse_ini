@@ -61,12 +61,18 @@ TEST(test032, test_CVector_resize)
     vec.push_back(b);
     vec.push_back(d);
     vec.push_back(f);
-    vec.resize(3);
-    vec.resize(3);
-    vec.resize(-1);
-    vec.resize(5);
+    unsigned res = vec.resize(3);
+    ASSERT_EQ(res, vec.size());
+
+    res = vec.resize(-1);
+    unsigned num = 0;
+    ASSERT_EQ(num, res);
+    res = vec.resize(5);
+    ASSERT_EQ(num, res);
+
     CString g("empty");
-    vec.resize(5, g);
+    res = vec.resize(5, g);
+    ASSERT_EQ(res, vec.size());
 }
 
 TEST(test033, test_CVector_push_front)
@@ -82,6 +88,11 @@ TEST(test033, test_CVector_push_front)
     vec.push_back(f);
     CString g("New");
     vec.push_front(g);
+    for(unsigned  i = 0; i < vec.size(); i++)
+    {
+        cout << vec.at(i).data() <<endl;
+    }
+    cout << "//-------------------------//" <<endl;
 }
 
 TEST(test034, test_CVector_empty)
@@ -89,12 +100,12 @@ TEST(test034, test_CVector_empty)
     CVector<CString> vec;
     bool res;
     res = vec.is_empty();
-    ASSERT_EQ(1, res);
+    ASSERT_TRUE(res);
 
     CString b = "dhdhdh";
     vec.push_back(b);
     res = vec.is_empty();
-    ASSERT_EQ(0, res);
+    ASSERT_FALSE(res);
 }
 
 TEST(test035, test_CVector_at)
@@ -113,8 +124,13 @@ TEST(test035, test_CVector_at)
 
     CString h = vec.at(1);
     ASSERT_TRUE(b == h);
-    vec.at(-10);
-    vec.at(100);
+
+    CString j;
+    CString k = vec.at(-10);
+    ASSERT_TRUE(k == j);
+
+    CString l = vec.at(100);
+    ASSERT_TRUE(l == j);
 
     vec.at(2) = g;
     ASSERT_TRUE(vec.at(2) == g);
@@ -145,9 +161,12 @@ TEST(test035, test_CVector_front_and_back)
     ASSERT_TRUE(h == g);
 
     CVector<CString> vec1;
-    vec1.front();
-    vec1.back();
-    cout << "//-------------------------//" <<endl;
+    CString j;
+    CString k = vec1.front();
+    ASSERT_TRUE(k == j);
+
+    CString p = vec1.back();
+    ASSERT_TRUE(p == j);
 }
 
 TEST(test036, test_CVector_pop_front_and_back)
@@ -431,12 +450,15 @@ TEST(test038, test_CVector_find_rfind)
     CString h("Theory");
     unsigned res  = vec.find(h);
     unsigned res1 = 2;
-    ASSERT_EQ(res, res1);
+    ASSERT_EQ(res1, res);
+
     res = vec.rfind(h);
     ASSERT_EQ(res1, res);
 
     CString l("Net");
-    vec.find(l);
+    res = vec.find(l);
+    res1 = 0;
+    ASSERT_EQ(res1, res);
 }
 
 TEST(test039, test_CVector_sorting)
@@ -575,8 +597,6 @@ TEST(test043, test_CVector_operator_square_bracket)
 
     CString h = vec[1];
     ASSERT_TRUE(b == h);
-    vec[-10];
-    vec[100];
 
     vec[2] = g;
     ASSERT_TRUE(vec[2] == g);
@@ -601,7 +621,7 @@ TEST(test044, test_CVector_operator_equal_unequal)
     vec1.push_back(b);
     vec1.push_back(d);
     bool res = (vec == vec1);
-    ASSERT_EQ(1, res);
+    ASSERT_TRUE(res);
 
     CString h("Big");
     CString l("Bang");
@@ -611,9 +631,9 @@ TEST(test044, test_CVector_operator_equal_unequal)
     vec2.push_back(l);
     vec2.push_back(m);
     res = (vec == vec2);
-    ASSERT_EQ(0, res);
+    ASSERT_FALSE(res);
     res = (vec != vec2);
-    ASSERT_EQ(1, res);
+    ASSERT_TRUE(res);
 
     CString j("Big");
     CString p("Bang");
@@ -623,7 +643,7 @@ TEST(test044, test_CVector_operator_equal_unequal)
     vec3.push_back(p);
     vec3.push_back(i);
     res = (vec3 != vec2);
-    ASSERT_EQ(0, res);
+    ASSERT_FALSE(res);
 }
 
 TEST(test045, test_CVector_operator_less_or_eq)
@@ -640,14 +660,14 @@ TEST(test045, test_CVector_operator_less_or_eq)
     vec1.push_back(a);
     vec1.push_back(b);
     bool res = (vec1 <= vec);
-    ASSERT_EQ(1, res);
+    ASSERT_TRUE(res);
 
     CVector<CString> vec2;
     vec2.push_back(a);
     vec2.push_back(b);
     vec2.push_back(d);
     res = (vec2 <= vec);
-    ASSERT_EQ(1, res);
+    ASSERT_TRUE(res);
 
     CString f("New");
     CVector<CString> vec3;
@@ -656,7 +676,7 @@ TEST(test045, test_CVector_operator_less_or_eq)
     vec3.push_back(d);
     vec3.push_back(f);
     res = (vec3 <= vec);
-    ASSERT_EQ(0, res);
+    ASSERT_FALSE(res);
 }
 
 TEST(test046, test_CVector_operator_more_or_eq)
@@ -673,14 +693,14 @@ TEST(test046, test_CVector_operator_more_or_eq)
     vec1.push_back(a);
     vec1.push_back(b);
     bool res = (vec >= vec1);
-    ASSERT_EQ(1, res);
+    ASSERT_TRUE(res);
 
     CVector<CString> vec2;
     vec2.push_back(a);
     vec2.push_back(b);
     vec2.push_back(d);
-    res = (vec >= vec1);
-    ASSERT_EQ(1, res);
+    res = (vec >= vec2);
+    ASSERT_TRUE(res);
 
     CString f("New");
     CVector<CString> vec3;
@@ -689,7 +709,7 @@ TEST(test046, test_CVector_operator_more_or_eq)
     vec3.push_back(d);
     vec3.push_back(f);
     res = (vec >= vec3);
-    ASSERT_EQ(0, res);
+    ASSERT_FALSE(res);
 }
 
 TEST(test047, test_CVector_operator_less)
@@ -707,9 +727,9 @@ TEST(test047, test_CVector_operator_less)
     vec1.push_back(b);
     vec1.push_back(d);
     bool res = (vec < vec1);
-    ASSERT_EQ(1, res);
+    ASSERT_TRUE(res);
     res = (vec1 < vec);
-    ASSERT_EQ(0, res);
+    ASSERT_FALSE(res);
 
     CString h("Theorz");
     CVector<CString> vec2;
@@ -717,7 +737,7 @@ TEST(test047, test_CVector_operator_less)
     vec2.push_back(b);
     vec2.push_back(h);
     res = (vec1 < vec2);
-    ASSERT_EQ(1, res);
+    ASSERT_TRUE(res);
 }
 
 TEST(test048, test_CVector_operator_more)
@@ -734,10 +754,11 @@ TEST(test048, test_CVector_operator_more)
     vec1.push_back(a);
     vec1.push_back(b);
     vec1.push_back(d);
+
     bool res = (vec1 > vec);
-    ASSERT_EQ(1, res);
+    ASSERT_TRUE(res);
     res = (vec > vec1);
-    ASSERT_EQ(0, res);
+    ASSERT_FALSE(res);
 
     CString h("Theorz");
     CVector<CString> vec2;
@@ -745,7 +766,7 @@ TEST(test048, test_CVector_operator_more)
     vec2.push_back(b);
     vec2.push_back(h);
     res = (vec2 > vec1);
-    ASSERT_EQ(1, res);
+    ASSERT_TRUE(res);
 }
 
 #endif // CVECTOR_TEST_H

@@ -143,14 +143,14 @@ public:
      * \param str   - искомый объект
      * \return      - порядковый номер объекта в CVector в первом вхождении
      */
-    int find(A &obj);
+    unsigned find(A &obj);
 
     /*!
      * \brief rfind - поиск объекта типа А
      * \param str   - искомый объект
      * \return      - порядковый номер объекта в CVector в первом вхождении
      */
-    int rfind(A &str);
+    unsigned rfind(A &str);
 
     /*!
      * \brief sorting
@@ -236,21 +236,20 @@ unsigned CVector<A>::resize(int n)
     {
         if(n < 0)
         {
-            throw "You enter the incorrect number";
+            throw 1.0;
         }
         else if(n > int(m_count))
         {
             throw 1;
         }
     }
-    catch (const char *a)
+    catch (double a)
     {
-        cout << a << endl;
-        cout << "Enter the correct number" << endl;
+        return 0;
     }
     catch(int a)
     {
-        cout << "Enter the default value." << endl;
+        return 0;
     }
     if(n >= 0)
     {
@@ -380,17 +379,20 @@ A & CVector<A>::at(int n)
     {
         if(n < 0)
         {
-            throw "The value can't be negative.";
+            throw 1;
         }
         else if(n > int(m_count) - 1)
         {
-            throw "The value can't more than number's elements of CVector.";
+            throw 1.0;
         }
     }
-    catch(const char *a)
+    catch(int a)
     {
-        cerr << a << endl;
-        cerr << "Enter the number from 0 " << "to " << m_count - 1 << " ." << endl;
+        return m_container[m_count];
+    }
+    catch(double a)
+    {
+        return m_container[m_count];
     }
     return m_container[n];
 }
@@ -408,12 +410,12 @@ A & CVector<A>::front()
     {
         if(m_capacity == 1 && m_count == 0)
         {
-            throw "Add the object type A in CVector.";
+            throw 1;
         }
     }
-    catch (const char *a)
+    catch (int a)
     {
-        cout << a << endl;
+        return m_container[m_count];
     }
 
     return m_container[0];
@@ -426,12 +428,12 @@ A & CVector<A>::back()
     {
         if(m_capacity == 1 && m_count == 0)
         {
-            throw "Add the object type A in CVector.";
+            throw 1;
         }
     }
-    catch (const char *a)
+    catch (int a)
     {
-        cout << a << endl;
+        return m_container[m_count];
     }
     return m_container[m_count - 1];
 }
@@ -443,7 +445,7 @@ void CVector<A>::pop_front()
     {
         if(m_capacity == 1 && m_count == 0)
         {
-            throw "Add the object type A in CVector.";
+            throw "0";
         }
     }
     catch (const char *a)
@@ -468,7 +470,7 @@ void CVector<A>::pop_back()
     {
         if(m_capacity == 1 && m_count == 0)
         {
-            throw "Add the object type A in CVector.";
+            throw "0";
         }
     }
     catch (const char *a)
@@ -496,7 +498,7 @@ void CVector<A>::clear()
 }
 
 template <typename A>
-CVector <A>& CVector<A>::erase(unsigned n)
+CVector <A> & CVector<A>::erase(unsigned n)
 {
     try
     {
@@ -511,11 +513,11 @@ CVector <A>& CVector<A>::erase(unsigned n)
     }
     catch (int a)
     {
-        cout << "The first number should be from 0 " << "to " << m_count - 2 << " ." << endl;
+        return *this;
     }
     catch (double a)
     {
-        cout << "The first number should be from 0 " << "to " << m_count - 2 << " ." << endl;
+        return *this;
     }
     unsigned num = unsigned(n);
     unsigned new_m_size = m_count - 1;
@@ -552,11 +554,11 @@ CVector<A> & CVector<A>::erase(int fr, int lt, char f,  char l)
     }
     catch (int a)
     {
-        cout << "The first number should be from 0 " << "to " << m_count - 2 << " ." << endl;
+        return *this;
     }
     catch (double a)
     {
-        cout << "The last number should be from 1 " << "to " << m_count - 1 << " ." << endl;
+        return *this;
     }
     unsigned first = unsigned(fr);
     unsigned last  = unsigned(lt);
@@ -801,7 +803,7 @@ CVector<A> & CVector<A>::erase(int fr, int lt, char f,  char l)
 }
 
 template <typename A>
-int CVector<A>::find(A &value)
+unsigned CVector<A>::find(A &value)
 {
     //номер с которого начинается первое совпадение
     unsigned number = 0;
@@ -835,18 +837,18 @@ int CVector<A>::find(A &value)
     {
         if(find == false)
         {
-            throw "CVector doesn't contain that value";
+            throw 1;
         }
-    } catch (const char *a)
+    }
+    catch (int a)
     {
-        cout << a << endl;
-        cout << "Enter the correct value for search." << endl;
+        return 0;
     }
     return number;
 }
 
 template <typename A>
-int CVector<A>::rfind(A &value)
+unsigned CVector<A>::rfind(A &value)
 {
     //номер с которого начинается первое совпадение
     unsigned number = 0;
@@ -880,12 +882,12 @@ int CVector<A>::rfind(A &value)
     {
         if(find == false)
         {
-            throw "CVector doesn't contain that value";
+            throw 0;
         }
-    } catch (const char *a)
+    }
+    catch (unsigned a)
     {
-        cout << a << endl;
-        cout << "Enter the correct value for search." << endl;
+        return 0;
     }
     return number;
 }
@@ -1089,22 +1091,6 @@ CVector<A> & CVector<A>::operator+(const A &str)
 template <typename A>
 A & CVector<A>::operator[](int n)
 {
-    try
-    {
-        if(n < 0)
-        {
-            throw "The value can't be negative.";
-        }
-        else if(n > int(m_count) - 1)
-        {
-            throw "The value can't more than number's elements of CVector.";
-        }
-    }
-    catch(const char *a)
-    {
-        cerr << a << endl;
-        cerr << "Enter the number from 0 " << "to " << m_count - 1 << " ." << endl;
-    }
     return m_container[n];
 }
 
@@ -1229,21 +1215,27 @@ bool CVector<A>::operator>(const CVector &vct)
     }
     else if(m_count == vct.m_count)
     {
+        A sum0 = 0;
+        A sum1 = 0;
         for(unsigned i = 0; i < m_count; i++)
         {
-            if(m_container[i] < vct.m_container[i])
-            {
-                more = false;
-                break;
-            }
-            else if(m_container[i] == vct.m_container[i])
-            {
-                continue;
-            }
-            else
-            {
-                more = true;
-            }
+            sum0 += m_container[i];
+        }
+        for(unsigned i = 0; i < m_count; i++)
+        {
+            sum1 += vct.m_container[i];
+        }
+        if(sum0 > sum1)
+        {
+            more = true;
+        }
+        else if(sum0 == sum1)
+        {
+            more = true;
+        }
+        else
+        {
+            more = false;
         }
     }
     return more;
@@ -1259,22 +1251,27 @@ bool CVector<A>::operator<(const CVector &vct)
     }
     else if(m_count == vct.m_count)
     {
+        A sum0 = 0;
+        A sum1 = 0;
         for(unsigned i = 0; i < m_count; i++)
         {
-            if(m_container[i] > vct.m_container[i])
-            {
-                less = false;
-                break;
-            }
-
-            else if(m_container[i] == vct.m_container[i])
-            {
-                continue;
-            }
-            else
-            {
-                less = true;
-            }
+            sum0 += m_container[i];
+        }
+        for(unsigned i = 0; i < m_count; i++)
+        {
+            sum1 += vct.m_container[i];
+        }
+        if(sum0 < sum1)
+        {
+            less = true;
+        }
+        else if(sum0 == sum1)
+        {
+            less = true;
+        }
+        else
+        {
+            less = false;
         }
     }
     return less;

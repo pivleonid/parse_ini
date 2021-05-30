@@ -264,7 +264,7 @@ void CIni::delete_value(CString &m_name_section, CString &key)
     }
 }
 
-void CIni::delete_value(CString &m_name_section, CString &key, unsigned n)
+void CIni::delete_value(CString &m_name_section, CString &key, CString &value)
 {
     for(unsigned i = 0; i < data.size(); i++)
     {
@@ -276,7 +276,13 @@ void CIni::delete_value(CString &m_name_section, CString &key, unsigned n)
                 temp = data.at(i).m_key_value.getValue(key);
                 data.at(i).m_key_value.delete_key(key);
 
-                temp.erase(n);
+                for(unsigned j = 0; j < temp.size(); j++)
+                {
+                    if(value == temp.at(j))
+                    {
+                        temp.erase(j);
+                    }
+                };
                 data.at(i).m_key_value.add_pair(key, temp);
             }
         }
@@ -298,7 +304,7 @@ void CIni::change_value(CString &m_name_section, CString &key, CVector<CString> 
     }
 }
 
-void CIni::change_value(CString &m_name_section, CString &key, CString &value, unsigned n)
+void CIni::change_value(CString &m_name_section, CString &key, CString &old_value, CString &new_value)
 {
     for(unsigned i = 0; i < data.size(); i++)
     {
@@ -308,7 +314,13 @@ void CIni::change_value(CString &m_name_section, CString &key, CString &value, u
             temp = data.at(i).m_key_value.getValue(key);
             data.at(i).m_key_value.delete_key(key);
 
-            temp.at(n) = value;
+            for(unsigned j = 0; j < temp.size(); j++)
+            {
+                if(old_value == temp.at(j))
+                {
+                    temp.at(j) = new_value;
+                }
+            }
             data.at(i).m_key_value.add_pair(key, temp);
         }
     }

@@ -206,7 +206,6 @@ TEST(test050, test_CMap_operator_eq_delete_key)
             continue;
         }
     }
-    cout << "Good";
 }
 
 TEST(test051, test_CMap_CVector)

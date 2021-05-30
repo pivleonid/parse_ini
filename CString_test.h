@@ -10,6 +10,7 @@ TEST(test001, test_CString_Constructor)
     CString d(c);
     CString e(128);
     CString f(0);
+    //хз как тестировать
 }
 
 TEST(test002, test_CString_size)
@@ -27,11 +28,14 @@ TEST(test003, test_CString_at)
     CString a("some");
     char b = a.at(0);
     ASSERT_EQ('s', b);
-    char c = a.at(2);
-    ASSERT_EQ('m', c);
-    a.at(-1);
-    a.at(4);
+    b = a.at(2);
+    ASSERT_EQ('m', b);
+    b = a.at(-1);
+    ASSERT_EQ('\0', b);
+    b = a.at(4);
+    ASSERT_EQ('\0', b);
     a.at(5);
+    ASSERT_EQ('\0', b);
     a.at(2) = 'k';
     CString d("soke");
     ASSERT_TRUE(a == d);
@@ -50,7 +54,8 @@ TEST(test005, test_CString_back)
     char b = a.back();
     ASSERT_EQ('k', b);
     CString c;
-    c.back();
+    b = c.back();
+    ASSERT_EQ('\0', b);
 }
 
 TEST(test006, test_CString_empty)
@@ -74,10 +79,20 @@ TEST(test007, test_CString_operator_eq)
 {
     CString a;
     a = "Worlds";
+    CString b("Worlds");
+    ASSERT_TRUE(b == a);
+
+    CString c("H");
     a = 'H';
+    ASSERT_TRUE(c == a);
+
+    CString d("2558955");
     a = 2558955;
-    CString b;
-    b = a;
+    ASSERT_TRUE(d == a);
+
+    CString f;
+    f = a;
+    ASSERT_TRUE(f == a);
 }
 
 TEST(test008, test_CString_empty)
@@ -200,12 +215,14 @@ TEST(test013, test_CString_erase_symbol)
     CString a("Something new");
     a.erase('g');
     CString b("Somethin new");
-    ASSERT_TRUE(b == a);
+    ASSERT_TRUE(a == b);
+
     CString c("Something new");
-    ASSERT_FALSE(c == a);
+    ASSERT_FALSE(a == c);
+
     c.erase('n');
     CString e("Somethig ew");
-    ASSERT_TRUE(e == c);
+    ASSERT_TRUE(c == e);
 }
 
 TEST(test014, test_CString_push_front)
@@ -213,7 +230,7 @@ TEST(test014, test_CString_push_front)
     CString a("omething new!");
     a.push_front('S');
     CString b("Something new!");
-    ASSERT_TRUE(b == a);
+    ASSERT_TRUE(a == b);
 
     CString c("Year!");
     c.push_front("New ");
@@ -232,7 +249,7 @@ TEST(test015, test_CString_push_back)
     CString a("Something new");
     a.push_back('!');
     CString b("Something new!");
-    ASSERT_TRUE(b == a);
+    ASSERT_TRUE(a == b);
 
     CString c("Brave new ");
     c.push_back("World!");
@@ -259,7 +276,7 @@ TEST(test017, test_CString_pop_back)
     CString a("Good luck!");
     a.pop_back();
     CString b("Good luck");
-    ASSERT_TRUE(b == a);
+    ASSERT_TRUE(a == b);
 }
 
 TEST(test018, test_CString_compare)
@@ -276,49 +293,66 @@ TEST(test018, test_CString_compare)
 TEST(test019, test_CString_find)
 {
     CString a("Lucky Strike!");
-    int num = a.find('S');
-    ASSERT_EQ(6, num);
-    num = a.find('G');
-    ASSERT_EQ(0, num);
-    num = a.find('k');
-    ASSERT_EQ(3, num);
+    unsigned res = a.find('S');
+    unsigned num = 6;
+    ASSERT_EQ(res, num);
+    res = a.find('G');
+    num = 0;
+    ASSERT_EQ(res, num);
+    res = a.find('k');
+    num = 3;
+    ASSERT_EQ(res, num);
 
     CString b("Hell Yeah!");
     CString c("Yeah!");
-    num = b.find(c);
-    ASSERT_EQ(5, num);
+    res = b.find(c);
+    num = 5;
+    ASSERT_EQ(res, num);
 
     CString d("G");
-    num = b.find(d);
-    ASSERT_EQ(0, num);
+    res = b.find(d);
+    num = 0;
+    ASSERT_EQ(res, num);
 
     CString e("Hell Yeah! Yezh! Yeah! Yeah!");
     CString f("Yeah!");
-    num = e.find(f);
-    ASSERT_EQ(5, num);
+    res = e.find(f);
+    num = 5;
+    ASSERT_EQ(res, num);
 
     CString g("Yezh!");
-    num = e.find(g);
-    ASSERT_EQ(11, num);
+    res = e.find(g);
+    num = 11;
+    ASSERT_EQ(res, num);
 }
 
 TEST(test020, test_CString_rfind)
 {
     CString a("Big Bang Theory!");
-    int num = a.rfind('i');
-    ASSERT_EQ(1, num);
-    num = a.rfind('u');
-    ASSERT_EQ(0, num);
-    num = a.rfind('B');
-    ASSERT_EQ(4, num);
+    unsigned res = a.rfind('i');
+    unsigned num = 1;
+    ASSERT_EQ(res, num);
+
+    res = a.rfind('u');
+    num = 0;
+    ASSERT_EQ(res, num);
+
+    res = a.rfind('B');
+    num = 4;
+    ASSERT_EQ(res, num);
 
     CString b("Il buono, il brutto, il cattivo");
-    num = b.rfind("brutto");
-    ASSERT_EQ(18, num);
-    num = b.rfind("hz");
-    ASSERT_EQ(0, num);
-    num = b.rfind("il");
-    ASSERT_EQ(22, num);
+    res = b.rfind("brutto");
+    num = 18;
+    ASSERT_EQ(res, num);
+
+    res = b.rfind("hz");
+    num = 0;
+    ASSERT_EQ(res, num);
+
+    res = b.rfind("il");
+    num = 22;
+    ASSERT_EQ(res, num);
 
 }
 
@@ -326,7 +360,7 @@ TEST(test021, test_CString_stoi)
 {
     CString a = "1234";
     int res = a.stoi();
-    ASSERT_TRUE(1234 == res);
+    ASSERT_EQ(1234, res);
 
     a = "123,6";
     res = a.stoi();
@@ -343,7 +377,7 @@ TEST(test021, test_CString_stoi)
     CString b;
     CString c = "12345";
     res = b.stoi(c);
-    ASSERT_TRUE(12345 == res);
+    ASSERT_EQ(12345, res);
 
     c = "123,6";
     res = b.stoi(c);
@@ -363,32 +397,32 @@ TEST(test022, test_CString_stof)
 {
     CString a = "123,4";
     double res = a.stof();
-    ASSERT_TRUE(123.4 == res);
+    ASSERT_EQ(123.4, res);
 
     a = "12.3,4";
     res = a.stof();
-    ASSERT_TRUE(0 == res);
+    ASSERT_EQ(0, res);
 
     a = "a123,4";
     res = a.stof();
-    ASSERT_TRUE(0 == res);
+    ASSERT_EQ(0, res);
 
     a = "1234";
     res = a.stof();
-    ASSERT_TRUE(0 == res);
+    ASSERT_EQ(0, res);
 
     CString b;
     CString c = "123,45";
     res = b.stof(c);
-    ASSERT_TRUE(123.45 == res);
+    ASSERT_EQ(123.45, res);
 
     c = "12.3,4";
     res = b.stof(c);
-    ASSERT_TRUE(0 == res);
+    ASSERT_EQ(0, res);
 
     c = "a123,4";
     res = b.stof(c);
-    ASSERT_TRUE(0 == res);
+    ASSERT_EQ(0, res);
 }
 
 TEST(test023, test_CString_to_string)
@@ -406,9 +440,6 @@ TEST(test024, test_CString_operator_square_bracket)
     ASSERT_EQ('s', b);
     char c = a[2];
     ASSERT_EQ('m', c);
-    a[-1];
-    a[4];
-    a[5];
     a[2] = 'k';
     CString d("soke");
     ASSERT_TRUE(a == d);
@@ -452,54 +483,69 @@ TEST(test027, test_CString_operator_equal)
 {
     CString a("MoDern");
     CString b("MoBern");
-    int res = (a != b);
-    ASSERT_EQ(1, res);
     CString c("MoDern");
+    bool res = (a != b);
+    ASSERT_TRUE(res);
+
     res = (a == c);
-    ASSERT_EQ(1, res);
+    ASSERT_TRUE(res);
+
+    res = (a != c);
+    ASSERT_FALSE(res);
+
+    res = (a == b);
+    ASSERT_FALSE(res);
 }
 
 TEST(test028, test_CString_operator_unequal)
 {
     CString a("Big");
     CString b("Bigger");
-    int res = (b >= a);
-    ASSERT_EQ(1, res);
+    bool res = (b >= a);
+    ASSERT_TRUE(res);
+
     res = (a <= b);
-    ASSERT_EQ(1, res);
+    ASSERT_TRUE(res);
+
     CString c("Bigger");
     res = (b >= c);
-    ASSERT_EQ(1, res);
+    ASSERT_TRUE(res);
 }
 
 TEST(test029, test_CString_operator_more)
 {
     CString a("A");
     CString b("B");
-    ASSERT_TRUE(b > a);
+    bool res = (b > a);
+    ASSERT_TRUE(res);
 
     a = "AB";
     b = "AD";
-    ASSERT_TRUE(b > a);
+    res = (b > a);
+    ASSERT_TRUE(res);
 
     a = "ABC";
     b = "AB";
-    ASSERT_TRUE(a > b);
+    res = (a > b);
+    ASSERT_TRUE(res);
 }
 
 TEST(test030, test_CString_operator_less)
 {
     CString a("A");
     CString b("B");
-    ASSERT_TRUE(a < b);
+    bool res = (a < b);
+    ASSERT_TRUE(res);
 
     a = "AB";
     b = "AD";
-    ASSERT_TRUE(a < b);
+    res = (a < b);
+    ASSERT_TRUE(res);
 
     a = "ABC";
     b = "AB";
-    ASSERT_TRUE(b < a);
+    res = (b < a);
+    ASSERT_TRUE(res);
 }
 
 #endif // CSTRING_TEST_H
