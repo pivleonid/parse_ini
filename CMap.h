@@ -390,7 +390,7 @@ void CMap<A, B>::delete_key(const A &key)
             }
             else if(parent->right == deletable)
             {
-                parent->right = deletable->right;
+                parent->right = deletable->left;
             }
             delete deletable;
         }
@@ -399,7 +399,7 @@ void CMap<A, B>::delete_key(const A &key)
         {
             if(parent->left == deletable)
             {
-                parent->left = deletable->left;
+                parent->left = deletable->right;
             }
             else if(parent->right == deletable)
             {

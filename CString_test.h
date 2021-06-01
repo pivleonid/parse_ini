@@ -5,12 +5,27 @@
 TEST(test001, test_CString_Constructor)
 {
     CString a;
+    const char *res = "\0";
+    ASSERT_EQ(*res, *a.data());
+
+    res = "b";
     CString b('b');
+    ASSERT_EQ(*res, *b.data());
+
+    res = "some";
     CString c("some");
+    ASSERT_EQ(*res, *c.data());
+
     CString d(c);
+    ASSERT_EQ(*res, *d.data());
+
+    res = "128";
     CString e(128);
+    ASSERT_EQ(*res, *e.data());
+
+    res = "0";
     CString f(0);
-    //хз как тестировать
+    ASSERT_EQ(*res, *f.data());
 }
 
 TEST(test002, test_CString_size)
@@ -18,6 +33,7 @@ TEST(test002, test_CString_size)
     CString a;
     unsigned res = 1;
     ASSERT_EQ(res, a.size());
+
     CString b("some");
     res = 5;
     ASSERT_EQ(res, b.size());

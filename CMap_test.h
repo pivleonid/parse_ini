@@ -83,30 +83,62 @@ TEST(test049, test_CMap_add_pair_size_search_getValue)
     map.add_pair(25, Z);
 
 
+    const char *res1[25] =
+    {
+        /*1 =*/  "ABCDEFGHIJKLM",
+        /*2 =*/  "ABCDEFGH",
+        /*3 =*/  "ABCDE",
+        /*4 =*/  "ABCD",
+        /*5 =*/  "ABC",
+        /*6 =*/  "A",
+        /*7 =*/  "AB",
+        /*8 =*/  "ABCDEF",
+        /*9 =*/  "ABCDEFGHIJ",
+        /*10 =*/ "ABCDEFGHI",
+        /*11 =*/ "ABCDEFGHIJKL",
+        /*12 =*/ "ABCDEFGHIJK",
+        /*13 =*/ "ABCDEFGHIJKLMNOPQRS",
+        /*14 =*/ "ABCDEFGHIJKLMNO",
+        /*15 =*/ "ABCDEFGHIJKLMN",
+        /*16 =*/ "ABCDEFGHIJKLMNOPQ",
+        /*17 =*/ "ABCDEFGHIJKLMNOP",
+        /*18 =*/ "ABCDEFGHIJKLMNOPQR",
+        /*19 =*/ "ABCDEFGHIJKLMNOPQRSTUV",
+        /*20 =*/ "ABCDEFGHIJKLMNOPQRSTU",
+        /*21 =*/ "ABCDEFGHIJKLMNOPQRST",
+        /*22 =*/ "ABCDEFGHIJKLMNOPQRSTUVWX",
+        /*23 =*/ "ABCDEFGHIJKLMNOPQRSTUVW",
+        /*24 =*/ "ABCDEFGHIJKLMNOPQRSTUVWXY",
+        /*25 =*/ "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    };
     unsigned size  = 25;
     unsigned size1 = map.size();
-    bool res = 0;
+    bool res;
     ASSERT_EQ(size, size1);
-    for(unsigned  i = 1; i < map.size() + 1; i++)
+    CString temp = map.getValue(k25);
+    CString temp1 = *res1[24];
+    CString node;
+    for(unsigned  i = 1, j = 0; i < map.size() + 1; i++, j++)
     {
-        CString node;
         node = i;
         res = map.search(node);
         ASSERT_TRUE(res);
-        cout << map.getValue(node).data() << endl;
-        cout << endl;
+        ASSERT_EQ(*res1[j], *map.getValue(node).data());
+        /*cout << map.getValue(node).data() << endl;
+        cout << endl;*/
     }
+
     cout << "//-------------------------//" <<endl;
     CMap<CString, CString> map1;
     map1 = map;
-    for(unsigned  i = 1; i < map1.size() + 1; i++)
+    for(unsigned  i = 1, j = 0; i < map1.size() + 1; i++, j++)
     {
-        CString node;
         node = i;
         res = map1.search(node);
         ASSERT_TRUE(res);
-        cout << map1.getValue(node).data() << endl;
-        cout << endl;
+        ASSERT_EQ(*res1[j], *map1.getValue(node).data());
+        //cout << map1.getValue(node).data() << endl;
+        //cout << endl;
     }
 }
 
@@ -190,20 +222,43 @@ TEST(test050, test_CMap_operator_eq_delete_key)
 
     map.delete_key(k17);
     map.delete_key(k22);
-    map.delete_key(k15);
-    map.delete_key(k8);
-    for(unsigned  i = 1; i < map.size() + 1; i++)
+    map.delete_key(k6);
+    map.delete_key(k13);
+    map.delete_key(k9);
+
+    const char *res1[20] =
     {
-        CString node;
+        /*1 =*/  "ABCDEFGHIJKLM",
+        /*2 =*/  "ABCDEFGH",
+        /*3 =*/  "ABCDE",
+        /*4 =*/  "ABCD",
+        /*5 =*/  "ABC",
+        /*7 =*/  "AB",
+        /*8 =*/  "ABCDEF",
+        /*10 =*/ "ABCDEFGHI",
+        /*11 =*/ "ABCDEFGHIJKL",
+        /*12 =*/ "ABCDEFGHIJK",
+        /*14 =*/ "ABCDEFGHIJKLMNO",
+        /*15 =*/ "ABCDEFGHIJKLMN",
+        /*16 =*/ "ABCDEFGHIJKLMNOPQ",
+        /*18 =*/ "ABCDEFGHIJKLMNOPQR",
+        /*19 =*/ "ABCDEFGHIJKLMNOPQRSTUV",
+        /*20 =*/ "ABCDEFGHIJKLMNOPQRSTU",
+        /*21 =*/ "ABCDEFGHIJKLMNOPQRST",
+        /*23 =*/ "ABCDEFGHIJKLMNOPQRSTUVW",
+        /*24 =*/ "ABCDEFGHIJKLMNOPQRSTUVWXY",
+        /*25 =*/ "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    };
+
+    CString node;
+    for(unsigned  i = 1, j = 0; i < map.size() + 1; i++, j++)
+    {
         node = i;
         if(map.search(node))
         {
-            cout << map.getValue(node).data() << endl;
-            cout << endl;
-        }
-        else
-        {
-            continue;
+            ASSERT_EQ(*res1[j], *map.getValue(node).data());
+            //cout << map.getValue(node).data() << endl;
+            //cout << endl;
         }
     }
 }
@@ -271,14 +326,33 @@ TEST(test051, test_CMap_CVector)
     vec14.push_back(69);
     map.add_pair(k14, vec14);
 
+    int res[18] =
+    {
+        60,
+        35,
+        70, 45,
+        21,
+        42,
+        17,
+        11,
+        24,
+        23,
+        71, 56,
+        89, 78, 25,
+        68,
+        63,
+        69
+    };
+    unsigned j = 0;
     for(unsigned k = 1; k < map.size() + 1; k++)
     {
-        cout << k << " = ";
-        for(unsigned h = 0; h < map.getValue(k).size(); h++)
+        //cout << k << " = ";
+        for(unsigned h = 0; h < map.getValue(k).size(); h++, j++)
         {
-            cout << map.getValue(k).at(h) << " ";
+            ASSERT_EQ(res[j], map.getValue(k).at(h));
+            //cout << map.getValue(k).at(h) << " ";
         }
-        cout << endl;
+        //cout << endl;
     }
 }
 

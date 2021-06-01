@@ -39,11 +39,7 @@ private:
      */
     const char *m_file_path;
 
-    /*!
-     * \brief m_data           - объект CVector для хранения обработанных данных
-                               ini-файла
-     */
-    CVector<Content_of_section> m_data;
+
     /*!
      * \briefm_temp_container - объект CVector для хранения необработанных данных
                                ini-файла
@@ -62,6 +58,11 @@ private:
     void write_file_inner();
 
 public:
+    /*!
+     * \brief m_data           - объект CVector для хранения обработанных данных
+                               ini-файла
+     */
+    CVector<Content_of_section> m_data;
 
     /*!
      * \brief read_file - чтение данных из ini-файл

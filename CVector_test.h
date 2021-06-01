@@ -18,11 +18,13 @@ TEST(test031, test_CVector_push_back_and_size)
         unsigned value = 4;
         ASSERT_EQ(value, res);
 
+        const char *res1[4] = {"Big", "Bang", "Theory", "some"};
         for(unsigned  i = 0; i < vec.size(); i++)
         {
-            cout << vec.at(i).data() <<endl;
+            ASSERT_EQ(*res1[i], *vec.at(i).data());
+            //cout << vec.at(i).data() <<endl;
         }
-        cout << "//-------------------------//" <<endl;
+        //cout << "//-------------------------//" <<endl;
         CVector<bool> vec_bool;
         vec_bool.push_back(true);
         vec_bool.push_back(true);
@@ -31,11 +33,13 @@ TEST(test031, test_CVector_push_back_and_size)
         vec_bool.push_back(true);
         vec_bool.push_back(false);
 
+        bool res2[6] = {true, true, true, false, true, false};
         for(unsigned  i = 0; i < vec_bool.size(); i++)
         {
-            cout << vec_bool.at(i) <<endl;
+            ASSERT_EQ(res2[i], vec_bool.at(i));
+            //cout << vec_bool.at(i) <<endl;
         }
-        cout << "//-------------------------//" <<endl;
+        //cout << "//-------------------------//" <<endl;
         CVector<int> vec_int;
         vec_int.push_back(1);
         vec_int.push_back(2);
@@ -44,9 +48,11 @@ TEST(test031, test_CVector_push_back_and_size)
         vec_int.push_back(5);
         vec_int.push_back(6);
 
+        int res3[6] = {1, 2, 3, 4, 5, 6};
         for(unsigned  i = 0; i < vec_int.size(); i++)
         {
-            cout << vec_int.at(i) <<endl;
+            ASSERT_EQ(res3[i], vec_int.at(i));
+            //cout << vec_int.at(i) <<endl;
         }
 }
 
@@ -67,6 +73,7 @@ TEST(test032, test_CVector_resize)
     res = vec.resize(-1);
     unsigned num = 0;
     ASSERT_EQ(num, res);
+
     res = vec.resize(5);
     ASSERT_EQ(num, res);
 
@@ -88,11 +95,14 @@ TEST(test033, test_CVector_push_front)
     vec.push_back(f);
     CString g("New");
     vec.push_front(g);
+
+    const char *res[5] = {"New", "Big", "Bang", "Theory", "some"};
     for(unsigned  i = 0; i < vec.size(); i++)
     {
-        cout << vec.at(i).data() <<endl;
+        ASSERT_EQ(*res[i], *vec.at(i).data());
+        //cout << vec.at(i).data() <<endl;
     }
-    cout << "//-------------------------//" <<endl;
+    //cout << "//-------------------------//" <<endl;
 }
 
 TEST(test034, test_CVector_empty)
@@ -134,14 +144,16 @@ TEST(test035, test_CVector_at)
 
     vec.at(2) = g;
     ASSERT_TRUE(vec.at(2) == g);
+     const char *res[5] = {"Big", "Bang", "Funny", "New", "Funny"};
     for(unsigned  i = 0; i < vec.size(); i++)
     {
-        cout << vec.at(i).data() <<endl;
+        ASSERT_EQ(*res[i], *vec.at(i).data());
+        //cout << vec.at(i).data() <<endl;
     }
-    cout << "//-------------------------//" <<endl;
+    //cout << "//-------------------------//" <<endl;
 }
 
-TEST(test035, test_CVector_front_and_back)
+TEST(test036, test_CVector_front_and_back)
 {
     CString a("Big");
     CString b("Bang");
@@ -169,7 +181,7 @@ TEST(test035, test_CVector_front_and_back)
     ASSERT_TRUE(p == j);
 }
 
-TEST(test036, test_CVector_pop_front_and_back)
+TEST(test037, test_CVector_pop_front_and_back)
 {
     CString a("Big");
     CString b("Bang");
@@ -182,26 +194,60 @@ TEST(test036, test_CVector_pop_front_and_back)
     vec.push_back(d);
     vec.push_back(f);
     vec.push_back(g);
+
+    const char *res[5] = {"Big", "Bang", "Theory", "New", "Funny"};
     for(unsigned  i = 0; i < vec.size(); i++)
     {
-        cout << vec.at(i).data() <<endl;
+        ASSERT_EQ(*res[i], *vec.at(i).data());
+        //cout << vec.at(i).data() <<endl;
     }
-    cout << "//-------------------------//" <<endl;
+    //cout << "//-------------------------//" <<endl;
+
     vec.pop_front();
+    const char *res1[4] = {"Bang", "Theory", "New", "Funny"};
     for(unsigned  i = 0; i < vec.size(); i++)
     {
-        cout << vec.at(i).data() <<endl;
+        ASSERT_EQ(*res1[i], *vec.at(i).data());
+        //cout << vec.at(i).data() <<endl;
     }
-    cout << "//-------------------------//" <<endl;
+    //cout << "//-------------------------//" <<endl;
+
     vec.pop_back();
+    const char *res2[3] = {"Bang", "Theory", "New"};
     for(unsigned  i = 0; i < vec.size(); i++)
     {
-        cout << vec.at(i).data() <<endl;
+        ASSERT_EQ(*res2[i], *vec.at(i).data());
+        //cout << vec.at(i).data() <<endl;
     }
-    cout << "//-------------------------//" <<endl;
+    //cout << "//-------------------------//" <<endl;
 }
 
-TEST(test037, test_CVector_erase)
+TEST(test038, test_CVector_erase)
+{
+        CString a("Big");
+        CString b("Bang");
+        CString d("Theory");
+        CString f("New");
+        CString g("Funny");
+        CString k("Happy");
+        CVector<CString> vec;
+        vec.push_back(a);
+        vec.push_back(b);
+        vec.push_back(d);
+        vec.push_back(f);
+        vec.push_back(g);
+        vec.push_back(k);
+        vec.erase1(2);
+
+        const char *res[5] = {"Big", "Bang", "New", "Funny", "Happy"};
+        for(unsigned  i = 0; i < vec.size(); i++)
+        {
+            ASSERT_EQ(*res[i], *vec.at(i).data());
+            //cout << vec.at(i).data() <<endl;
+        }
+        //cout << "//-------------------------//" <<endl;
+}
+TEST(test039, test_CVector_erase)
 {
     CString a("Big");
     CString b("Bang");
@@ -217,11 +263,14 @@ TEST(test037, test_CVector_erase)
     vec.push_back(g);
     vec.push_back(k);
     vec.erase(0, 5);
+
+    const char *res = "\0";
     for(unsigned  i = 0; i < vec.size(); i++)
     {
-        cout << vec.at(i).data() <<endl;
+        ASSERT_EQ(*res, *vec.at(i).data());
+        //cout << vec.at(i).data() <<endl;
     }
-    cout << "//-------------------------//" <<endl;
+    //cout << "//-------------------------//" <<endl;
 
     vec.push_back(a);
     vec.push_back(b);
@@ -230,11 +279,14 @@ TEST(test037, test_CVector_erase)
     vec.push_back(g);
     vec.push_back(k);
     vec.erase(0, 4);
+
+    res = "Happy";
     for(unsigned  i = 0; i < vec.size(); i++)
     {
-        cout << vec.at(i).data() <<endl;
+        ASSERT_EQ(*res, *vec.at(i).data());
+        //cout << vec.at(i).data() <<endl;
     }
-    cout << "//-------------------------//" <<endl;
+    //cout << "//-------------------------//" <<endl;
     vec.clear();
 
     vec.push_back(a);
@@ -244,11 +296,14 @@ TEST(test037, test_CVector_erase)
     vec.push_back(g);
     vec.push_back(k);
     vec.erase(1, 5);
+
+    res = "Big";
     for(unsigned  i = 0; i < vec.size(); i++)
     {
-        cout << vec.at(i).data() <<endl;
+        ASSERT_EQ(*res, *vec.at(i).data());
+        //cout << vec.at(i).data() <<endl;
     }
-    cout << "//-------------------------//" <<endl;
+    //cout << "//-------------------------//" <<endl;
     vec.clear();
 
     vec.push_back(a);
@@ -258,11 +313,14 @@ TEST(test037, test_CVector_erase)
     vec.push_back(g);
     vec.push_back(k);
     vec.erase(2, 4);
+
+    const char *res1[3] = {"Big", "Bang", "Happy"};
     for(unsigned  i = 0; i < vec.size(); i++)
     {
-        cout << vec.at(i).data() <<endl;
+        ASSERT_EQ(*res1[i], *vec.at(i).data());
+        //cout << vec.at(i).data() <<endl;
     }
-    cout << "//-------------------------//" <<endl;
+    //cout << "//-------------------------//" <<endl;
     vec.clear();
 
     vec.push_back(a);
@@ -272,11 +330,14 @@ TEST(test037, test_CVector_erase)
     vec.push_back(g);
     vec.push_back(k);
     vec.erase(0, 5, '(', ')');
+
+    const char *res2[2] = {"Big", "Happy"};
     for(unsigned  i = 0; i < vec.size(); i++)
     {
-        cout << vec.at(i).data() <<endl;
+        ASSERT_EQ(*res2[i], *vec.at(i).data());
+        //cout << vec.at(i).data() <<endl;
     }
-    cout << "//-------------------------//" <<endl;
+    //cout << "//-------------------------//" <<endl;
     vec.clear();
 
     vec.push_back(a);
@@ -286,11 +347,14 @@ TEST(test037, test_CVector_erase)
     vec.push_back(g);
     vec.push_back(k);
     vec.erase(0, 3, '(', ')');
+
+    const char *res3[4] = {"Big", "New", "Funny", "Happy"};
     for(unsigned  i = 0; i < vec.size(); i++)
     {
-        cout << vec.at(i).data() <<endl;
+        ASSERT_EQ(*res3[i], *vec.at(i).data());
+        //cout << vec.at(i).data() <<endl;
     }
-    cout << "//-------------------------//" <<endl;
+    //cout << "//-------------------------//" <<endl;
     vec.clear();
 
     vec.push_back(a);
@@ -300,11 +364,14 @@ TEST(test037, test_CVector_erase)
     vec.push_back(g);
     vec.push_back(k);
     vec.erase(2, 5, '(', ')');
+
+    const char *res4[4] = {"Big", "Bang", "Theory", "Happy"};
     for(unsigned  i = 0; i < vec.size(); i++)
     {
-        cout << vec.at(i).data() <<endl;
+        ASSERT_EQ(*res4[i], *vec.at(i).data());
+        //cout << vec.at(i).data() <<endl;
     }
-    cout << "//-------------------------//" <<endl;
+    //cout << "//-------------------------//" <<endl;
     vec.clear();
 
     vec.push_back(a);
@@ -314,11 +381,14 @@ TEST(test037, test_CVector_erase)
     vec.push_back(g);
     vec.push_back(k);
     vec.erase(2, 4, '(', ')');
+
+    const char *res5[5] = {"Big", "Bang", "Theory", "Funny", "Happy"};
     for(unsigned  i = 0; i < vec.size(); i++)
     {
-        cout << vec.at(i).data() <<endl;
+        ASSERT_EQ(*res5[i], *vec.at(i).data());
+        //cout << vec.at(i).data() <<endl;
     }
-    cout << "//-------------------------//" <<endl;
+    //cout << "//-------------------------//" <<endl;
     vec.clear();
 
     vec.push_back(a);
@@ -328,11 +398,14 @@ TEST(test037, test_CVector_erase)
     vec.push_back(g);
     vec.push_back(k);
     vec.erase(0, 5, '[', ')');
+
+    res = "Happy";
     for(unsigned  i = 0; i < vec.size(); i++)
     {
-        cout << vec.at(i).data() <<endl;
+        ASSERT_EQ(*res, *vec.at(i).data());
+        //cout << vec.at(i).data() <<endl;
     }
-    cout << "//-------------------------//" <<endl;
+    //cout << "//-------------------------//" <<endl;
     vec.clear();
 
     vec.push_back(a);
@@ -342,11 +415,14 @@ TEST(test037, test_CVector_erase)
     vec.push_back(g);
     vec.push_back(k);
     vec.erase(0, 3, '[', ')');
+
+    const char *res6[3] = {"New", "Funny", "Happy"};
     for(unsigned  i = 0; i < vec.size(); i++)
     {
-        cout << vec.at(i).data() <<endl;
+        ASSERT_EQ(*res6[i], *vec.at(i).data());
+        //cout << vec.at(i).data() <<endl;
     }
-    cout << "//-------------------------//" <<endl;
+    //cout << "//-------------------------//" <<endl;
     vec.clear();
 
     vec.push_back(a);
@@ -356,11 +432,14 @@ TEST(test037, test_CVector_erase)
     vec.push_back(g);
     vec.push_back(k);
     vec.erase(2, 5, '[', ')');
+
+    const char *res7[3] = {"Big", "Bang", "Happy"};
     for(unsigned  i = 0; i < vec.size(); i++)
     {
-        cout << vec.at(i).data() <<endl;
+        ASSERT_EQ(*res7[i], *vec.at(i).data());
+        //cout << vec.at(i).data() <<endl;
     }
-    cout << "//-------------------------//" <<endl;
+    //cout << "//-------------------------//" <<endl;
     vec.clear();
 
     vec.push_back(a);
@@ -370,11 +449,14 @@ TEST(test037, test_CVector_erase)
     vec.push_back(g);
     vec.push_back(k);
     vec.erase(2, 4, '[', ')');
+
+    const char *res8[4] = {"Big", "Bang", "Funny", "Happy"};
     for(unsigned  i = 0; i < vec.size(); i++)
     {
-        cout << vec.at(i).data() <<endl;
+        ASSERT_EQ(*res8[i], *vec.at(i).data());
+        //cout << vec.at(i).data() <<endl;
     }
-    cout << "//-------------------------//" <<endl;
+    //cout << "//-------------------------//" <<endl;
     vec.clear();
 
     vec.push_back(a);
@@ -384,11 +466,14 @@ TEST(test037, test_CVector_erase)
     vec.push_back(g);
     vec.push_back(k);
     vec.erase(0, 5, '(', ']');
+
+    res = {"Big"};
     for(unsigned  i = 0; i < vec.size(); i++)
     {
-        cout << vec.at(i).data() <<endl;
+        ASSERT_EQ(*res, *vec.at(i).data());
+        //cout << vec.at(i).data() <<endl;
     }
-    cout << "//-------------------------//" <<endl;
+    //cout << "//-------------------------//" <<endl;
     vec.clear();
 
     vec.push_back(a);
@@ -398,11 +483,14 @@ TEST(test037, test_CVector_erase)
     vec.push_back(g);
     vec.push_back(k);
     vec.erase(0, 2, '(', ']');
+
+    const char *res9[4] = {"Big", "New", "Funny", "Happy"};
     for(unsigned  i = 0; i < vec.size(); i++)
     {
-        cout << vec.at(i).data() <<endl;
+        ASSERT_EQ(*res9[i], *vec.at(i).data());
+        //cout << vec.at(i).data() <<endl;
     }
-    cout << "//-------------------------//" <<endl;
+    //cout << "//-------------------------//" <<endl;
     vec.clear();
 
     vec.push_back(a);
@@ -412,11 +500,14 @@ TEST(test037, test_CVector_erase)
     vec.push_back(g);
     vec.push_back(k);
     vec.erase(2, 5, '(', ']');
+
+    const char *res10[4] = {"Big", "Bang", "Theory"};
     for(unsigned  i = 0; i < vec.size(); i++)
     {
-        cout << vec.at(i).data() <<endl;
+        ASSERT_EQ(*res10[i], *vec.at(i).data());
+        //cout << vec.at(i).data() <<endl;
     }
-    cout << "//-------------------------//" <<endl;
+    //cout << "//-------------------------//" <<endl;
     vec.clear();
 
     vec.push_back(a);
@@ -426,15 +517,18 @@ TEST(test037, test_CVector_erase)
     vec.push_back(g);
     vec.push_back(k);
     vec.erase(2, 4, '(', ']');
+
+    const char *res11[4] = {"Big", "Bang", "Theory", "Happy"};
     for(unsigned  i = 0; i < vec.size(); i++)
     {
-        cout << vec.at(i).data() <<endl;
+        ASSERT_EQ(*res11[i], *vec.at(i).data());
+        //cout << vec.at(i).data() <<endl;
     }
-    cout << "//-------------------------//" <<endl;
+    //cout << "//-------------------------//" <<endl;
     vec.clear();
 }
 
-TEST(test038, test_CVector_find_rfind)
+TEST(test040, test_CVector_find_rfind)
 {
     CString a("Big");
     CString b("Bang");
@@ -461,7 +555,7 @@ TEST(test038, test_CVector_find_rfind)
     ASSERT_EQ(res1, res);
 }
 
-TEST(test039, test_CVector_sorting)
+TEST(test041, test_CVector_sorting)
 {
     CString a("Big");
     CString b("Bang");
@@ -475,11 +569,14 @@ TEST(test039, test_CVector_sorting)
     vec.push_back(f);
     vec.push_back(g);
     vec.sorting(1);
+
+    const char *res[5] = {"Bang", "Big", "Funny", "New", "Theory"};
     for(unsigned  i = 0; i < vec.size(); i++)
     {
-        cout << vec.at(i).data() <<endl;
+        ASSERT_EQ(*res[i], *vec.at(i).data());
+        //cout << vec.at(i).data() <<endl;
     }
-    cout << "//-------------------------//" <<endl;
+    //cout << "//-------------------------//" <<endl;
     vec.clear();
 
     vec.push_back(a);
@@ -490,13 +587,14 @@ TEST(test039, test_CVector_sorting)
     vec.sorting(2);
     for(unsigned  i = 0; i < vec.size(); i++)
     {
-        cout << vec.at(i).data() <<endl;
+        ASSERT_EQ(*res[i], *vec.at(i).data());
+        //cout << vec.at(i).data() <<endl;
     }
-    cout << "//-------------------------//" <<endl;
+    //cout << "//-------------------------//" <<endl;
 
 }
 
-TEST(test040, test_CVector_operator_equal)
+TEST(test042, test_CVector_operator_equal)
 {
     CString a("Big");
     CString b("Bang");
@@ -511,16 +609,19 @@ TEST(test040, test_CVector_operator_equal)
     vec.push_back(g);
     CVector<CString> vec1;
     vec1 = vec;
+
+    const char *res[5] = {"Big", "Bang", "Theory", "New", "Funny"};
     for(unsigned  i = 0; i < vec1.size(); i++)
     {
-        cout << vec1.at(i).data() <<endl;
+        ASSERT_EQ(*res[i], *vec1.at(i).data());
+        //cout << vec1.at(i).data() <<endl;
     }
-    cout << "//-------------------------//" <<endl;
+    //cout << "//-------------------------//" <<endl;
     vec1.clear();
 
 }
 
-TEST(test041, test_CVector_operator_plus_and_eq)
+TEST(test043, test_CVector_operator_plus_and_eq)
 {
     CString a("Big");
     CString b("Bang");
@@ -534,22 +635,28 @@ TEST(test041, test_CVector_operator_plus_and_eq)
     vec1.push_back(d);
     vec1.push_back(f);
     vec += vec1;
+
+    const char *res[4] = {"Big", "Bang", "Theory", "New"};
     for(unsigned  i = 0; i < vec.size(); i++)
     {
-        cout << vec.at(i).data() <<endl;
+        ASSERT_EQ(*res[i], *vec.at(i).data());
+        //cout << vec.at(i).data() <<endl;
     }
-    cout << "//-------------------------//" <<endl;
+    //cout << "//-------------------------//" <<endl;
 
     CString g("Funny");
     vec += g;
+
+    const char *res1[5] = {"Big", "Bang", "Theory", "New", "Funny"};
     for(unsigned  i = 0; i < vec.size(); i++)
     {
-        cout << vec.at(i).data() <<endl;
+        ASSERT_EQ(*res1[i], *vec.at(i).data());
+        //cout << vec.at(i).data() <<endl;
     }
-    cout << "//-------------------------//" <<endl;
+    //cout << "//-------------------------//" <<endl;
 }
 
-TEST(test042, test_CVector_operator_plus)
+TEST(test044, test_CVector_operator_plus)
 {
     CString a("Big");
     CString b("Bang");
@@ -566,22 +673,26 @@ TEST(test042, test_CVector_operator_plus)
     vec2.push_back(g);
 
     vec2 + vec;
+    const char *res[5] = { "New", "Funny", "Big", "Bang", "Theory"};
     for(unsigned  i = 0; i < vec2.size(); i++)
     {
-        cout << vec2.at(i).data() <<endl;
+        ASSERT_EQ(*res[i], *vec2.at(i).data());
+        //cout << vec2.at(i).data() <<endl;
     }
-    cout << "//-------------------------//" <<endl;
+    //cout << "//-------------------------//" <<endl;
 
     CString k("Crazy");
     vec2 + k;
+    const char *res1[6] = {"New", "Funny", "Big", "Bang", "Theory", "Crazy"};
     for(unsigned  i = 0; i < vec2.size(); i++)
     {
-        cout << vec2.at(i).data() <<endl;
+        ASSERT_EQ(*res1[i], *vec2.at(i).data());
+        //cout << vec2.at(i).data() <<endl;
     }
-    cout << "//-------------------------//" <<endl;
+    //cout << "//-------------------------//" <<endl;
 }
 
-TEST(test043, test_CVector_operator_square_bracket)
+TEST(test045, test_CVector_operator_square_bracket)
 {
     CString a("Big");
     CString b("Bang");
@@ -600,14 +711,17 @@ TEST(test043, test_CVector_operator_square_bracket)
 
     vec[2] = g;
     ASSERT_TRUE(vec[2] == g);
+
+    const char *res[5] = {"Big", "Bang", "Funny", "New", "Funny"};
     for(unsigned  i = 0; i < vec.size(); i++)
     {
-        cout << vec.at(i).data() <<endl;
+        ASSERT_EQ(*res[i], *vec.at(i).data());
+        //cout << vec.at(i).data() <<endl;
     }
-    cout << "//-------------------------//" <<endl;
+    //cout << "//-------------------------//" <<endl;
 }
 
-TEST(test044, test_CVector_operator_equal_unequal)
+TEST(test046, test_CVector_operator_equal_unequal)
 {
     CString a("Big");
     CString b("Bang");
@@ -646,7 +760,7 @@ TEST(test044, test_CVector_operator_equal_unequal)
     ASSERT_FALSE(res);
 }
 
-TEST(test045, test_CVector_operator_less_or_eq)
+TEST(test047, test_CVector_operator_less_or_eq)
 {
     CString a("Big");
     CString b("Bang");

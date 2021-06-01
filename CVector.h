@@ -128,7 +128,7 @@ public:
      * \param n     - порядковый номер
      * \return      - изменённый CVector
      */
-    CVector <A> & erase(unsigned a);
+    CVector <A> & erase1(unsigned a);
 
     /*!
      * \brief erase - удаляет символы m_word в диапазоне first - last
@@ -498,7 +498,7 @@ void CVector<A>::clear()
 }
 
 template <typename A>
-CVector <A> & CVector<A>::erase(unsigned n)
+CVector <A> & CVector<A>::erase1(unsigned n)
 {
     try
     {
@@ -915,7 +915,7 @@ CVector<A>& CVector<A>::sorting(int choice)
                     j = i;
                     for(t = i; t < m_count; t++)
                     {
-                        if(m_container[j].size() > m_container[t].size())
+                        if(m_container[j] > m_container[t])
                         {
                             j = t;
                         }
@@ -935,7 +935,7 @@ CVector<A>& CVector<A>::sorting(int choice)
                 {
                     for(unsigned i = 0; i + step < m_count; i++)
                     {
-                        if(m_container[i].size() > m_container[i + step].size())
+                        if(m_container[i] > m_container[i + step])
                         {
                             A temp;
                             temp = m_container[i];
