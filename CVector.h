@@ -41,6 +41,7 @@ private:
 
 
 public:
+
     CVector();
     CVector(int n);
     CVector(const A &vct);
@@ -352,9 +353,19 @@ void CVector<A>::push_back(const A &value)
         delete [] m_container;
         m_container = temp;
     }
-
-    m_container[m_count] = value;
-    m_count++;
+    if(m_count != 0)
+    {
+        m_container[m_count] = value;
+        m_count++;
+    }
+    else if(m_count == 0)
+    {
+        m_count++;
+        m_capacity *= 2;
+        delete [] m_container;
+        m_container = new A[m_capacity];
+        m_container[0] = value;
+    }
 }
 
 template <typename A>

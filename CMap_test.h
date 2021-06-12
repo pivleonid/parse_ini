@@ -123,12 +123,12 @@ TEST(test049, test_CMap_add_pair_size_search_getValue)
         node = i;
         res = map.search(node);
         ASSERT_TRUE(res);
-        ASSERT_EQ(*res1[j], *map.getValue(node).data());
+        ASSERT_STREQ(res1[j], map.getValue(node).data());
         /*cout << map.getValue(node).data() << endl;
         cout << endl;*/
     }
 
-    cout << "//-------------------------//" <<endl;
+    //cout << "//-------------------------//" <<endl;
     CMap<CString, CString> map1;
     map1 = map;
     for(unsigned  i = 1, j = 0; i < map1.size() + 1; i++, j++)
@@ -136,7 +136,7 @@ TEST(test049, test_CMap_add_pair_size_search_getValue)
         node = i;
         res = map1.search(node);
         ASSERT_TRUE(res);
-        ASSERT_EQ(*res1[j], *map1.getValue(node).data());
+        ASSERT_STREQ(res1[j], map1.getValue(node).data());
         //cout << map1.getValue(node).data() << endl;
         //cout << endl;
     }
@@ -251,14 +251,15 @@ TEST(test050, test_CMap_operator_eq_delete_key)
     };
 
     CString node;
-    for(unsigned  i = 1, j = 0; i < map.size() + 1; i++, j++)
+    for(unsigned  i = 1, j = 0; i < map.size() + 1; i++)
     {
         node = i;
         if(map.search(node))
         {
-            ASSERT_EQ(*res1[j], *map.getValue(node).data());
+            ASSERT_STREQ(res1[j], map.getValue(node).data());
             //cout << map.getValue(node).data() << endl;
             //cout << endl;
+            j++;
         }
     }
 }

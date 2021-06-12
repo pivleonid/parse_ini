@@ -31,11 +31,11 @@ TEST(test001, test_CString_Constructor)
 TEST(test002, test_CString_size)
 {
     CString a;
-    unsigned res = 1;
+    unsigned res = 0;
     ASSERT_EQ(res, a.size());
 
     CString b("some");
-    res = 5;
+    res = 4;
     ASSERT_EQ(res, b.size());
 }
 

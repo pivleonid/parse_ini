@@ -271,6 +271,7 @@ B & CMap<A, B>::getValue(const A &key)
 template <typename A, typename B>
 CMap<A, B> &CMap<A, B>::operator=(const CMap &map)
 {
+    m_count = 0;
     root = new Node;
     root = operator_eq_inner(root, map.root);
     return *this;
@@ -494,6 +495,7 @@ void CMap<A, B>::clear()
 {
     delete_all(root);
     root = NULL;
+    m_count = 0;
 }
 
 #endif // CMAP_H

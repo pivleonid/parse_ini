@@ -35,6 +35,7 @@ CString::CString(const char *str)
         m_word[i] = temp[i];
     }
     m_word[m_size - 1] = empty_str;
+
 }
 
 CString::CString(const CString &new_word)
@@ -110,7 +111,7 @@ CString::~CString()
 
 unsigned CString::size()
 {
-    return m_size;
+    return m_size - 1;
 }
 
 char &CString::at(int n)
