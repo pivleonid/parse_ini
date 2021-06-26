@@ -50,10 +50,22 @@ private:
      * \brief search_inner - поиск узла в дереве по ключу
                              (написана из-за того что указание корня дерева в функции main невозможно)
      * \param key          - искомый ключ
-     * \param root         - корень дерева в котором осуществялется поиск
+     * \param cur_node     - адрес текущего узла
      * \return             - true если ключ найден
      */
-    bool search_inner(const A &key, Node *root);
+    bool search_inner(const A &key, Node *cur_node);
+
+    /*!
+     * \brief getKey_inner   - прогулка по дереву до номера узла
+                             (написана из-за того что указание корня дерева в функции main невозможно)
+     * \param target       - порядковый номер узла начиная с нуля
+     * \param count        - когда count будет равен target, функция вернёт ключ
+     * \param root         - корень дерева по которому осуществляется прогулка
+     * \return             - ключ
+     */
+    A &getKey_inner(unsigned &target, unsigned &count, Node *root);
+
+    Node *getAdress_for_getKey(unsigned &target, unsigned &count, Node *cur_node);
 
     /*!
      * \brief getAdress - получение адреса элемента по ключу
@@ -102,6 +114,13 @@ private:
      * \return       - количество узлов
      */
     unsigned size();
+
+    /*!
+     * \brief walk   - идёт по дереву пока не достигнет target
+     * \param target - порядковый номер узла начиная с нуля
+     * \return       - ключ который лежит по этому номеру
+     */
+    A & getKey(unsigned &target);
 
     /*!
      * \brief getValue - получение значения по ключу
@@ -199,7 +218,7 @@ template <typename A, typename B>
 bool CMap<A, B>::search(const A &key)
 {
       bool found = false;
-      A temp_key = key;
+      //A temp_key = key;
       found = search_inner(key, root);
       return found;
 }
@@ -230,6 +249,45 @@ template <typename A, typename B>
 unsigned CMap<A, B>::size()
 {
    return m_count;
+}
+
+template <typename A, typename B>
+A & CMap<A, B>::getKey(unsigned &target)
+{
+    unsigned count = 0;
+    return getKey_inner(target, count, root);
+}
+
+template <typename A, typename B>
+A & CMap<A, B>::getKey_inner(unsigned &target, unsigned &count, Node *root)
+{
+    Node *search_node = getAdress_for_getKey(target, count, root);
+    return search_node->key;
+}
+
+template <typename A, typename B>
+typename CMap<A, B>::Node * CMap<A, B>::getAdress_for_getKey(unsigned &target, unsigned &count, Node *cur_node)
+{
+    Node *temp = NULL;
+    if(target == count)
+    {
+        temp = cur_node;
+    }
+    if(target != count)
+    {
+
+        if(cur_node->left != 0 && temp == NULL)
+        {
+            count++;
+            temp = getAdress_for_getKey(target, count, cur_node->left);
+        }
+        if(cur_node->right != 0 && temp == NULL)
+        {
+            count++;
+            temp = getAdress_for_getKey(target, count, cur_node->right);
+        }
+    }
+    return temp;
 }
 
 template <typename A, typename B>

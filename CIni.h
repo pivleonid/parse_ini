@@ -16,9 +16,9 @@ public:
      */
     CString m_name_section;
     /*!
-     * \brief m_name_comment - комментарий к секции
+     * \brief m_comment_section - комментарий к секции
      */
-    CVector<CString> m_name_comment;
+    CString m_comment_section;
     /*!
      * \brief m_key_value    - содержимое секции
      */
@@ -28,7 +28,7 @@ public:
     void clear()
     {
         m_name_section.clear();
-        m_name_comment.clear();
+        m_comment_section.clear();
         m_key_value.clear();
     }
 };
@@ -36,17 +36,23 @@ public:
 class CIni
 {
 private:
-    /*!
-     * \brief m_file_path      - путь к ini-файлу
-     */
-    const char *m_file_path;
 
+    /*!
+     * \brief m_name_file        - имя файла
+     */
+    string m_name_file;
 
     /*!
      * \briefm_temp_container  - объект CVector для хранения необработанных данных
                                  ini-файла
      */
     CVector<CString>m_temp_container;
+
+    /*!
+     * \brief m_data           - объект CVector для хранения обработанных данных
+                               ini-файла
+     */
+    CVector<Content_of_section> m_data;
 
     /*!
      * \brief analyze_file     - анализ содержимого m_temp_container
@@ -63,39 +69,63 @@ public:
 
     CIni();
     /*!
-     * \brief m_data           - объект CVector для хранения обработанных данных
-                               ini-файла
-     */
-    CVector<Content_of_section> m_data;
-
-    /*!
      * \brief create_file      - создание пустого ini-файла
-     * \param file_path        - путь к ini-файлу
+     * \param name_file        - имя ini-файла
      */
-    void create_file(const char *file_path);
+    void create_file(string &name_file);
 
     /*!
      * \brief delete_file      - удаление файла
-     * \param file_path        - путь к ini-файлу
+     * \param name_file        - имя ini-файла
      */
-    void delete_file(const char *file_path);
+    void delete_file(string &name_file);
 
     /*!
      * \brief read_file        - чтение данных из ini-файла
-     * \param file_path        - путь к ini-файлу
+     * \param name_file        - имя ini-файла
      */
-    void read_file(const char *file_path);
+    void read_file(string &name_file);
 
     /*!
      * \brief write_file       - запись данных в ini-файл
-     * \param file_path        - путь к ini-файлу
+     * \param name_file        - имя ini-файла
      */
-    void write_file(const char *file_path);
+    void write_file(string &name_file);
 
     /*!
      * \brief clear            - очистка содержимого объекта CIni
      */
     void clear();
+
+    /*!
+     * \brief search           - поиск секции по имени name_section в объекте CIni
+     * \param name_section     - имя секции для поиска
+     * \return                 - true если секция есть в объекте, false если отсутствует
+     */
+    bool search_name_section(CString &name_section);
+
+    /*!
+     * \brief get_name_comment - получить комментарий к секции name_section
+     * \param name_section     - имя секции для поиска
+     * \return                 - возвращает m_comment_section
+     */
+    const char *get_comment_section(CString &name_section);
+
+    /*!
+     * \brief search_key       - поиск ключа по имени секции
+     * \param name_section     - имя секции для поиска
+     * \param key              - имя ключа для поиска
+     * \return                 - true если ключ найден, false если нет
+     */
+    bool search_key(CString &name_section, CString &key);
+
+    /*!
+     * \brief getValue         - получение значения по ключу key
+     * \param name_section     - имя секции для поиска
+     * \param key              - имя ключа для поиска
+     * \return                 - значение
+     */
+    CVector<CString> getValue(CString &name_section, CString &key);
 
     /*!
      * \brief add_name_section - добавление имени для новой секции
@@ -115,7 +145,7 @@ public:
      * \param name_section     - имя секции куда добавляем комментарий
      * \param new_comment      - комментарий
      */
-    void add_name_comment(CString & name_section, CString & new_comment);
+    void add_comment_section(CString & name_section, CString & new_comment);
 
     /*!
      * \brief add_key_value - наполняет секцию содержимым
@@ -125,26 +155,19 @@ public:
     void add_key_value(CString & name_section, CMap<CString, CVector<CString>> & key_value);
 
     /*!
-     * \brief change_name_comment - меняет значение old_comment, на new_comment
+     * \brief change_name_comment - меняет существующий комментарий на new_comment
      * \param name_section        - секция в которой меняем значение
      * \param new_comment         - значение для замены
      */
-    void change_name_comment(CString & name_section, CString & new_comment);
-
-    /*!
-     * \brief change_name_comment - меняет значение old_comment в CVector, на new_comment
-     * \param name_section        - секция в которой меняем значение
-     * \param old_comment         - изменяемое значение
-     * \param new_comment         - значение для замены
-     */
-    void change_name_comment(CString & name_section, CString & old_comment, CString & new_comment);
+    void change_comment_section(CString & name_section, CString & new_comment);
 
     /*!
      * \brief delete_value        - удалить полностью значение по ключу
-     * \param m_name_section        - секция в которой удаляем
+     * \param m_name_section      - секция в которой удаляем
      * \param key                 - ключ по которому удаляем
      */
     void delete_value(CString &m_name_section, CString &key);
+
     /*!
      * \brief delete_value        - удалить значение под номером n в CVector
      * \param m_name_section      - секция в которой удаляем
@@ -183,7 +206,7 @@ public:
     void add_value(CString &m_name_section, CString &key, CVector<CString> &value);
     /*!
      * \brief add_value          - добавляет значение CString в CVector, по указанному ключу
-     * \param m_name_section       - секция в которую добавляем
+     * \param m_name_section     - секция в которую добавляем
      * \param key                - ключ для добавления
      * \param value              - значение для добавления
      */
