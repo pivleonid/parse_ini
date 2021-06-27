@@ -433,6 +433,18 @@ TEST(test053, test_CIni_change_m_name_section_delete_value)
     CString new_name_1 = "Alphabet";
     new_file.change_name_section(old_name_1, new_name_1);
     //удаление значений
+    new_file.delete_value(new_name_0, k1);
+    new_file.delete_value(new_name_0, k3);
+    new_file.delete_value(new_name_0, k10);
+    new_file.delete_value(new_name_0, k11);
+    new_file.delete_value(new_name_0, k14);
+
+    new_file.delete_value(new_name_1, key20);
+    new_file.delete_value(new_name_1, key27);
+    new_file.delete_value(new_name_1, key31);
+    new_file.delete_value(new_name_1, key35);
+    new_file.delete_value(new_name_1, key37);
+    new_file.delete_value(new_name_1, key39);
     /*содержимое ini-файла "test" после внесённых изменений имеет следующий вид:
         [Integers]
         ;This section contains the numbers
@@ -447,7 +459,7 @@ TEST(test053, test_CIni_change_m_name_section_delete_value)
         ten = 63,
 
         [Alphabet]
-        ;This section contains the strings
+        ;And this section containts the strings
         zero =  "ABCDEFGHIJKLM",
         one =  "ABCDEFGH",
         two =  "ABCDE",
@@ -468,6 +480,138 @@ TEST(test053, test_CIni_change_m_name_section_delete_value)
         twenty-one = "ABCDEFGHIJKLMNOPQRSTUVWX",
         twenty-three = "ABCDEFGHIJKLMNOPQRSTUVWXY"
     */
+    string name_file = "test";
+    new_file.create_file(name_file);
+    new_file.write_file(name_file);
+
+    CIni check_file;
+    check_file.read_file(name_file);
+    //проверка наличия первой секции
+    ASSERT_TRUE(check_file.search_name_section(new_name_0));
+
+    //получение комментария к секции
+    const char *res = "This section contains the numbers";
+    ASSERT_STREQ(res, check_file.get_comment_section(new_name_0));
+
+    //проверка значений первой секции
+    ASSERT_FALSE(check_file.search_key(new_name_0, k1));
+
+    ASSERT_TRUE(check_file.search_key(new_name_0, k2));
+    ASSERT_TRUE(vec2 == check_file.getValue(new_name_0, k2));
+
+    ASSERT_TRUE(check_file.search_key(new_name_0, k3));
+    ASSERT_TRUE(vec3 == check_file.getValue(new_name_0, k3));
+
+    ASSERT_TRUE(check_file.search_key(new_name_0, k4));
+    ASSERT_TRUE(vec4 == check_file.getValue(new_name_0, k4));
+
+    ASSERT_TRUE(check_file.search_key(new_name_0, k5));
+    ASSERT_TRUE(vec5 == check_file.getValue(new_name_0, k5));
+
+    ASSERT_TRUE(check_file.search_key(new_name_0, k6));
+    ASSERT_TRUE(vec6 == check_file.getValue(new_name_0, k6));
+
+    ASSERT_TRUE(check_file.search_key(new_name_0, k7));
+    ASSERT_TRUE(vec7 == check_file.getValue(new_name_0, k7));
+
+    ASSERT_TRUE(check_file.search_key(new_name_0, k8));
+    ASSERT_TRUE(vec8 == check_file.getValue(new_name_0, k8));
+
+    ASSERT_TRUE(check_file.search_key(new_name_0, k9));
+    ASSERT_TRUE(vec9 == check_file.getValue(new_name_0, k9));
+
+    ASSERT_FALSE(check_file.search_key(new_name_0, k10));
+
+    ASSERT_FALSE(check_file.search_key(new_name_0, k11));
+
+    ASSERT_TRUE(check_file.search_key(new_name_0, k12));
+    ASSERT_TRUE(vec12 == check_file.getValue(new_name_0, k12));
+
+    ASSERT_TRUE(check_file.search_key(new_name_0, k13));
+    ASSERT_TRUE(vec13 == check_file.getValue(new_name_0, k13));
+
+    ASSERT_FALSE(check_file.search_key(new_name_0, k14));
+
+    //проверка наличия второй секции
+    ASSERT_TRUE(check_file.search_name_section(new_name_1));
+
+    //получение комментария к секции
+    const char *res1 = "And this section containts the strings";
+    ASSERT_STREQ(res1, check_file.get_comment_section(new_name_1));
+
+    //проверка значений второй секции
+    ASSERT_FALSE(check_file.search_key(new_name_1, k1));
+
+    ASSERT_TRUE(check_file.search_key(new_name_1, key15));
+    ASSERT_TRUE(value15 == check_file.getValue(new_name_1, key15));
+
+    ASSERT_TRUE(check_file.search_key(new_name_1, key16));
+    ASSERT_TRUE(value16 == check_file.getValue(new_name_1, key16));
+
+    ASSERT_TRUE(check_file.search_key(new_name_1, key17));
+    ASSERT_TRUE(value17 == check_file.getValue(new_name_1, key17));
+
+    ASSERT_TRUE(check_file.search_key(new_name_1, key18));
+    ASSERT_TRUE(value18 == check_file.getValue(new_name_1, key18));
+
+    ASSERT_TRUE(check_file.search_key(new_name_1, key19));
+    ASSERT_TRUE(value19 == check_file.getValue(new_name_1, key19));
+
+    ASSERT_FALSE(check_file.search_key(new_name_1, key20));
+
+    ASSERT_TRUE(check_file.search_key(new_name_1, key21));
+    ASSERT_TRUE(value21 == check_file.getValue(new_name_1, key21));
+
+    ASSERT_TRUE(check_file.search_key(new_name_1, key22));
+    ASSERT_TRUE(value22 == check_file.getValue(new_name_1, key22));
+
+    ASSERT_TRUE(check_file.search_key(new_name_1, key23));
+    ASSERT_TRUE(value23 == check_file.getValue(new_name_1, key23));
+
+    ASSERT_TRUE(check_file.search_key(new_name_1, key24));
+    ASSERT_TRUE(value24 == check_file.getValue(new_name_1, key24));
+
+    ASSERT_TRUE(check_file.search_key(new_name_1, key25));
+    ASSERT_TRUE(value25 == check_file.getValue(new_name_1, key25));
+
+    ASSERT_TRUE(check_file.search_key(new_name_1, key26));
+    ASSERT_TRUE(value26 == check_file.getValue(new_name_1, key26));
+
+    ASSERT_FALSE(check_file.search_key(new_name_1, key27));
+
+    ASSERT_TRUE(check_file.search_key(new_name_1, key28));
+    ASSERT_TRUE(value28 == check_file.getValue(new_name_1, key28));
+
+    ASSERT_TRUE(check_file.search_key(new_name_1, key29));
+    ASSERT_TRUE(value29 == check_file.getValue(new_name_1, key29));
+
+    ASSERT_TRUE(check_file.search_key(new_name_1, key30));
+    ASSERT_TRUE(value30 == check_file.getValue(new_name_1, key30));
+
+    ASSERT_FALSE(check_file.search_key(new_name_1, key31));
+
+    ASSERT_TRUE(check_file.search_key(new_name_1, key32));
+    ASSERT_TRUE(value32 == check_file.getValue(new_name_1, key32));
+
+    ASSERT_TRUE(check_file.search_key(new_name_1, key33));
+    ASSERT_TRUE(value33 == check_file.getValue(new_name_1, key33));
+
+    ASSERT_TRUE(check_file.search_key(new_name_1, key34));
+    ASSERT_TRUE(value34 == check_file.getValue(new_name_1, key34));
+
+    ASSERT_FALSE(check_file.search_key(new_name_1, key35));
+
+    ASSERT_TRUE(check_file.search_key(new_name_1, key36));
+    ASSERT_TRUE(value36 == check_file.getValue(new_name_1, key36));
+
+    ASSERT_FALSE(check_file.search_key(new_name_1, key37));
+
+    ASSERT_TRUE(check_file.search_key(new_name_1, key38));
+    ASSERT_TRUE(value38 == check_file.getValue(new_name_1, key38));
+
+    ASSERT_FALSE(check_file.search_key(new_name_1, key39));
+
+    check_file.delete_file(name_file);
 }
 
 #endif // CINI_TEST_H
