@@ -125,7 +125,7 @@ public:
      * \param key              - имя ключа для поиска
      * \return                 - значение
      */
-    CVector<CString> getValue(CString &name_section, CString &key);
+    CVector<CString> &getValue(CString &name_section, CString &key);
 
     /*!
      * \brief add_name_section - добавление имени для новой секции
@@ -188,6 +188,7 @@ public:
      * \param value                 - значение для замены
      */
     void change_value(CString &m_name_section, CString &key, CVector<CString> &value);
+
     /*!
      * \brief change_value               - меняет значение под old_value в CVector, по указанному ключу
      * \param m_name_section             - секция в которой меняем значение
@@ -200,8 +201,8 @@ public:
     /*!
      * \brief add_value             - добавляет значение которого нет в секции
      * \param m_name_section        - секция в которую добавляем
-     * \param key                 - ключ для добавления
-     * \param value               - значение для добавления
+     * \param key                   - ключ для добавления
+     * \param value                 - значение для добавления
      */
     void add_value(CString &m_name_section, CString &key, CVector<CString> &value);
     /*!

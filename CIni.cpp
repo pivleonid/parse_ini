@@ -510,50 +510,16 @@ bool CIni::search_key(CString &name_section, CString &key)
     return found_key;
 }
 
-CVector<CString> CIni::getValue(CString &name_section, CString &key)
+CVector<CString> &CIni::getValue(CString &name_section, CString &key)
 {
-    CVector<CString> empty_vec;
-
-    bool found_n_s = false;
-    bool found_key = false;
     unsigned num = 0;
     for(unsigned i = 0; i < m_data.size(); i++)
     {
         if(m_data.at(i).m_name_section == name_section)
         {
-            found_n_s = true;
             num = i;
             break;
         }
-    }
-    try
-    {
-        if(found_n_s == false)
-        {
-            throw 1;
-        }
-    }
-    catch (int a)
-    {
-        return empty_vec;
-    }
-    if(found_n_s == true)
-    {
-        if(m_data.at(num).m_key_value.search(key))
-        {
-            found_key = true;
-        }
-    }
-    try
-    {
-        if(found_key == false)
-        {
-            throw 1;
-        }
-    }
-    catch (int a)
-    {
-        return empty_vec;
     }
     return m_data.at(num).m_key_value.getValue(key);
 }
