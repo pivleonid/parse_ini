@@ -429,7 +429,7 @@ TEST(test054, test_CIni_change_m_name_section_delete_value)
     new_file.add_key_value(old_name_1, key_value_1);
 
     //изменение имён секции
-    CString new_name_0 = "Integers";
+    CString new_name_0  = "Integers";
     new_file.change_name_section(old_name_0, new_name_0);
     CString new_name_1 = "Alphabet";
     new_file.change_name_section(old_name_1, new_name_1);
@@ -734,11 +734,11 @@ TEST(test055, test_CIni_change_value_add_value)
     new_file.add_key_value(name_section_0, key_value_0);
 
     //вторая секция
-    CString old_name_1 = "Strings";
-    new_file.add_name_section(old_name_1);
+    CString name_section_1 = "Strings";
+    new_file.add_name_section(name_section_1);
 
     CString comment_section_1 = "And this section containts the strings";
-    new_file.add_comment_section(old_name_1, comment_section_1);
+    new_file.add_comment_section(name_section_1, comment_section_1);
 
     CMap<CString, CVector<CString>> key_value_1;
 
@@ -842,7 +842,7 @@ TEST(test055, test_CIni_change_value_add_value)
     value39.push_back("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
     key_value_1.add_pair(key39, value39);
 
-    new_file.add_key_value(old_name_1, key_value_1);
+    new_file.add_key_value(name_section_1, key_value_1);
 
     //изменение значений
     CVector<CString> new_vec_1;
@@ -863,7 +863,7 @@ TEST(test055, test_CIni_change_value_add_value)
     CString new_value_2 = 80000;
     CString old_value_2 = 78;
     new_file.change_value(name_section_0, k11, old_value_2, new_value_2);
-    CString new_value_3 = 678;
+    CString new_value_3 = 606;
     new_file.add_value(name_section_0, k11, new_value_3);
 
     CVector<CString> new_vec_4;
@@ -872,59 +872,259 @@ TEST(test055, test_CIni_change_value_add_value)
 
     CVector<CString> new_vec_5;
     new_vec_5.push_back(89457);
-    CString new_key_0 = "twelve";
+    CString new_key_0 = "fourteen";
     new_file.add_value(name_section_0, new_key_0, new_vec_5);
 
+    CVector<CString> new_vec_6;
+    new_vec_6.push_back("Yeah");
+    new_file.change_value(name_section_1, key15, new_vec_6);
+
+    CVector<CString> new_vec_7;
+    new_vec_7.push_back("Sub-zero");
+    new_vec_7.push_back("Hello");
+    new_file.change_value(name_section_1, key19, new_vec_7);
+
+    CVector<CString> new_vec_8;
+    new_vec_8.push_back("HZ");
+    new_file.change_value(name_section_1, key27, new_vec_8);
+
+    CString new_value_4 = "CHAMPION";
+    new_file.add_value(name_section_1, key29, new_value_4);
+
+    CVector<CString> new_vec_9;
+    new_vec_9.push_back("Scorpion");
+    new_file.change_value(name_section_1, key31, new_vec_9);
+
+    CString new_value_5 = "GOLIAF";
+    CString new_value_6 = "SAMSON";
+    new_file.add_value(name_section_1, key34, new_value_5);
+    new_file.add_value(name_section_1, key34, new_value_6);
+
+    CVector<CString> new_vec_10;
+    new_vec_10.push_back("GLADIATOR");
+    new_file.change_value(name_section_1, key35, new_vec_10);
+
+    CVector<CString> new_vec_11;
+    new_vec_11.push_back("Walorant");
+    new_vec_11.push_back("GOOD");
+    new_vec_11.push_back("Cinema");
+    new_file.change_value(name_section_1, key38, new_vec_11);
+
+    CVector<CString> new_vec_12;
+    new_vec_12.push_back("NEW_YEAR");
+    new_vec_12.push_back("CHRISTMAS");
+    CString key40 = "twenty-five";
+    new_file.add_value(name_section_1, key40, new_vec_12);
+
+    CVector<CString> new_vec_13;
+    new_vec_13.push_back("HEAVY_RAIN");
+    CString key41 = "twenty-six";
+    new_file.add_value(name_section_1, key41, new_vec_13);
+
     /*содержимое ini-файла "test" после внесённых изменений имеет следующий вид:
-        [Numbers]
-        ;This section contains the numbers
-        zero =  1000000
-        one =  35
-        eight =  4000
-        two =  21
-        seven =  42
-        three =  17, 678
-        four =  11
-        five =  24
-        six =  23
-        twelve = 9000, 56
-        thirteen = 89, 80000, 25, 678
-        nine = 68
-        ten = 63
-        eleven = 500
-        twelve = 89457
+    [Numbers]
+    ;This section contains the numbers
+    seven = 42
+    one = 35
+    two = 21
+    four = 11
+    zero = 1000000
+    five = 24
+    six = 23
+    eight = 4000
+    nine = 68
+    ten = 63
+    eleven = 500
+    three = 17, 678
+    fourteen = 89457
+    twelve = 9000, 56
+    thirteen = 89, 80000, 25, 606
 
-        [Strings]
-        ;This section contains the strings
-        zero =  "Yeah"
-        one =  "ABCDEFGH"
-        two =  "ABCDE"
-        three =  "ABCD"
-        four =  "Sub-zero", "Hello"
-        five =  "A"
-        six =  "AB"
-        seven =  "ABCDEF"
-        eight =  "ABCDEFGHIJ"
-        nine = "ABCDEFGHI"
-        ten = "ABCDEFGHIJKL"
-        eleven = "ABCDEFGHIJK"
-        twelve = "HZ"
-        thirteen = "ABCDEFGHIJKLMNO"
-        fourteen = "ABCDEFGHIJKLMN", "CHAMPION"
-        fifteen = "ABCDEFGHIJKLMNOPQ"
-        sixteen = "Scorpion"
-        seventeen = "ABCDEFGHIJKLMNOPQR"
-        eighteen = "ABCDEFGHIJKLMNOPQRSTUV"
-        nineteen = "ABCDEFGHIJKLMNOPQRSTU", "GOLIAF", "SAMSON"
-        twenty = "GLADIATOR"
-        twenty-one = "ABCDEFGHIJKLMNOPQRSTUVWX"
-        twenty-two = "ABCDEFGHIJKLMNOPQRSTUVW"
-        twenty-three = "Walorant", "GOOD", "Cinema"
-        twenty-four = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        twenty-five = "NEW YEAR", "CHRISTMAS"
-        twenty-six = "HEAVY RAIN"
+    [Strings]
+    ;And this section containts the strings
+    ten = ABCDEFGHIJKL
+    one = ABCDEFGH
+    two = ABCDE
+    three = ABCD
+    five = A
+    six = AB
+    seven = ABCDEF
+    eight = ABCDEFGHIJ
+    nine = ABCDEFGHI
+    eleven = ABCDEFGHIJK
+    seventeen = ABCDEFGHIJKLMNOPQR
+    thirteen = ABCDEFGHIJKLMNO
+    fifteen = ABCDEFGHIJKLMNOPQ
+    eighteen = ABCDEFGHIJKLMNOPQRSTUV
+    twenty-one = ABCDEFGHIJKLMNOPQRSTUVWX
+    twenty-two = ABCDEFGHIJKLMNOPQRSTUVW
+    twenty-four = ABCDEFGHIJKLMNOPQRSTUVWXYZ
+    zero = Yeah
+    twelve = HZ
+    twenty = GLADIATOR
+    twenty-six = HEAVY_RAIN
+    sixteen = Scorpion
+    four = Sub-zero, Hello
+    fourteen = ABCDEFGHIJKLMN, CHAMPION
+    twenty-five = NEW_YEAR, CHRISTMAS
+    nineteen = ABCDEFGHIJKLMNOPQRSTU, GOLIAF, SAMSON
+    twenty-three = Walorant, GOOD, Cinema
      */
+     string name_file = "test";
+     new_file.create_file(name_file);
+     new_file.write_file(name_file);
 
+     CIni check_file;
+     check_file.read_file(name_file);
+
+     ASSERT_TRUE(check_file.search_key(name_section_0, k1));
+     ASSERT_TRUE(new_vec_1 == check_file.getValue(name_section_0, k1));
+
+     ASSERT_TRUE(check_file.search_key(name_section_0, k2));
+     ASSERT_TRUE(vec2 == check_file.getValue(name_section_0, k2));
+
+     ASSERT_TRUE(check_file.search_key(name_section_0, k3));
+     ASSERT_TRUE(new_vec_3 == check_file.getValue(name_section_0, k3));
+
+     ASSERT_TRUE(check_file.search_key(name_section_0, k4));
+     ASSERT_TRUE(vec4 == check_file.getValue(name_section_0, k4));
+
+     ASSERT_TRUE(check_file.search_key(name_section_0, k5));
+     ASSERT_TRUE(vec5 == check_file.getValue(name_section_0, k5));
+
+     ASSERT_TRUE(check_file.search_key(name_section_0, k6));
+     CVector<CString> res_0;
+     res_0.push_back(17);
+     res_0.push_back(678);
+     ASSERT_TRUE(res_0 == check_file.getValue(name_section_0, k6));
+
+     ASSERT_TRUE(check_file.search_key(name_section_0, k7));
+     ASSERT_TRUE(vec7 == check_file.getValue(name_section_0, k7));
+
+     ASSERT_TRUE(check_file.search_key(name_section_0, k8));
+     ASSERT_TRUE(vec8 == check_file.getValue(name_section_0, k8));
+
+     ASSERT_TRUE(check_file.search_key(name_section_0, k9));
+     ASSERT_TRUE(vec9 == check_file.getValue(name_section_0, k9));
+
+     ASSERT_TRUE(check_file.search_key(name_section_0, k10));
+     CVector<CString> res_1;
+     res_1.push_back(9000);
+     res_1.push_back(56);
+     ASSERT_TRUE(res_1 == check_file.getValue(name_section_0, k10));
+
+     ASSERT_TRUE(check_file.search_key(name_section_0, k11));
+     CVector<CString> res_2;
+     res_2.push_back(89);
+     res_2.push_back(80000);
+     res_2.push_back(25);
+     res_2.push_back(606);
+     ASSERT_TRUE(res_2 == check_file.getValue(name_section_0, k11));
+
+     ASSERT_TRUE(check_file.search_key(name_section_0, k12));
+     ASSERT_TRUE(vec12 == check_file.getValue(name_section_0, k12));
+
+     ASSERT_TRUE(check_file.search_key(name_section_0, k13));
+     ASSERT_TRUE(vec13 == check_file.getValue(name_section_0, k13));
+
+     ASSERT_TRUE(check_file.search_key(name_section_0, k14));
+     CVector<CString> res_3;
+     res_3.push_back(500);
+     ASSERT_TRUE(res_3 == check_file.getValue(name_section_0, k14));
+
+     ASSERT_TRUE(check_file.search_key(name_section_0, new_key_0));
+     ASSERT_TRUE(new_vec_5 == check_file.getValue(name_section_0, new_key_0));
+
+     ASSERT_TRUE(check_file.search_key(name_section_1, key15));
+     ASSERT_TRUE(new_vec_6 == check_file.getValue(name_section_1, key15));
+
+     ASSERT_TRUE(check_file.search_key(name_section_1, key16));
+     ASSERT_TRUE(value16 == check_file.getValue(name_section_1, key16));
+
+     ASSERT_TRUE(check_file.search_key(name_section_1, key17));
+     ASSERT_TRUE(value17 == check_file.getValue(name_section_1, key17));
+
+     ASSERT_TRUE(check_file.search_key(name_section_1, key18));
+     ASSERT_TRUE(value18 == check_file.getValue(name_section_1, key18));
+
+     ASSERT_TRUE(check_file.search_key(name_section_1, key19));
+     ASSERT_TRUE(new_vec_7 == check_file.getValue(name_section_1, key19));
+
+     ASSERT_TRUE(check_file.search_key(name_section_1, key20));
+     ASSERT_TRUE(value20 == check_file.getValue(name_section_1, key20));
+
+     ASSERT_TRUE(check_file.search_key(name_section_1, key21));
+     ASSERT_TRUE(value21 == check_file.getValue(name_section_1, key21));
+
+     ASSERT_TRUE(check_file.search_key(name_section_1, key22));
+     ASSERT_TRUE(value22 == check_file.getValue(name_section_1, key22));
+
+     ASSERT_TRUE(check_file.search_key(name_section_1, key23));
+     ASSERT_TRUE(value23 == check_file.getValue(name_section_1, key23));
+
+     ASSERT_TRUE(check_file.search_key(name_section_1, key24));
+     ASSERT_TRUE(value24 == check_file.getValue(name_section_1, key24));
+
+     ASSERT_TRUE(check_file.search_key(name_section_1, key25));
+     ASSERT_TRUE(value25 == check_file.getValue(name_section_1, key25));
+
+     ASSERT_TRUE(check_file.search_key(name_section_1, key26));
+     ASSERT_TRUE(value26 == check_file.getValue(name_section_1, key26));
+
+     ASSERT_TRUE(check_file.search_key(name_section_1, key27));
+     ASSERT_TRUE(new_vec_8 == check_file.getValue(name_section_1, key27));
+
+     ASSERT_TRUE(check_file.search_key(name_section_1, key28));
+
+     ASSERT_TRUE(value28 == check_file.getValue(name_section_1, key28));
+
+     ASSERT_TRUE(check_file.search_key(name_section_1, key29));
+     CVector<CString> res_4;
+     res_4.push_back("ABCDEFGHIJKLMN");
+     res_4.push_back("CHAMPION");
+     ASSERT_TRUE(res_4 == check_file.getValue(name_section_1, key29));
+
+     ASSERT_TRUE(check_file.search_key(name_section_1, key30));
+     ASSERT_TRUE(value30 == check_file.getValue(name_section_1, key30));
+
+     ASSERT_TRUE(check_file.search_key(name_section_1, key31));
+     ASSERT_TRUE(new_vec_9 == check_file.getValue(name_section_1, key31));
+
+     ASSERT_TRUE(check_file.search_key(name_section_1, key32));
+     ASSERT_TRUE(value32 == check_file.getValue(name_section_1, key32));
+
+     ASSERT_TRUE(check_file.search_key(name_section_1, key33));
+     ASSERT_TRUE(value33 == check_file.getValue(name_section_1, key33));
+
+     ASSERT_TRUE(check_file.search_key(name_section_1, key34));
+     CVector<CString> res_5;
+     res_5.push_back("ABCDEFGHIJKLMNOPQRSTU");
+     res_5.push_back("GOLIAF");
+     res_5.push_back("SAMSON");
+     ASSERT_TRUE(res_5 == check_file.getValue(name_section_1, key34));
+
+     ASSERT_TRUE(check_file.search_key(name_section_1, key35));
+     ASSERT_TRUE(new_vec_10 == check_file.getValue(name_section_1, key35));
+
+     ASSERT_TRUE(check_file.search_key(name_section_1, key36));
+     ASSERT_TRUE(value36 == check_file.getValue(name_section_1, key36));
+
+     ASSERT_TRUE(check_file.search_key(name_section_1, key37));
+     ASSERT_TRUE(value37 == check_file.getValue(name_section_1, key37));
+
+     ASSERT_TRUE(check_file.search_key(name_section_1, key38));
+     ASSERT_TRUE(new_vec_11 == check_file.getValue(name_section_1, key38));
+
+     ASSERT_TRUE(check_file.search_key(name_section_1, key39));
+     ASSERT_TRUE(value39 == check_file.getValue(name_section_1, key39));
+
+     ASSERT_TRUE(check_file.search_key(name_section_1, key40));
+     ASSERT_TRUE(new_vec_12 == check_file.getValue(name_section_1, key40));
+
+     ASSERT_TRUE(check_file.search_key(name_section_1, key41));
+     ASSERT_TRUE(new_vec_13 == check_file.getValue(name_section_1, key41));
+
+    check_file.delete_file(name_file);
 }
 
 #endif // CINI_TEST_H
