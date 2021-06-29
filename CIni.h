@@ -25,12 +25,8 @@ public:
     CMap<CString, CVector<CString>> m_key_value;
 
     Content_of_section();
-    void clear()
-    {
-        m_name_section.clear();
-        m_comment_section.clear();
-        m_key_value.clear();
-    }
+
+    void clear();
 };
 
 class CIni

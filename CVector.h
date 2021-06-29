@@ -237,11 +237,11 @@ unsigned CVector<A>::resize(int n)
     {
         if(n < 0)
         {
-            throw 1.0;
+            throw 1;
         }
         else if(n > int(m_count))
         {
-            throw 1;
+            throw 2;
         }
     }
     catch (double a)
@@ -256,7 +256,7 @@ unsigned CVector<A>::resize(int n)
     {
         if(n < int(m_count))
         {
-            m_count = n;
+            m_count = unsigned(n);
             A *temp = new A[m_count];
             for(unsigned i = 0; i < m_count; i++)
             {
@@ -290,7 +290,7 @@ unsigned CVector<A>::resize(int n, A str)
         }
         delete [] m_container;
 
-        m_capacity = n;
+        m_capacity = unsigned(n);
         m_container = new A[m_capacity];
         unsigned i = 0;
         for(; i < m_count; i++)
@@ -632,7 +632,7 @@ CVector<A> & CVector<A>::erase(int fr, int lt, char f,  char l)
     {
         if(first == 0 && last == m_count - 1)
         {
-            int new_m_size = 2;
+            unsigned new_m_size = 2;
             A *temp = new A[new_m_size];
             temp[0] = m_container[first];
             temp[1] = m_container[last];
@@ -692,7 +692,7 @@ CVector<A> & CVector<A>::erase(int fr, int lt, char f,  char l)
     {
         if(first == 0 && last == m_count - 1)
         {
-            int new_m_size = 1;
+            unsigned new_m_size = 1;
             A *temp = new A[new_m_size];
             temp[0] = m_container[last];
             delete [] m_container;
@@ -754,7 +754,7 @@ CVector<A> & CVector<A>::erase(int fr, int lt, char f,  char l)
     {
         if(first == 0 && last == m_count - 1)
         {
-            int new_m_size = 1;
+            unsigned new_m_size = 1;
             A *temp = new A[new_m_size];
             temp[0] = m_container[first];
             delete [] m_container;
@@ -1255,7 +1255,7 @@ bool CVector<A>::operator>(const CVector &vct)
 template <typename A>
 bool CVector<A>::operator<(const CVector &vct)
 {
-    int less = false;
+    bool less = false;
     if(m_count < vct.m_count)
     {
         less = true;

@@ -25,6 +25,14 @@ Content_of_section::Content_of_section()
     m_key_value    = empty_key_value;
 
 }
+
+void Content_of_section::clear()
+{
+     m_name_section.clear();
+     m_comment_section.clear();
+     m_key_value.clear();
+}
+
 CIni::CIni()
 {
     CString empty_name;

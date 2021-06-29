@@ -184,24 +184,17 @@ CString & CString::erase(char s)
             count++;
         }
     }
-    char MIN = m_word[0];
-    char MAX = m_word[0];
-    for(unsigned i = 0; i < m_size - 1; i++)
-    {
-        MAX < m_word[i] ? MAX = m_word[i] : MIN = m_word[i];
-    }
     //если указанный символ не встречается в m_word, то выводим предупреждение
     try
     {
         if(count == 0)
         {
-            throw "This string doesn't contain this symbol.";
+            throw 0;
         }
     }
-    catch (const char *a)
+    catch (int a)
     {
         cout << a << endl;
-        cout << "Enter the from \'" << MIN << "\' to \'" << MAX <<"\'." << endl;
     }
     unsigned new_m_size = m_size - count;
     char *temp = new char[new_m_size];
@@ -251,11 +244,11 @@ CString & CString::erase(int fr, int lt, char f,  char l)
     }
     catch (int a)
     {
-        cout << "The first number should be from 0 " << "to " << m_size - 3 << " ." << endl;
+        cout << a << endl;
     }
     catch (double a)
     {
-        cout << "The last number should be from 1 " << "to " << m_size - 2 << " ." << endl;
+        cout << a << endl;
     }
     unsigned first = unsigned(fr);
     unsigned last  = unsigned(lt);
@@ -688,12 +681,6 @@ unsigned CString::find(char s)
     unsigned number = 0;
     //количество совпадений
     unsigned count = 0;
-    char MIN = m_word[0];
-    char MAX = m_word[0];
-    for(unsigned i = 0; i < m_size - 1; i++)
-    {
-        MAX < m_word[i] ? MAX = m_word[i] : MIN = m_word[i];
-    }
 
     for(unsigned i = 0; i < m_size - 1; i++)
     {
@@ -723,12 +710,6 @@ unsigned CString::find(char s)
     {
         return 0;
     }
-    //если совпадений несколько, то вывести сколько раз
-    /*if(count > 1)
-    {
-        cout << "From the position number " << number << " the string contains \'" << s << "\' " << count << " of times." << endl;
-    }*/
-
     return number;
 }
 
@@ -822,13 +803,6 @@ unsigned CString::rfind(char s)
     unsigned number = 0;
     //количество совпадений
     unsigned count = 0;
-    char MIN = m_word[0];
-    char MAX = m_word[0];
-    for(unsigned i = 0; i < m_size - 1; i++)
-    {
-        MAX < m_word[i] ? MAX = m_word[i] : MIN = m_word[i];
-    }
-
     for(int i = int(m_size) - 2; i >= 0; i--)
     {
         if(m_word[i] == s)
@@ -858,13 +832,6 @@ unsigned CString::rfind(char s)
     {
         return 0;
     }
-
-    //если совпадений несколько, то вывести сколько раз
-    /*if(count > 1)
-    {
-        cout << "From the position number " << number << " the string contains \'" << s << "\' " << count << " of times." << endl;
-    }*/
-
     return number;
 }
 
@@ -878,7 +845,7 @@ unsigned CString::rfind(const CString &str)
     //количество совпадений
     unsigned n_word = 0;
     //если полностью совпало
-    int rfind = false;
+    bool rfind = false;
 
     for(int i = int(m_size) - 2; i >= 0; i--)
     {
