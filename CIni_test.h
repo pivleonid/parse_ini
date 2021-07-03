@@ -2,132 +2,621 @@
 #define CINI_TEST_H
 #include "CIni.h"
 #include <gtest/include/gtest/gtest.h>
-/*TEST(test057, test_CIni_read_file)
-{
-    CIni ini;
-    ini.read_file("C:\\FilesC++\\parse\\file3.ini");
-    for(unsigned  i = 0; i < ini.m_temp_container.size(); i++)
-    {
-        cout << ini.m_temp_container.at(i).data() << endl;
-    }
-    cout << "//-------------------------//" <<endl;
-    for(unsigned i = 0; i < ini.m_data.size(); i++)
-    {
-        cout << ini.m_data.at(i).m_name_section.m_data() << endl;
-        for(unsigned j = 0; j < ini.m_data.at(i).m_name_comment.size(); j++)
-        {
-            cout << ini.m_data.at(i).m_name_comment.at(j).data() << " ";
-        }
-        cout << endl;
-        for(unsigned k = 1; k < ini.m_data.at(i).m_key_value.size() + 1; k++)
-        {
-            CString node;
-            node = k;
-            cout << k << " = ";
-            for(unsigned h = 0; h < ini.m_data.at(i).m_key_value.getValue(node).size(); h++)
-            {
-                cout << ini.m_data.at(i).m_key_value.getValue(node).at(h).data() << " ";
-            }
-            cout << endl;
-        }
-    }
-}*/
-
-
-TEST(test053, test_CIni_create_ini_file)
+TEST(test001, test_CIni_read_file)
 {
     CIni new_file;
 
-    /*содержимое ini-файла "test" имеет следующий вид:
+       /*содержимое ini-файла "test" имеет следующий вид:
         [Numbers]
         ;This section contains the numbers
-        zero =  60
-        one =  35
-        eight = 70, 45
-        two =  21
-        seven =  42
-        three =  17
-        four =  11
-        five =  24
-        six =  23
-        twelve = 71, 56
-        thirteen = 89, 78, 25
-        nine = 68
-        ten = 63
-        eleven = 69
+        eight=70, 45
+        eleven=69
+        five=24
+        four=11
+        nine=68
+        one=35
+        seven=42
+        six=23
+        ten=63
+        thirteen=89, 78, 25
+        three=17
+        twelve=71, 56
+        two=21
+        zero=60
+        [Strings]
+        ;And this section containts the strings
+        eight=ABCDEFGHIJ
+        eighteen=ABCDEFGHIJKLMNOPQRSTUV
+        eleven=ABCDEFGHIJK
+        fifteen=ABCDEFGHIJKLMNOPQ
+        five=A
+        four=ABC
+        fourteen=ABCDEFGHIJKLMN
+        nine=ABCDEFGHI
+        nineteen=ABCDEFGHIJKLMNOPQRSTU
+        one=ABCDEFGH
+        seven=ABCDEF
+        seventeen=ABCDEFGHIJKLMNOPQR
+        six=AB
+        sixteen=ABCDEFGHIJKLMNOP
+        ten=ABCDEFGHIJKL
+        thirteen=ABCDEFGHIJKLMNO
+        three=ABCD
+        twelve=ABCDEFGHIJKLMNOPQRS
+        twenty=ABCDEFGHIJKLMNOPQRST
+        twenty-four=ABCDEFGHIJKLMNOPQRSTUVWXYZ
+        twenty-one=ABCDEFGHIJKLMNOPQRSTUVWX
+        twenty-three=ABCDEFGHIJKLMNOPQRSTUVWXY
+        two=ABCDE
+        zero=ABCDEFGHIJKLM
+
+       */
+       //создание контента для заполнения ini-файла
+       //присваивание 1 секции имени
+       string name_section = "Numbers";
+       new_file.add_name_section(name_section);
+
+       //добавление комментария к секции
+       string comment_section = "This section contains the numbers";
+       new_file.add_comment_section(name_section, comment_section);
+       map<string, vector<string>> key_value;
+
+       //заполнение 1 секции содержимым
+       string zero = "zero"; vector<string> v60;
+       v60.push_back("60");
+       key_value.insert(pair<string, vector<string>>(zero, v60));
+
+
+       string one = "one"; vector<string> v35;
+       v35.push_back("35");
+       key_value.insert(pair<string, vector<string>>(one, v35));
+
+       string eight = "eight"; vector<string> v70_45;
+       v70_45.push_back("70");
+       v70_45.push_back("45");
+       key_value.insert(pair<string, vector<string>>(eight, v70_45));
+
+       string two = "two"; vector<string> v21;
+       v21.push_back("21");
+       key_value.insert(pair<string, vector<string>>(two, v21));
+
+       string seven = "seven"; vector<string> v42;
+       v42.push_back("42");
+       key_value.insert(pair<string, vector<string>>(seven, v42));
+
+       string three = "three"; vector<string> v17;
+       v17.push_back("17");
+       key_value.insert(pair<string, vector<string>>(three, v17));
+
+       string four = "four"; vector<string> v11;
+       v11.push_back("11");
+       key_value.insert(pair<string, vector<string>>(four, v11));
+
+       string five = "five"; vector<string> v24;
+       v24.push_back("24");
+       key_value.insert(pair<string, vector<string>>(five, v24));
+
+       string six = "six"; vector<string> v23;
+       v23.push_back("23");
+       key_value.insert(pair<string, vector<string>>(six, v23));
+
+       string twelve = "twelve"; vector<string> v71_56;
+       v71_56.push_back("71");
+       v71_56.push_back("56");
+       key_value.insert(pair<string, vector<string>>(twelve, v71_56));
+
+
+       string thirteen = "thirteen"; vector<string> v89_78_25;
+       v89_78_25.push_back("89");
+       v89_78_25.push_back("78");
+       v89_78_25.push_back("25");
+       key_value.insert(pair<string, vector<string>>(thirteen, v89_78_25));
+
+       string nine = "nine"; vector<string> v68;
+       v68.push_back("68");
+       key_value.insert(pair<string, vector<string>>(nine, v68));
+
+
+       string ten = "ten"; vector<string> v63;
+       v63.push_back("63");
+       key_value.insert(pair<string, vector<string>>(ten, v63));
+
+       string eleven = "eleven"; vector<string> v69;
+       v69.push_back("69");
+       key_value.insert(pair<string, vector<string>>(eleven, v69));
+
+       new_file.add_key_value(name_section, key_value);
+
+       //присваивание 2 секции имени
+       string name_section1 = "Strings";
+       new_file.add_name_section(name_section1);
+
+       //добавление комментария к секции
+       string comment_section1 = "And this section containts the strings";
+       new_file.add_comment_section(name_section1, comment_section1);
+
+       //заполнение 2 секции содержимым
+       map<string, vector<string>> key_value_1;
+
+       string zero_ = "zero"; vector<string> vlM;
+       vlM.push_back("ABCDEFGHIJKLM");
+       key_value_1.insert(pair<string, vector<string>>(zero_, vlM));
+
+       string one_ = "one"; vector<string> vlH;
+       vlH.push_back("ABCDEFGH");
+       key_value_1.insert(pair<string, vector<string>>(one_, vlH));
+
+       string two_ = "two"; vector<string> vlE;
+       vlE.push_back("ABCDE");
+       key_value_1.insert(pair<string, vector<string>>(two_, vlH));
+
+       string three_ = "three"; vector<string> vlD;
+       vlD.push_back("ABCD");
+       key_value_1.insert(pair<string, vector<string>>(three_, vlD));
+
+       string four_ = "four"; vector<string> vlC;
+       vlC.push_back("ABC");
+       key_value_1.insert(pair<string, vector<string>>(four_, vlC));
+
+       string five_ = "five"; vector<string> vlA;
+       vlA.push_back("A");
+       key_value_1.insert(pair<string, vector<string>>(five_, vlA));
+
+       string six_ = "six"; vector<string> vlB;
+       vlB.push_back("AB");
+       key_value_1.insert(pair<string, vector<string>>(six_, vlB));
+
+
+       string seven_ = "seven"; vector<string> vlF;
+       vlF.push_back("ABCDEF");
+       key_value_1.insert(pair<string, vector<string>>(seven_, vlF));
+
+
+       string eight_ = "eight"; vector<string> vlJ;
+       vlJ.push_back("ABCDEFGHIJ");
+       key_value_1.insert(pair<string, vector<string>>(eight_, vlJ));
+
+       string nine_ = "nine"; vector<string> vlI;
+       vlI.push_back("ABCDEFGHI");
+       key_value_1.insert(pair<string, vector<string>>(nine_, vlI));
+
+
+       string ten_ = "ten"; vector<string> vlL;
+       vlL.push_back("ABCDEFGHIJKL");
+       key_value_1.insert(pair<string, vector<string>>(ten_, vlL));
+
+       string eleven_ = "eleven"; vector<string> vlK;
+       vlK.push_back("ABCDEFGHIJK");
+       key_value_1.insert(pair<string, vector<string>>(eleven_, vlK));
+
+       string twelve_ = "twelve"; vector<string> vlS;
+       vlS.push_back("ABCDEFGHIJKLMNOPQRS");
+       key_value_1.insert(pair<string, vector<string>>(twelve_, vlS));
+
+       string thirteen_ = "thirteen"; vector<string> vlO;
+       vlO.push_back("ABCDEFGHIJKLMNO");
+       key_value_1.insert(pair<string, vector<string>>(thirteen_, vlO));
+
+       string fourteen_ = "fourteen"; vector<string> vlN;
+       vlN.push_back("ABCDEFGHIJKLMN");
+       key_value_1.insert(pair<string, vector<string>>(fourteen_, vlN));
+
+       string fifteen_ = "fifteen"; vector<string> vlQ;
+       vlQ.push_back("ABCDEFGHIJKLMNOPQ");
+       key_value_1.insert(pair<string, vector<string>>(fifteen_, vlQ));
+
+       string sixteen_ = "sixteen"; vector<string> vlP;
+       vlP.push_back("ABCDEFGHIJKLMNOP");
+       key_value_1.insert(pair<string, vector<string>>(sixteen_, vlP));
+
+       string seventeen_ = "seventeen"; vector<string> vlR;
+       vlR.push_back("ABCDEFGHIJKLMNOPQR");
+       key_value_1.insert(pair<string, vector<string>>(seventeen_, vlR));
+
+       string eighteen_ = "eighteen"; vector<string> vlV;
+       vlV.push_back("ABCDEFGHIJKLMNOPQRSTUV");
+       key_value_1.insert(pair<string, vector<string>>(eighteen_, vlV));
+
+       string nineteen_ = "nineteen"; vector<string> vlU;
+       vlU.push_back("ABCDEFGHIJKLMNOPQRSTU");
+       key_value_1.insert(pair<string, vector<string>>(nineteen_, vlU));
+
+       string twenty_ = "twenty"; vector<string> vlT;
+       vlT.push_back("ABCDEFGHIJKLMNOPQRST");
+       key_value_1.insert(pair<string, vector<string>>(twenty_, vlT));
+
+       string twenty_one_ = "twenty-one"; vector<string> vlX;
+       vlX.push_back("ABCDEFGHIJKLMNOPQRSTUVWX");
+       key_value_1.insert(pair<string, vector<string>>(twenty_one_, vlX));
+
+       string twenty_two_ = "twenty-two"; vector<string> vlW;
+       vlW.push_back("ABCDEFGHIJKLMNOPQRSTUVW");
+       key_value_1.insert(pair<string, vector<string>>(twenty_two_, vlW));
+
+
+       string twenty_three_ = "twenty-three"; vector<string> vlY;
+       vlY.push_back("ABCDEFGHIJKLMNOPQRSTUVWXY");
+       key_value_1.insert(pair<string, vector<string>>(twenty_three_, vlY));
+
+       string twenty_four_ = "twenty-four"; vector<string> vlZ;
+       vlZ.push_back("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+       key_value_1.insert(pair<string, vector<string>>(twenty_four_, vlZ));
+
+       new_file.add_key_value(name_section1, key_value_1);
+
+       string name_file = "test";
+
+       //создание пустого ini-файла
+       new_file.create_file(name_file);
+
+       //его заполнение
+       new_file.write_file(name_file);
+
+       //проверка содержимого ini-файла
+       CIni check_file;
+
+       //чтение ini-файла
+       check_file.read_file(name_file);
+
+       //поиск секции по name_section
+       ASSERT_TRUE(check_file.search_name_section(name_section));
+
+       //получение комментария к секции
+       const char *res = "This section contains the numbers";
+       ASSERT_STREQ(res, check_file.get_comment_section(name_section));
+
+       ASSERT_TRUE(v60 == check_file.getValue(name_section, zero));
+
+       ASSERT_TRUE(v35 == check_file.getValue(name_section, one));
+
+       ASSERT_TRUE(v70_45 == check_file.getValue(name_section, eight));
+
+       ASSERT_TRUE(v21 == check_file.getValue(name_section, two));
+
+       ASSERT_TRUE(v42 == check_file.getValue(name_section, seven));
+
+       ASSERT_TRUE(v17 == check_file.getValue(name_section, three));
+
+       ASSERT_TRUE(v11 == check_file.getValue(name_section, four));
+
+       ASSERT_TRUE(v24 == check_file.getValue(name_section, five));
+
+       ASSERT_TRUE(v23 == check_file.getValue(name_section, six));
+
+       ASSERT_TRUE(v71_56 == check_file.getValue(name_section, twelve));
+
+       ASSERT_TRUE(v89_78_25 == check_file.getValue(name_section, thirteen));
+
+       ASSERT_TRUE(v68 == check_file.getValue(name_section, nine));
+
+       ASSERT_TRUE(v63 == check_file.getValue(name_section, ten));
+
+       ASSERT_TRUE(v69 == check_file.getValue(name_section, eleven));
+
+
+       //проверка наличия второй секции
+       ASSERT_TRUE(check_file.search_name_section(name_section1));
+
+       //получение комментария к секции
+       const char *res1 = "And this section containts the strings";
+       ASSERT_STREQ(res1, check_file.get_comment_section(name_section1));
+
+       //проверка значений второй секции
+
+       ASSERT_TRUE(vlM == check_file.getValue(name_section1, zero_));
+
+       ASSERT_TRUE(vlH == check_file.getValue(name_section1, one_));
+
+       ASSERT_TRUE(vlE == check_file.getValue(name_section1, two_));
+
+       ASSERT_TRUE(vlD == check_file.getValue(name_section1, three_));
+
+       ASSERT_TRUE(vlC == check_file.getValue(name_section1, four_));
+
+       ASSERT_TRUE(vlA == check_file.getValue(name_section1, five_));
+
+       ASSERT_TRUE(vlB == check_file.getValue(name_section1, six_));
+
+       ASSERT_TRUE(vlF == check_file.getValue(name_section1, seven_));
+
+       ASSERT_TRUE(vlJ == check_file.getValue(name_section1, eight_));
+
+       ASSERT_TRUE(vlI == check_file.getValue(name_section1, nine_));
+
+       ASSERT_TRUE(vlL == check_file.getValue(name_section1, ten_));
+
+       ASSERT_TRUE(vlK == check_file.getValue(name_section1, eleven_));
+
+       ASSERT_TRUE(vlS == check_file.getValue(name_section1, twelve_));
+
+       ASSERT_TRUE(vlO == check_file.getValue(name_section1, thirteen_));
+
+       ASSERT_TRUE(vlN == check_file.getValue(name_section1, fourteen_));
+
+       ASSERT_TRUE(vlQ == check_file.getValue(name_section1, fifteen_));
+
+       ASSERT_TRUE(vlP == check_file.getValue(name_section1, sixteen_));
+
+       ASSERT_TRUE(vlR == check_file.getValue(name_section1, seventeen_));
+
+       ASSERT_TRUE(vlV == check_file.getValue(name_section1, eighteen_));
+
+       ASSERT_TRUE(vlU == check_file.getValue(name_section1, nineteen_));
+
+       ASSERT_TRUE(vlT == check_file.getValue(name_section1, twenty_));
+
+       ASSERT_TRUE(vlX == check_file.getValue(name_section1, twenty_one_));
+
+       ASSERT_TRUE(vlW == check_file.getValue(name_section1, twenty_two_));
+
+       ASSERT_TRUE(vlY == check_file.getValue(name_section1, twenty_three_));
+
+       ASSERT_TRUE(vlZ == check_file.getValue(name_section1, twenty_four_));
+
+       //удаление ini-файла
+       new_file.delete_file(name_file);
+}
+TEST(test002, test_CIni_change_value_add_value)
+{
+    /*содержимое ini-файла "test" до внесённых изменений имеет следующий вид:
+     [Numbers]
+     ;This section contains the numbers
+     eight=70, 45
+     eleven=69
+     five=24
+     four=11
+     nine=68
+     one=35
+     seven=42
+     six=23
+     ten=63
+     thirteen=89, 78, 25
+     three=17
+     twelve=71, 56
+     two=21
+     zero=60
+     [Strings]
+     ;And this section containts the strings
+     eight=ABCDEFGHIJ
+     eighteen=ABCDEFGHIJKLMNOPQRSTUV
+     eleven=ABCDEFGHIJK
+     fifteen=ABCDEFGHIJKLMNOPQ
+     five=A
+     four=ABC
+     fourteen=ABCDEFGHIJKLMN
+     nine=ABCDEFGHI
+     nineteen=ABCDEFGHIJKLMNOPQRSTU
+     one=ABCDEFGH
+     seven=ABCDEF
+     seventeen=ABCDEFGHIJKLMNOPQR
+     six=AB
+     sixteen=ABCDEFGHIJKLMNOP
+     ten=ABCDEFGHIJKL
+     thirteen=ABCDEFGHIJKLMNO
+     three=ABCD
+     twelve=ABCDEFGHIJKLMNOPQRS
+     twenty=ABCDEFGHIJKLMNOPQRST
+     twenty-four=ABCDEFGHIJKLMNOPQRSTUVWXYZ
+     twenty-one=ABCDEFGHIJKLMNOPQRSTUVWX
+     twenty-three=ABCDEFGHIJKLMNOPQRSTUVWXY
+     two=ABCDE
+     zero=ABCDEFGHIJKLM
+
     */
-    //создание контента для заполнения ini-файла
-    CString name_section = "Numbers";
-    new_file.add_name_section(name_section);
+    CIni new_file;
+    string old_name_section0 = "Numbers";
+    new_file.add_name_section(old_name_section0);
 
-    CString comment_section = "This section contains the numbers";
-    new_file.add_comment_section(name_section, comment_section);
+    //добавление комментария к секции
+    string comment_section = "This section contains the numbers";
+    new_file.add_comment_section(old_name_section0, comment_section);
+    map<string, vector<string>> key_value;
 
-    CMap<CString, CVector<CString>> key_value;
+    //заполнение 1 секции содержимым
+    string zero = "zero"; vector<string> v60;
+    v60.push_back("60");
+    key_value.insert(pair<string, vector<string>>(zero, v60));
 
-    CString k1 = "zero"; CVector<CString> vec1;
-    vec1.push_back(60);
-    key_value.add_pair(k1, vec1);
 
-    CString k2 = "one"; CVector<CString> vec2;
-    vec2.push_back(35);
-    key_value.add_pair(k2, vec2);
+    string one = "one"; vector<string> v35;
+    v35.push_back("35");
+    key_value.insert(pair<string, vector<string>>(one, v35));
 
-    CString k3 = "eight"; CVector<CString> vec3;
-    vec3.push_back(70);
-    vec3.push_back(45);
-    key_value.add_pair(k3, vec3);
+    string eight = "eight"; vector<string> v70_45;
+    v70_45.push_back("70");
+    v70_45.push_back("45");
+    key_value.insert(pair<string, vector<string>>(eight, v70_45));
 
-    CString k4 = "two"; CVector<CString> vec4;
-    vec4.push_back(21);
-    key_value.add_pair(k4, vec4);
+    string two = "two"; vector<string> v21;
+    v21.push_back("21");
+    key_value.insert(pair<string, vector<string>>(two, v21));
 
-    CString k5 = "seven"; CVector<CString> vec5;
-    vec5.push_back(42);
-    key_value.add_pair(k5, vec5);
+    string seven = "seven"; vector<string> v42;
+    v42.push_back("42");
+    key_value.insert(pair<string, vector<string>>(seven, v42));
 
-    CString k6 = "three"; CVector<CString> vec6;
-    vec6.push_back(17);
-    key_value.add_pair(k6, vec6);
+    string three = "three"; vector<string> v17;
+    v17.push_back("17");
+    key_value.insert(pair<string, vector<string>>(three, v17));
 
-    CString k7 = "four"; CVector<CString> vec7;
-    vec7.push_back(11);
-    key_value.add_pair(k7, vec7);
+    string four = "four"; vector<string> v11;
+    v11.push_back("11");
+    key_value.insert(pair<string, vector<string>>(four, v11));
 
-    CString k8 = "five"; CVector<CString> vec8;
-    vec8.push_back(24);
-    key_value.add_pair(k8, vec8);
+    string five = "five"; vector<string> v24;
+    v24.push_back("24");
+    key_value.insert(pair<string, vector<string>>(five, v24));
 
-    CString k9 = "six"; CVector<CString> vec9;
-    vec9.push_back(23);
-    key_value.add_pair(k9, vec9);
+    string six = "six"; vector<string> v23;
+    v23.push_back("23");
+    key_value.insert(pair<string, vector<string>>(six, v23));
 
-    CString k10 = "twelve"; CVector<CString> vec10;
-    vec10.push_back(71);
-    vec10.push_back(56);
-    key_value.add_pair(k10, vec10);
+    string twelve = "twelve"; vector<string> v71_56;
+    v71_56.push_back("71");
+    v71_56.push_back("56");
+    key_value.insert(pair<string, vector<string>>(twelve, v71_56));
 
-    CString k11 = "thirteen"; CVector<CString> vec11;
-    vec11.push_back(89);
-    vec11.push_back(78);
-    vec11.push_back(25);
-    key_value.add_pair(k11, vec11);
 
-    CString k12 = "nine"; CVector<CString> vec12;
-    vec12.push_back(68);
-    key_value.add_pair(k12, vec12);
+    string thirteen = "thirteen"; vector<string> v89_78_25;
+    v89_78_25.push_back("89");
+    v89_78_25.push_back("78");
+    v89_78_25.push_back("25");
+    key_value.insert(pair<string, vector<string>>(thirteen, v89_78_25));
 
-    CString k13 = "ten"; CVector<CString> vec13;
-    vec13.push_back(63);
-    key_value.add_pair(k13, vec13);
+    string nine = "nine"; vector<string> v68;
+    v68.push_back("68");
+    key_value.insert(pair<string, vector<string>>(nine, v68));
 
-    CString k14 = "eleven"; CVector<CString> vec14;
-    vec14.push_back(69);
-    key_value.add_pair(k14, vec14);
 
-    new_file.add_key_value(name_section, key_value);
+    string ten = "ten"; vector<string> v63;
+    v63.push_back("63");
+    key_value.insert(pair<string, vector<string>>(ten, v63));
 
-    ASSERT_TRUE(vec1 == new_file.getValue(name_section, k1));
+    string eleven = "eleven"; vector<string> v69;
+    v69.push_back("69");
+    key_value.insert(pair<string, vector<string>>(eleven, v69));
+
+    new_file.add_key_value(old_name_section0, key_value);
+
+    //присваивание 2 секции имени
+    string old_name_section1 = "Strings";
+    new_file.add_name_section(old_name_section1);
+
+    //добавление комментария к секции
+    string comment_section1 = "And this section containts the strings";
+    new_file.add_comment_section(old_name_section1, comment_section1);
+
+    //заполнение 2 секции содержимым
+    map<string, vector<string>> key_value_1;
+
+    string zero_ = "zero"; vector<string> vlM;
+    vlM.push_back("ABCDEFGHIJKLM");
+    key_value_1.insert(pair<string, vector<string>>(zero_, vlM));
+
+    string one_ = "one"; vector<string> vlH;
+    vlH.push_back("ABCDEFGH");
+    key_value_1.insert(pair<string, vector<string>>(one_, vlH));
+
+    string two_ = "two"; vector<string> vlE;
+    vlE.push_back("ABCDE");
+    key_value_1.insert(pair<string, vector<string>>(two_, vlH));
+
+    string three_ = "three"; vector<string> vlD;
+    vlD.push_back("ABCD");
+    key_value_1.insert(pair<string, vector<string>>(three_, vlD));
+
+    string four_ = "four"; vector<string> vlC;
+    vlC.push_back("ABC");
+    key_value_1.insert(pair<string, vector<string>>(four_, vlC));
+
+    string five_ = "five"; vector<string> vlA;
+    vlA.push_back("A");
+    key_value_1.insert(pair<string, vector<string>>(five_, vlA));
+
+    string six_ = "six"; vector<string> vlB;
+    vlB.push_back("AB");
+    key_value_1.insert(pair<string, vector<string>>(six_, vlB));
+
+
+    string seven_ = "seven"; vector<string> vlF;
+    vlF.push_back("ABCDEF");
+    key_value_1.insert(pair<string, vector<string>>(seven_, vlF));
+
+
+    string eight_ = "eight"; vector<string> vlJ;
+    vlJ.push_back("ABCDEFGHIJ");
+    key_value_1.insert(pair<string, vector<string>>(eight_, vlJ));
+
+    string nine_ = "nine"; vector<string> vlI;
+    vlI.push_back("ABCDEFGHI");
+    key_value_1.insert(pair<string, vector<string>>(nine_, vlI));
+
+
+    string ten_ = "ten"; vector<string> vlL;
+    vlL.push_back("ABCDEFGHIJKL");
+    key_value_1.insert(pair<string, vector<string>>(ten_, vlL));
+
+    string eleven_ = "eleven"; vector<string> vlK;
+    vlK.push_back("ABCDEFGHIJK");
+    key_value_1.insert(pair<string, vector<string>>(eleven_, vlK));
+
+    string twelve_ = "twelve"; vector<string> vlS;
+    vlS.push_back("ABCDEFGHIJKLMNOPQRS");
+    key_value_1.insert(pair<string, vector<string>>(twelve_, vlS));
+
+    string thirteen_ = "thirteen"; vector<string> vlO;
+    vlO.push_back("ABCDEFGHIJKLMNO");
+    key_value_1.insert(pair<string, vector<string>>(thirteen_, vlO));
+
+    string fourteen_ = "fourteen"; vector<string> vlN;
+    vlN.push_back("ABCDEFGHIJKLMN");
+    key_value_1.insert(pair<string, vector<string>>(fourteen_, vlN));
+
+    string fifteen_ = "fifteen"; vector<string> vlQ;
+    vlQ.push_back("ABCDEFGHIJKLMNOPQ");
+    key_value_1.insert(pair<string, vector<string>>(fifteen_, vlQ));
+
+    string sixteen_ = "sixteen"; vector<string> vlP;
+    vlP.push_back("ABCDEFGHIJKLMNOP");
+    key_value_1.insert(pair<string, vector<string>>(sixteen_, vlP));
+
+    string seventeen_ = "seventeen"; vector<string> vlR;
+    vlR.push_back("ABCDEFGHIJKLMNOPQR");
+    key_value_1.insert(pair<string, vector<string>>(seventeen_, vlR));
+
+    string eighteen_ = "eighteen"; vector<string> vlV;
+    vlV.push_back("ABCDEFGHIJKLMNOPQRSTUV");
+    key_value_1.insert(pair<string, vector<string>>(eighteen_, vlV));
+
+    string nineteen_ = "nineteen"; vector<string> vlU;
+    vlU.push_back("ABCDEFGHIJKLMNOPQRSTU");
+    key_value_1.insert(pair<string, vector<string>>(nineteen_, vlU));
+
+    string twenty_ = "twenty"; vector<string> vlT;
+    vlT.push_back("ABCDEFGHIJKLMNOPQRST");
+    key_value_1.insert(pair<string, vector<string>>(twenty_, vlT));
+
+    string twenty_one_ = "twenty-one"; vector<string> vlX;
+    vlX.push_back("ABCDEFGHIJKLMNOPQRSTUVWX");
+    key_value_1.insert(pair<string, vector<string>>(twenty_one_, vlX));
+
+    string twenty_two_ = "twenty-two"; vector<string> vlW;
+    vlW.push_back("ABCDEFGHIJKLMNOPQRSTUVW");
+    key_value_1.insert(pair<string, vector<string>>(twenty_two_, vlW));
+
+
+    string twenty_three_ = "twenty-three"; vector<string> vlY;
+    vlY.push_back("ABCDEFGHIJKLMNOPQRSTUVWXY");
+    key_value_1.insert(pair<string, vector<string>>(twenty_three_, vlY));
+
+    string twenty_four_ = "twenty-four"; vector<string> vlZ;
+    vlZ.push_back("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+    key_value_1.insert(pair<string, vector<string>>(twenty_four_, vlZ));
+
+    new_file.add_key_value(old_name_section1, key_value_1);
+
+
+    //изменение имён секций
+    string new_name_0  = "Integers";
+    new_file.change_name_section(old_name_section0, new_name_0);
+    string new_name_1 = "Alphabet";
+    new_file.change_name_section(old_name_section1, new_name_1);
+
+    //удаление значений
+    string num = "45";
+    new_file.delete_value(new_name_0, eight, num);
+    num = "78";
+    new_file.delete_value(new_name_0, thirteen, num);
+    new_file.delete_value(new_name_0, twelve);
+    new_file.delete_value(new_name_0, eleven);
+
+    new_file.delete_value(new_name_1, five_);
+    new_file.delete_value(new_name_1, twelve_);
+    new_file.delete_value(new_name_1, sixteen_);
+    new_file.delete_value(new_name_1, twenty_);
+    new_file.delete_value(new_name_1, twenty_two_);
+    new_file.delete_value(new_name_1, twenty_four_);
+
     string name_file = "test";
 
     //создание пустого ini-файла
@@ -138,993 +627,457 @@ TEST(test053, test_CIni_create_ini_file)
 
     //проверка содержимого ini-файла
     CIni check_file;
+
     //чтение ini-файла
     check_file.read_file(name_file);
 
-    //поиск секции по name_section
-    ASSERT_TRUE(check_file.search_name_section(name_section));
-
-    //получение комментария к секции
-    const char *res = "This section contains the numbers";
-    ASSERT_STREQ(res, check_file.get_comment_section(name_section));
-
-    ASSERT_TRUE(check_file.search_key(name_section, k1));
-    ASSERT_TRUE(vec1 == check_file.getValue(name_section, k1));
-
-    ASSERT_TRUE(check_file.search_key(name_section, k2));
-    ASSERT_TRUE(vec2 == check_file.getValue(name_section, k2));
-
-    ASSERT_TRUE(check_file.search_key(name_section, k3));
-    ASSERT_TRUE(vec3 == check_file.getValue(name_section, k3));
-
-    ASSERT_TRUE(check_file.search_key(name_section, k4));
-    ASSERT_TRUE(vec4 == check_file.getValue(name_section, k4));
-
-    ASSERT_TRUE(check_file.search_key(name_section, k5));
-    ASSERT_TRUE(vec5 == check_file.getValue(name_section, k5));
-
-    ASSERT_TRUE(check_file.search_key(name_section, k6));
-    ASSERT_TRUE(vec6 == check_file.getValue(name_section, k6));
-
-    ASSERT_TRUE(check_file.search_key(name_section, k7));
-    ASSERT_TRUE(vec7 == check_file.getValue(name_section, k7));
-
-    ASSERT_TRUE(check_file.search_key(name_section, k8));
-    ASSERT_TRUE(vec8 == check_file.getValue(name_section, k8));
-
-    ASSERT_TRUE(check_file.search_key(name_section, k9));
-    ASSERT_TRUE(vec9 == check_file.getValue(name_section, k9));
-
-    ASSERT_TRUE(check_file.search_key(name_section, k10));
-    ASSERT_TRUE(vec10 == check_file.getValue(name_section, k10));
-
-    ASSERT_TRUE(check_file.search_key(name_section, k11));
-    ASSERT_TRUE(vec11 == check_file.getValue(name_section, k11));
-
-    ASSERT_TRUE(check_file.search_key(name_section, k12));
-    ASSERT_TRUE(vec12 == check_file.getValue(name_section, k12));
-
-    ASSERT_TRUE(check_file.search_key(name_section, k13));
-    ASSERT_TRUE(vec13 == check_file.getValue(name_section, k13));
-
-    ASSERT_TRUE(check_file.search_key(name_section, k14));
-    ASSERT_TRUE(vec14 == check_file.getValue(name_section, k14));
-
-
-
-    //удаление ini-файла
-    new_file.delete_file(name_file);
-}
-
-TEST(test054, test_CIni_change_m_name_section_delete_value)
-{
-    /*содержимое ini-файла "test" до внесённых изменений имеет следующий вид:
-        [Numbers]
-        ;This section contains the numbers
-        zero =  60
-        one =  35
-        eight =  70, 45
-        two =  21
-        seven =  42
-        three =  17
-        four =  11
-        five =  24
-        six =  23
-        twelve = 71, 56
-        thirteen = 89, 78, 25
-        nine = 68
-        ten = 63
-        eleven = 69
-
-        [Strings]
-        ;This section contains the strings
-        zero =  "ABCDEFGHIJKLM"
-        one =  "ABCDEFGH"
-        two =  "ABCDE"
-        three =  "ABCD"
-        four =  "ABC"
-        five =  "A"
-        six =  "AB"
-        seven =  "ABCDEF"
-        eight =  "ABCDEFGHIJ"
-        nine = "ABCDEFGHI"
-        ten = "ABCDEFGHIJKL"
-        eleven = "ABCDEFGHIJK"
-        twelve = "ABCDEFGHIJKLMNOPQRS"
-        thirteen = "ABCDEFGHIJKLMNO"
-        fourteen = "ABCDEFGHIJKLMN"
-        fifteen = "ABCDEFGHIJKLMNOPQ"
-        sixteen = "ABCDEFGHIJKLMNOP"
-        seventeen = "ABCDEFGHIJKLMNOPQR"
-        eighteen = "ABCDEFGHIJKLMNOPQRSTUV"
-        nineteen = "ABCDEFGHIJKLMNOPQRSTU"
-        twenty = "ABCDEFGHIJKLMNOPQRST"
-        twenty-one = "ABCDEFGHIJKLMNOPQRSTUVWX"
-        twenty-two = "ABCDEFGHIJKLMNOPQRSTUVW"
-        twenty-three = "ABCDEFGHIJKLMNOPQRSTUVWXY"
-        twenty-four = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    */
-    //создание контента для заполнения ini-файла
-    //первая секция
-    CIni new_file;
-    CString old_name_0 = "Numbers";
-    new_file.add_name_section(old_name_0);
-
-    CString comment_section_0 = "This section contains the numbers";
-    new_file.add_comment_section(old_name_0, comment_section_0);
-
-    CMap<CString, CVector<CString>> key_value_0;
-
-    CString k1 = "zero"; CVector<CString> vec1;
-    vec1.push_back(60);
-    key_value_0.add_pair(k1, vec1);
-
-    CString k2 = "one"; CVector<CString> vec2;
-    vec2.push_back(35);
-    key_value_0.add_pair(k2, vec2);
-
-    CString k3 = "eight"; CVector<CString> vec3;
-    vec3.push_back(70);
-    vec3.push_back(45);
-    key_value_0.add_pair(k3, vec3);
-
-    CString k4 = "two"; CVector<CString> vec4;
-    vec4.push_back(21);
-    key_value_0.add_pair(k4, vec4);
-
-    CString k5 = "seven"; CVector<CString> vec5;
-    vec5.push_back(42);
-    key_value_0.add_pair(k5, vec5);
-
-    CString k6 = "three"; CVector<CString> vec6;
-    vec6.push_back(17);
-    key_value_0.add_pair(k6, vec6);
-
-    CString k7 = "four"; CVector<CString> vec7;
-    vec7.push_back(11);
-    key_value_0.add_pair(k7, vec7);
-
-    CString k8 = "five"; CVector<CString> vec8;
-    vec8.push_back(24);
-    key_value_0.add_pair(k8, vec8);
-
-    CString k9 = "six"; CVector<CString> vec9;
-    vec9.push_back(23);
-    key_value_0.add_pair(k9, vec9);
-
-    CString k10 = "twelve"; CVector<CString> vec10;
-    vec10.push_back(71);
-    vec10.push_back(56);
-    key_value_0.add_pair(k10, vec10);
-
-    CString k11 = "thirteen"; CVector<CString> vec11;
-    vec11.push_back(89);
-    vec11.push_back(78);
-    vec11.push_back(25);
-    key_value_0.add_pair(k11, vec11);
-
-    CString k12 = "nine"; CVector<CString> vec12;
-    vec12.push_back(68);
-    key_value_0.add_pair(k12, vec12);
-
-    CString k13 = "ten"; CVector<CString> vec13;
-    vec13.push_back(63);
-    key_value_0.add_pair(k13, vec13);
-
-    CString k14 = "eleven"; CVector<CString> vec14;
-    vec14.push_back(69);
-    key_value_0.add_pair(k14, vec14);
-
-    new_file.add_key_value(old_name_0, key_value_0);
-
-    //вторая секция
-    CString old_name_1 = "Strings";
-    new_file.add_name_section(old_name_1);
-
-    CString comment_section_1 = "And this section containts the strings";
-    new_file.add_comment_section(old_name_1, comment_section_1);
-
-    CMap<CString, CVector<CString>> key_value_1;
-
-    CString key15 = "zero"; CVector<CString> value15;
-    value15.push_back("ABCDEFGHIJKLM");
-    key_value_1.add_pair(key15, value15);
-
-    CString key16 = "one"; CVector<CString> value16;
-    value16.push_back("ABCDEFGH");
-    key_value_1.add_pair(key16, value16);
-
-    CString key17 = "two"; CVector<CString> value17;
-    value17.push_back("ABCDE");
-    key_value_1.add_pair(key17, value17);
-
-    CString key18 = "three"; CVector<CString> value18;
-    value18.push_back("ABCD");
-    key_value_1.add_pair(key18, value18);
-
-    CString key19 = "four"; CVector<CString> value19;
-    value19.push_back("ABC");
-    key_value_1.add_pair(key19, value19);
-
-    CString key20 = "five"; CVector<CString> value20;
-    value20.push_back("A");
-    key_value_1.add_pair(key20, value20);
-
-    CString key21 = "six"; CVector<CString> value21;
-    value21.push_back("AB");
-    key_value_1.add_pair(key21, value21);
-
-    CString key22 = "seven"; CVector<CString> value22;
-    value22.push_back("ABCDEF");
-    key_value_1.add_pair(key22, value22);
-
-    CString key23 = "eight"; CVector<CString> value23;
-    value23.push_back("ABCDEFGHIJ");
-    key_value_1.add_pair(key23, value23);
-
-    CString key24 = "nine"; CVector<CString> value24;
-    value24.push_back("ABCDEFGHI");
-    key_value_1.add_pair(key24, value24);
-
-    CString key25 = "ten"; CVector<CString> value25;
-    value25.push_back("ABCDEFGHIJKL");
-    key_value_1.add_pair(key25, value25);
-
-    CString key26 = "eleven"; CVector<CString> value26;
-    value26.push_back("ABCDEFGHIJK");
-    key_value_1.add_pair(key26, value26);
-
-    CString key27 = "twelve"; CVector<CString> value27;
-    value27.push_back("ABCDEFGHIJKLMNOPQRS");
-    key_value_1.add_pair(key27, value27);
-
-    CString key28 = "thirteen"; CVector<CString> value28;
-    value28.push_back("ABCDEFGHIJKLMNO");
-    key_value_1.add_pair(key28, value28);
-
-    CString key29 = "fourteen"; CVector<CString> value29;
-    value29.push_back("ABCDEFGHIJKLMN");
-    key_value_1.add_pair(key29, value29);
-
-    CString key30 = "fifteen"; CVector<CString> value30;
-    value30.push_back("ABCDEFGHIJKLMNOPQ");
-    key_value_1.add_pair(key30, value30);
-
-    CString key31 = "sixteen"; CVector<CString> value31;
-    value31.push_back("ABCDEFGHIJKLMNOP");
-    key_value_1.add_pair(key31, value31);
-
-    CString key32 = "seventeen"; CVector<CString> value32;
-    value32.push_back("ABCDEFGHIJKLMNOPQR");
-    key_value_1.add_pair(key32, value32);
-
-    CString key33 = "eighteen"; CVector<CString> value33;
-    value33.push_back("ABCDEFGHIJKLMNOPQRSTUV");
-    key_value_1.add_pair(key33, value33);
-
-    CString key34 = "nineteen"; CVector<CString> value34;
-    value34.push_back("ABCDEFGHIJKLMNOPQRSTU");
-    key_value_1.add_pair(key34, value34);
-
-    CString key35 = "twenty"; CVector<CString> value35;
-    value35.push_back("ABCDEFGHIJKLMNOPQRST");
-    key_value_1.add_pair(key35, value35);
-
-    CString key36 = "twenty-one"; CVector<CString> value36;
-    value36.push_back("ABCDEFGHIJKLMNOPQRSTUVWX");
-    key_value_1.add_pair(key36, value36);
-
-    CString key37 = "twenty-two"; CVector<CString> value37;
-    value37.push_back("ABCDEFGHIJKLMNOPQRSTUVW");
-    key_value_1.add_pair(key37, value37);
-
-    CString key38 = "twenty-three"; CVector<CString> value38;
-    value38.push_back("ABCDEFGHIJKLMNOPQRSTUVWXY");
-    key_value_1.add_pair(key38, value38);
-
-    CString key39 = "twenty-four"; CVector<CString> value39;
-    value39.push_back("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-    key_value_1.add_pair(key39, value39);
-
-    new_file.add_key_value(old_name_1, key_value_1);
-
-    //изменение имён секции
-    CString new_name_0  = "Integers";
-    new_file.change_name_section(old_name_0, new_name_0);
-    CString new_name_1 = "Alphabet";
-    new_file.change_name_section(old_name_1, new_name_1);
-    //удаление значений
-    new_file.delete_value(new_name_0, k1);
-    new_file.delete_value(new_name_0, k3);
-    new_file.delete_value(new_name_0, k10);
-    new_file.delete_value(new_name_0, k11);
-    new_file.delete_value(new_name_0, k14);
-
-    new_file.delete_value(new_name_1, key20);
-    new_file.delete_value(new_name_1, key27);
-    new_file.delete_value(new_name_1, key31);
-    new_file.delete_value(new_name_1, key35);
-    new_file.delete_value(new_name_1, key37);
-    new_file.delete_value(new_name_1, key39);
     /*содержимое ini-файла "test" после внесённых изменений имеет следующий вид:
-        [Integers]
-        ;This section contains the numbers
-        seven =  42
-        one =  35
-        two =  21
-        three =  17
-        four =  11
-        five =  24
-        six =  23
-        nine = 68
-        ten = 63
+    [Integers]
+    ;This section contains the numbers
+    five=24
+    four=11
+    nine=68
+    one=35
+    seven=42
+    six=23
+    ten=63
+    three=17
+    two=21
+    zero=60
+    [Alphabet]
+    ;And this section containts the strings
+    eight=ABCDEFGHIJ
+    eighteen=ABCDEFGHIJKLMNOPQRSTUV
+    eleven=ABCDEFGHIJK
+    fifteen=ABCDEFGHIJKLMNOPQ
+    four=ABC
+    fourteen=ABCDEFGHIJKLMN
+    nine=ABCDEFGHI
+    nineteen=ABCDEFGHIJKLMNOPQRSTU
+    one=ABCDEFGH
+    seven=ABCDEF
+    seventeen=ABCDEFGHIJKLMNOPQR
+    six=AB
+    ten=ABCDEFGHIJKL
+    thirteen=ABCDEFGHIJKLMNO
+    three=ABCD
+    twenty-one=ABCDEFGHIJKLMNOPQRSTUVWX
+    twenty-three=ABCDEFGHIJKLMNOPQRSTUVWXY
+    two=ABCDEFGH
+    zero=ABCDEFGHIJKLM*/
 
-        [Alphabet]
-        ;And this section containts the strings
-        zero =  "ABCDEFGHIJKLM"
-        one =  "ABCDEFGH"
-        two =  "ABCDE"
-        three =  "ABCD"
-        four =  "ABC"
-        six =  "AB"
-        seven =  "ABCDEF"
-        eight =  "ABCDEFGHIJ"
-        nine = "ABCDEFGHI"
-        ten = "ABCDEFGHIJKL"
-        eleven = "ABCDEFGHIJK"
-        thirteen = "ABCDEFGHIJKLMNO"
-        fourteen = "ABCDEFGHIJKLMN"
-        fifteen = "ABCDEFGHIJKLMNOPQ"
-        seventeen = "ABCDEFGHIJKLMNOPQR"
-        eighteen = "ABCDEFGHIJKLMNOPQRSTUV"
-        nineteen = "ABCDEFGHIJKLMNOPQRSTU"
-        twenty-one = "ABCDEFGHIJKLMNOPQRSTUVWX"
-        twenty-three = "ABCDEFGHIJKLMNOPQRSTUVWXY"
-    */
-    string name_file = "test";
-    new_file.create_file(name_file);
-    new_file.write_file(name_file);
+    unsigned size_map_s1 = 12;
+    ASSERT_EQ(size_map_s1, new_file.get_size_key_value(new_name_0));
+    unsigned size_map_s2 = 19;
+    ASSERT_EQ(size_map_s2 , new_file.get_size_key_value(new_name_0));
 
-    CIni check_file;
-    check_file.read_file(name_file);
-    //проверка наличия первой секции
-    ASSERT_TRUE(check_file.search_name_section(new_name_0));
+    vector<string> res0;
+    res0.push_back("70");
+    ASSERT_TRUE(res0 == check_file.getValue(new_name_0, eight));
 
-    //получение комментария к секции
-    const char *res = "This section contains the numbers";
-    ASSERT_STREQ(res, check_file.get_comment_section(new_name_0));
+    vector<string> res1;
+    res1.push_back("89");
+    res1.push_back("25");
+    ASSERT_TRUE(res1 == check_file.getValue(new_name_0, thirteen));
 
-    //проверка значений первой секции
-    ASSERT_FALSE(check_file.search_key(new_name_0, k1));
-
-    ASSERT_TRUE(check_file.search_key(new_name_0, k2));
-    ASSERT_TRUE(vec2 == check_file.getValue(new_name_0, k2));
-
-    ASSERT_FALSE(check_file.search_key(new_name_0, k3));
-
-    ASSERT_TRUE(check_file.search_key(new_name_0, k4));
-    ASSERT_TRUE(vec4 == check_file.getValue(new_name_0, k4));
-
-    ASSERT_TRUE(check_file.search_key(new_name_0, k5));
-    ASSERT_TRUE(vec5 == check_file.getValue(new_name_0, k5));
-
-    ASSERT_TRUE(check_file.search_key(new_name_0, k6));
-    ASSERT_TRUE(vec6 == check_file.getValue(new_name_0, k6));
-
-    ASSERT_TRUE(check_file.search_key(new_name_0, k7));
-    ASSERT_TRUE(vec7 == check_file.getValue(new_name_0, k7));
-
-    ASSERT_TRUE(check_file.search_key(new_name_0, k8));
-    ASSERT_TRUE(vec8 == check_file.getValue(new_name_0, k8));
-
-    ASSERT_TRUE(check_file.search_key(new_name_0, k9));
-    ASSERT_TRUE(vec9 == check_file.getValue(new_name_0, k9));
-
-    ASSERT_FALSE(check_file.search_key(new_name_0, k10));
-
-    ASSERT_FALSE(check_file.search_key(new_name_0, k11));
-
-    ASSERT_TRUE(check_file.search_key(new_name_0, k12));
-    ASSERT_TRUE(vec12 == check_file.getValue(new_name_0, k12));
-
-    ASSERT_TRUE(check_file.search_key(new_name_0, k13));
-    ASSERT_TRUE(vec13 == check_file.getValue(new_name_0, k13));
-
-    ASSERT_FALSE(check_file.search_key(new_name_0, k14));
-
-    //проверка наличия второй секции
-    ASSERT_TRUE(check_file.search_name_section(new_name_1));
-
-    //получение комментария к секции
-    const char *res1 = "And this section containts the strings";
-    ASSERT_STREQ(res1, check_file.get_comment_section(new_name_1));
-
-    //проверка значений второй секции
-
-    ASSERT_TRUE(check_file.search_key(new_name_1, key15));
-    ASSERT_TRUE(value15 == check_file.getValue(new_name_1, key15));
-
-    ASSERT_TRUE(check_file.search_key(new_name_1, key16));
-    ASSERT_TRUE(value16 == check_file.getValue(new_name_1, key16));
-
-    ASSERT_TRUE(check_file.search_key(new_name_1, key17));
-    ASSERT_TRUE(value17 == check_file.getValue(new_name_1, key17));
-
-    ASSERT_TRUE(check_file.search_key(new_name_1, key18));
-    ASSERT_TRUE(value18 == check_file.getValue(new_name_1, key18));
-
-    ASSERT_TRUE(check_file.search_key(new_name_1, key19));
-    ASSERT_TRUE(value19 == check_file.getValue(new_name_1, key19));
-
-    ASSERT_FALSE(check_file.search_key(new_name_1, key20));
-
-    ASSERT_TRUE(check_file.search_key(new_name_1, key21));
-    ASSERT_TRUE(value21 == check_file.getValue(new_name_1, key21));
-
-    ASSERT_TRUE(check_file.search_key(new_name_1, key22));
-    ASSERT_TRUE(value22 == check_file.getValue(new_name_1, key22));
-
-    ASSERT_TRUE(check_file.search_key(new_name_1, key23));
-    ASSERT_TRUE(value23 == check_file.getValue(new_name_1, key23));
-
-    ASSERT_TRUE(check_file.search_key(new_name_1, key24));
-    ASSERT_TRUE(value24 == check_file.getValue(new_name_1, key24));
-
-    ASSERT_TRUE(check_file.search_key(new_name_1, key25));
-    ASSERT_TRUE(value25 == check_file.getValue(new_name_1, key25));
-
-    ASSERT_TRUE(check_file.search_key(new_name_1, key26));
-    ASSERT_TRUE(value26 == check_file.getValue(new_name_1, key26));
-
-    ASSERT_FALSE(check_file.search_key(new_name_1, key27));
-
-    ASSERT_TRUE(check_file.search_key(new_name_1, key28));
-    ASSERT_TRUE(value28 == check_file.getValue(new_name_1, key28));
-
-    ASSERT_TRUE(check_file.search_key(new_name_1, key29));
-    ASSERT_TRUE(value29 == check_file.getValue(new_name_1, key29));
-
-    ASSERT_TRUE(check_file.search_key(new_name_1, key30));
-    ASSERT_TRUE(value30 == check_file.getValue(new_name_1, key30));
-
-    ASSERT_FALSE(check_file.search_key(new_name_1, key31));
-
-    ASSERT_TRUE(check_file.search_key(new_name_1, key32));
-    ASSERT_TRUE(value32 == check_file.getValue(new_name_1, key32));
-
-    ASSERT_TRUE(check_file.search_key(new_name_1, key33));
-    ASSERT_TRUE(value33 == check_file.getValue(new_name_1, key33));
-
-    ASSERT_TRUE(check_file.search_key(new_name_1, key34));
-    ASSERT_TRUE(value34 == check_file.getValue(new_name_1, key34));
-
-    ASSERT_FALSE(check_file.search_key(new_name_1, key35));
-
-    ASSERT_TRUE(check_file.search_key(new_name_1, key36));
-    ASSERT_TRUE(value36 == check_file.getValue(new_name_1, key36));
-
-    ASSERT_FALSE(check_file.search_key(new_name_1, key37));
-
-    ASSERT_TRUE(check_file.search_key(new_name_1, key38));
-    ASSERT_TRUE(value38 == check_file.getValue(new_name_1, key38));
-
-    ASSERT_FALSE(check_file.search_key(new_name_1, key39));
-
-    check_file.delete_file(name_file);
+    new_file.delete_file(name_file);
+    cout << "good";
 }
-
-TEST(test055, test_CIni_change_value_add_value)
+TEST(test003, test_CIni_change_value_add_value)
 {
     /*содержимое ini-файла "test" до внесённых изменений имеет следующий вид:
-        [Numbers]
-        ;This section contains the numbers
-        zero =  60
-        one =  35
-        eight =  70, 45
-        two =  21
-        seven =  42
-        three =  17
-        four =  11
-        five =  24
-        six =  23
-        twelve = 71, 56
-        thirteen = 89, 78, 25
-        nine = 68
-        ten = 63
-        eleven = 69
+     [Numbers]
+     ;This section contains the numbers
+     eight=70, 45
+     eleven=69
+     five=24
+     four=11
+     nine=68
+     one=35
+     seven=42
+     six=23
+     ten=63
+     thirteen=89, 78, 25
+     three=17
+     twelve=71, 56
+     two=21
+     zero=60
+     [Strings]
+     ;And this section containts the strings
+     eight=ABCDEFGHIJ
+     eighteen=ABCDEFGHIJKLMNOPQRSTUV
+     eleven=ABCDEFGHIJK
+     fifteen=ABCDEFGHIJKLMNOPQ
+     five=A
+     four=ABC
+     fourteen=ABCDEFGHIJKLMN
+     nine=ABCDEFGHI
+     nineteen=ABCDEFGHIJKLMNOPQRSTU
+     one=ABCDEFGH
+     seven=ABCDEF
+     seventeen=ABCDEFGHIJKLMNOPQR
+     six=AB
+     sixteen=ABCDEFGHIJKLMNOP
+     ten=ABCDEFGHIJKL
+     thirteen=ABCDEFGHIJKLMNO
+     three=ABCD
+     twelve=ABCDEFGHIJKLMNOPQRS
+     twenty=ABCDEFGHIJKLMNOPQRST
+     twenty-four=ABCDEFGHIJKLMNOPQRSTUVWXYZ
+     twenty-one=ABCDEFGHIJKLMNOPQRSTUVWX
+     twenty-three=ABCDEFGHIJKLMNOPQRSTUVWXY
+     two=ABCDE
+     zero=ABCDEFGHIJKLM
 
-        [Strings]
-        ;This section contains the strings
-        zero =  "ABCDEFGHIJKLM"
-        one =  "ABCDEFGH"
-        two =  "ABCDE"
-        three =  "ABCD"
-        four =  "ABC"
-        five =  "A"
-        six =  "AB"
-        seven =  "ABCDEF"
-        eight =  "ABCDEFGHIJ"
-        nine = "ABCDEFGHI"
-        ten = "ABCDEFGHIJKL"
-        eleven = "ABCDEFGHIJK"
-        twelve = "ABCDEFGHIJKLMNOPQRS"
-        thirteen = "ABCDEFGHIJKLMNO"
-        fourteen = "ABCDEFGHIJKLMN"
-        fifteen = "ABCDEFGHIJKLMNOPQ"
-        sixteen = "ABCDEFGHIJKLMNOP"
-        seventeen = "ABCDEFGHIJKLMNOPQR"
-        eighteen = "ABCDEFGHIJKLMNOPQRSTUV"
-        nineteen = "ABCDEFGHIJKLMNOPQRSTU"
-        twenty = "ABCDEFGHIJKLMNOPQRST"
-        twenty-one = "ABCDEFGHIJKLMNOPQRSTUVWX"
-        twenty-two = "ABCDEFGHIJKLMNOPQRSTUVW"
-        twenty-three = "ABCDEFGHIJKLMNOPQRSTUVWXY"
-        twenty-four = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    *///создание контента для заполнения ini-файла
-    //первая секция
+    */
     CIni new_file;
-    CString name_section_0 = "Numbers";
+    string name_section_0 = "Numbers";
     new_file.add_name_section(name_section_0);
 
-    CString comment_section_0 = "This section contains the numbers";
-    new_file.add_comment_section(name_section_0, comment_section_0);
+    //добавление комментария к секции
+    string comment_section = "This section contains the numbers";
+    new_file.add_comment_section(name_section_0, comment_section);
+    map<string, vector<string>> key_value;
 
-    CMap<CString, CVector<CString>> key_value_0;
+    //заполнение 1 секции содержимым
+    string zero = "zero"; vector<string> v60;
+    v60.push_back("60");
+    key_value.insert(pair<string, vector<string>>(zero, v60));
 
-    CString k1 = "zero"; CVector<CString> vec1;
-    vec1.push_back(60);
-    key_value_0.add_pair(k1, vec1);
 
-    CString k2 = "one"; CVector<CString> vec2;
-    vec2.push_back(35);
-    key_value_0.add_pair(k2, vec2);
+    string one = "one"; vector<string> v35;
+    v35.push_back("35");
+    key_value.insert(pair<string, vector<string>>(one, v35));
 
-    CString k3 = "eight"; CVector<CString> vec3;
-    vec3.push_back(70);
-    vec3.push_back(45);
-    key_value_0.add_pair(k3, vec3);
+    string eight = "eight"; vector<string> v70_45;
+    v70_45.push_back("70");
+    v70_45.push_back("45");
+    key_value.insert(pair<string, vector<string>>(eight, v70_45));
 
-    CString k4 = "two"; CVector<CString> vec4;
-    vec4.push_back(21);
-    key_value_0.add_pair(k4, vec4);
+    string two = "two"; vector<string> v21;
+    v21.push_back("21");
+    key_value.insert(pair<string, vector<string>>(two, v21));
 
-    CString k5 = "seven"; CVector<CString> vec5;
-    vec5.push_back(42);
-    key_value_0.add_pair(k5, vec5);
+    string seven = "seven"; vector<string> v42;
+    v42.push_back("42");
+    key_value.insert(pair<string, vector<string>>(seven, v42));
 
-    CString k6 = "three"; CVector<CString> vec6;
-    vec6.push_back(17);
-    key_value_0.add_pair(k6, vec6);
+    string three = "three"; vector<string> v17;
+    v17.push_back("17");
+    key_value.insert(pair<string, vector<string>>(three, v17));
 
-    CString k7 = "four"; CVector<CString> vec7;
-    vec7.push_back(11);
-    key_value_0.add_pair(k7, vec7);
+    string four = "four"; vector<string> v11;
+    v11.push_back("11");
+    key_value.insert(pair<string, vector<string>>(four, v11));
 
-    CString k8 = "five"; CVector<CString> vec8;
-    vec8.push_back(24);
-    key_value_0.add_pair(k8, vec8);
+    string five = "five"; vector<string> v24;
+    v24.push_back("24");
+    key_value.insert(pair<string, vector<string>>(five, v24));
 
-    CString k9 = "six"; CVector<CString> vec9;
-    vec9.push_back(23);
-    key_value_0.add_pair(k9, vec9);
+    string six = "six"; vector<string> v23;
+    v23.push_back("23");
+    key_value.insert(pair<string, vector<string>>(six, v23));
 
-    CString k10 = "twelve"; CVector<CString> vec10;
-    vec10.push_back(71);
-    vec10.push_back(56);
-    key_value_0.add_pair(k10, vec10);
+    string twelve = "twelve"; vector<string> v71_56;
+    v71_56.push_back("71");
+    v71_56.push_back("56");
+    key_value.insert(pair<string, vector<string>>(twelve, v71_56));
 
-    CString k11 = "thirteen"; CVector<CString> vec11;
-    vec11.push_back(89);
-    vec11.push_back(78);
-    vec11.push_back(25);
-    key_value_0.add_pair(k11, vec11);
 
-    CString k12 = "nine"; CVector<CString> vec12;
-    vec12.push_back(68);
-    key_value_0.add_pair(k12, vec12);
+    string thirteen = "thirteen"; vector<string> v89_78_25;
+    v89_78_25.push_back("89");
+    v89_78_25.push_back("78");
+    v89_78_25.push_back("25");
+    key_value.insert(pair<string, vector<string>>(thirteen, v89_78_25));
 
-    CString k13 = "ten"; CVector<CString> vec13;
-    vec13.push_back(63);
-    key_value_0.add_pair(k13, vec13);
+    string nine = "nine"; vector<string> v68;
+    v68.push_back("68");
+    key_value.insert(pair<string, vector<string>>(nine, v68));
 
-    CString k14 = "eleven"; CVector<CString> vec14;
-    vec14.push_back(69);
-    key_value_0.add_pair(k14, vec14);
 
-    new_file.add_key_value(name_section_0, key_value_0);
+    string ten = "ten"; vector<string> v63;
+    v63.push_back("63");
+    key_value.insert(pair<string, vector<string>>(ten, v63));
 
-    //вторая секция
-    CString name_section_1 = "Strings";
+    string eleven = "eleven"; vector<string> v69;
+    v69.push_back("69");
+    key_value.insert(pair<string, vector<string>>(eleven, v69));
+
+    new_file.add_key_value(name_section_0, key_value);
+
+    //присваивание 2 секции имени
+    string name_section_1 = "Strings";
     new_file.add_name_section(name_section_1);
 
-    CString comment_section_1 = "And this section containts the strings";
-    new_file.add_comment_section(name_section_1, comment_section_1);
+    //добавление комментария к секции
+    string comment_section1 = "And this section containts the strings";
+    new_file.add_comment_section(name_section_1, comment_section1);
 
-    CMap<CString, CVector<CString>> key_value_1;
+    //заполнение 2 секции содержимым
+    map<string, vector<string>> key_value_1;
 
-    CString key15 = "zero"; CVector<CString> value15;
-    value15.push_back("ABCDEFGHIJKLM");
-    key_value_1.add_pair(key15, value15);
+    string zero_ = "zero"; vector<string> vlM;
+    vlM.push_back("ABCDEFGHIJKLM");
+    key_value_1.insert(pair<string, vector<string>>(zero_, vlM));
 
-    CString key16 = "one"; CVector<CString> value16;
-    value16.push_back("ABCDEFGH");
-    key_value_1.add_pair(key16, value16);
+    string one_ = "one"; vector<string> vlH;
+    vlH.push_back("ABCDEFGH");
+    key_value_1.insert(pair<string, vector<string>>(one_, vlH));
 
-    CString key17 = "two"; CVector<CString> value17;
-    value17.push_back("ABCDE");
-    key_value_1.add_pair(key17, value17);
+    string two_ = "two"; vector<string> vlE;
+    vlE.push_back("ABCDE");
+    key_value_1.insert(pair<string, vector<string>>(two_, vlH));
 
-    CString key18 = "three"; CVector<CString> value18;
-    value18.push_back("ABCD");
-    key_value_1.add_pair(key18, value18);
+    string three_ = "three"; vector<string> vlD;
+    vlD.push_back("ABCD");
+    key_value_1.insert(pair<string, vector<string>>(three_, vlD));
 
-    CString key19 = "four"; CVector<CString> value19;
-    value19.push_back("ABC");
-    key_value_1.add_pair(key19, value19);
+    string four_ = "four"; vector<string> vlC;
+    vlC.push_back("ABC");
+    key_value_1.insert(pair<string, vector<string>>(four_, vlC));
 
-    CString key20 = "five"; CVector<CString> value20;
-    value20.push_back("A");
-    key_value_1.add_pair(key20, value20);
+    string five_ = "five"; vector<string> vlA;
+    vlA.push_back("A");
+    key_value_1.insert(pair<string, vector<string>>(five_, vlA));
 
-    CString key21 = "six"; CVector<CString> value21;
-    value21.push_back("AB");
-    key_value_1.add_pair(key21, value21);
+    string six_ = "six"; vector<string> vlB;
+    vlB.push_back("AB");
+    key_value_1.insert(pair<string, vector<string>>(six_, vlB));
 
-    CString key22 = "seven"; CVector<CString> value22;
-    value22.push_back("ABCDEF");
-    key_value_1.add_pair(key22, value22);
 
-    CString key23 = "eight"; CVector<CString> value23;
-    value23.push_back("ABCDEFGHIJ");
-    key_value_1.add_pair(key23, value23);
+    string seven_ = "seven"; vector<string> vlF;
+    vlF.push_back("ABCDEF");
+    key_value_1.insert(pair<string, vector<string>>(seven_, vlF));
 
-    CString key24 = "nine"; CVector<CString> value24;
-    value24.push_back("ABCDEFGHI");
-    key_value_1.add_pair(key24, value24);
 
-    CString key25 = "ten"; CVector<CString> value25;
-    value25.push_back("ABCDEFGHIJKL");
-    key_value_1.add_pair(key25, value25);
+    string eight_ = "eight"; vector<string> vlJ;
+    vlJ.push_back("ABCDEFGHIJ");
+    key_value_1.insert(pair<string, vector<string>>(eight_, vlJ));
 
-    CString key26 = "eleven"; CVector<CString> value26;
-    value26.push_back("ABCDEFGHIJK");
-    key_value_1.add_pair(key26, value26);
+    string nine_ = "nine"; vector<string> vlI;
+    vlI.push_back("ABCDEFGHI");
+    key_value_1.insert(pair<string, vector<string>>(nine_, vlI));
 
-    CString key27 = "twelve"; CVector<CString> value27;
-    value27.push_back("ABCDEFGHIJKLMNOPQRS");
-    key_value_1.add_pair(key27, value27);
 
-    CString key28 = "thirteen"; CVector<CString> value28;
-    value28.push_back("ABCDEFGHIJKLMNO");
-    key_value_1.add_pair(key28, value28);
+    string ten_ = "ten"; vector<string> vlL;
+    vlL.push_back("ABCDEFGHIJKL");
+    key_value_1.insert(pair<string, vector<string>>(ten_, vlL));
 
-    CString key29 = "fourteen"; CVector<CString> value29;
-    value29.push_back("ABCDEFGHIJKLMN");
-    key_value_1.add_pair(key29, value29);
+    string eleven_ = "eleven"; vector<string> vlK;
+    vlK.push_back("ABCDEFGHIJK");
+    key_value_1.insert(pair<string, vector<string>>(eleven_, vlK));
 
-    CString key30 = "fifteen"; CVector<CString> value30;
-    value30.push_back("ABCDEFGHIJKLMNOPQ");
-    key_value_1.add_pair(key30, value30);
+    string twelve_ = "twelve"; vector<string> vlS;
+    vlS.push_back("ABCDEFGHIJKLMNOPQRS");
+    key_value_1.insert(pair<string, vector<string>>(twelve_, vlS));
 
-    CString key31 = "sixteen"; CVector<CString> value31;
-    value31.push_back("ABCDEFGHIJKLMNOP");
-    key_value_1.add_pair(key31, value31);
+    string thirteen_ = "thirteen"; vector<string> vlO;
+    vlO.push_back("ABCDEFGHIJKLMNO");
+    key_value_1.insert(pair<string, vector<string>>(thirteen_, vlO));
 
-    CString key32 = "seventeen"; CVector<CString> value32;
-    value32.push_back("ABCDEFGHIJKLMNOPQR");
-    key_value_1.add_pair(key32, value32);
+    string fourteen_ = "fourteen"; vector<string> vlN;
+    vlN.push_back("ABCDEFGHIJKLMN");
+    key_value_1.insert(pair<string, vector<string>>(fourteen_, vlN));
 
-    CString key33 = "eighteen"; CVector<CString> value33;
-    value33.push_back("ABCDEFGHIJKLMNOPQRSTUV");
-    key_value_1.add_pair(key33, value33);
+    string fifteen_ = "fifteen"; vector<string> vlQ;
+    vlQ.push_back("ABCDEFGHIJKLMNOPQ");
+    key_value_1.insert(pair<string, vector<string>>(fifteen_, vlQ));
 
-    CString key34 = "nineteen"; CVector<CString> value34;
-    value34.push_back("ABCDEFGHIJKLMNOPQRSTU");
-    key_value_1.add_pair(key34, value34);
+    string sixteen_ = "sixteen"; vector<string> vlP;
+    vlP.push_back("ABCDEFGHIJKLMNOP");
+    key_value_1.insert(pair<string, vector<string>>(sixteen_, vlP));
 
-    CString key35 = "twenty"; CVector<CString> value35;
-    value35.push_back("ABCDEFGHIJKLMNOPQRST");
-    key_value_1.add_pair(key35, value35);
+    string seventeen_ = "seventeen"; vector<string> vlR;
+    vlR.push_back("ABCDEFGHIJKLMNOPQR");
+    key_value_1.insert(pair<string, vector<string>>(seventeen_, vlR));
 
-    CString key36 = "twenty-one"; CVector<CString> value36;
-    value36.push_back("ABCDEFGHIJKLMNOPQRSTUVWX");
-    key_value_1.add_pair(key36, value36);
+    string eighteen_ = "eighteen"; vector<string> vlV;
+    vlV.push_back("ABCDEFGHIJKLMNOPQRSTUV");
+    key_value_1.insert(pair<string, vector<string>>(eighteen_, vlV));
 
-    CString key37 = "twenty-two"; CVector<CString> value37;
-    value37.push_back("ABCDEFGHIJKLMNOPQRSTUVW");
-    key_value_1.add_pair(key37, value37);
+    string nineteen_ = "nineteen"; vector<string> vlU;
+    vlU.push_back("ABCDEFGHIJKLMNOPQRSTU");
+    key_value_1.insert(pair<string, vector<string>>(nineteen_, vlU));
 
-    CString key38 = "twenty-three"; CVector<CString> value38;
-    value38.push_back("ABCDEFGHIJKLMNOPQRSTUVWXY");
-    key_value_1.add_pair(key38, value38);
+    string twenty_ = "twenty"; vector<string> vlT;
+    vlT.push_back("ABCDEFGHIJKLMNOPQRST");
+    key_value_1.insert(pair<string, vector<string>>(twenty_, vlT));
 
-    CString key39 = "twenty-four"; CVector<CString> value39;
-    value39.push_back("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-    key_value_1.add_pair(key39, value39);
+    string twenty_one_ = "twenty-one"; vector<string> vlX;
+    vlX.push_back("ABCDEFGHIJKLMNOPQRSTUVWX");
+    key_value_1.insert(pair<string, vector<string>>(twenty_one_, vlX));
+
+    string twenty_two_ = "twenty-two"; vector<string> vlW;
+    vlW.push_back("ABCDEFGHIJKLMNOPQRSTUVW");
+    key_value_1.insert(pair<string, vector<string>>(twenty_two_, vlW));
+
+
+    string twenty_three_ = "twenty-three"; vector<string> vlY;
+    vlY.push_back("ABCDEFGHIJKLMNOPQRSTUVWXY");
+    key_value_1.insert(pair<string, vector<string>>(twenty_three_, vlY));
+
+    string twenty_four_ = "twenty-four"; vector<string> vlZ;
+    vlZ.push_back("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+    key_value_1.insert(pair<string, vector<string>>(twenty_four_, vlZ));
 
     new_file.add_key_value(name_section_1, key_value_1);
 
     //изменение значений
-    CVector<CString> new_vec_1;
-    new_vec_1.push_back(1000000);
-    new_file.change_value(name_section_0, k1, new_vec_1);
+    vector<string> new_zero;
+    new_zero.push_back("1000000");
+    new_file.change_value(name_section_0, zero, new_zero);
 
-    CVector<CString> new_vec_3;
-    new_vec_3.push_back(4000);
-    new_file.change_value(name_section_0, k3, new_vec_3);
+    vector<string> new_eight;
+    new_eight.push_back("4000");
+    new_file.change_value(name_section_0, eight, new_eight);
 
-    CString new_value_0 = 678;
-    new_file.add_value(name_section_0, k6, new_value_0);
+    string new_value_0 = "678";
+    new_file.add_value(name_section_0, three, new_value_0);
 
-    CString new_value_1 = 9000;
-    CString old_value_1 = 71;
-    new_file.change_value(name_section_0, k10, old_value_1, new_value_1);
+    string new_value_1 = "9000";
+    string old_value_1 = "71";
+    new_file.change_value(name_section_0, twelve, old_value_1, new_value_1);
 
-    CString new_value_2 = 80000;
-    CString old_value_2 = 78;
-    new_file.change_value(name_section_0, k11, old_value_2, new_value_2);
-    CString new_value_3 = 606;
-    new_file.add_value(name_section_0, k11, new_value_3);
+    string new_value_2 = "80000";
+    string old_value_2 = "78";
+    new_file.change_value(name_section_0, thirteen, old_value_2, new_value_2);
+    string new_value_3 = "606";
+    new_file.add_value(name_section_0, thirteen, new_value_3);
 
-    CVector<CString> new_vec_4;
-    new_vec_4.push_back(500);
-    new_file.change_value(name_section_0, k14, new_vec_4);
+    vector<string> new_vec_4;
+    new_vec_4.push_back("500");
+    new_file.change_value(name_section_0, eleven, new_vec_4);
 
-    CVector<CString> new_vec_5;
-    new_vec_5.push_back(89457);
-    CString new_key_0 = "fourteen";
+    vector<string> new_vec_5;
+    new_vec_5.push_back("89457");
+
+    string new_key_0 = "fourteen";
     new_file.add_value(name_section_0, new_key_0, new_vec_5);
 
-    CVector<CString> new_vec_6;
+    vector<string> new_vec_6;
     new_vec_6.push_back("Yeah");
-    new_file.change_value(name_section_1, key15, new_vec_6);
+    new_file.change_value(name_section_1, zero, new_vec_6);
 
-    CVector<CString> new_vec_7;
+    vector<string> new_vec_7;
     new_vec_7.push_back("Sub-zero");
     new_vec_7.push_back("Hello");
-    new_file.change_value(name_section_1, key19, new_vec_7);
+    new_file.change_value(name_section_1, four_, new_vec_7);
 
-    CVector<CString> new_vec_8;
+    vector<string> new_vec_8;
     new_vec_8.push_back("HZ");
-    new_file.change_value(name_section_1, key27, new_vec_8);
+    new_file.change_value(name_section_1, twelve_, new_vec_8);
 
-    CString new_value_4 = "CHAMPION";
-    new_file.add_value(name_section_1, key29, new_value_4);
+    string new_value_4 = "CHAMPION";
+    new_file.add_value(name_section_1, fourteen_, new_value_4);
 
-    CVector<CString> new_vec_9;
+    vector<string> new_vec_9;
     new_vec_9.push_back("Scorpion");
-    new_file.change_value(name_section_1, key31, new_vec_9);
+    new_file.change_value(name_section_1, sixteen_, new_vec_9);
 
-    CString new_value_5 = "GOLIAF";
-    CString new_value_6 = "SAMSON";
-    new_file.add_value(name_section_1, key34, new_value_5);
-    new_file.add_value(name_section_1, key34, new_value_6);
+    string new_value_5 = "GOLIAF";
+    string new_value_6 = "SAMSON";
+    new_file.add_value(name_section_1, nineteen_, new_value_5);
+    new_file.add_value(name_section_1, nineteen_, new_value_6);
 
-    CVector<CString> new_vec_10;
+    vector<string> new_vec_10;
     new_vec_10.push_back("GLADIATOR");
-    new_file.change_value(name_section_1, key35, new_vec_10);
+    new_file.change_value(name_section_1, twenty_, new_vec_10);
 
-    CVector<CString> new_vec_11;
+    vector<string> new_vec_11;
     new_vec_11.push_back("Walorant");
     new_vec_11.push_back("GOOD");
     new_vec_11.push_back("Cinema");
-    new_file.change_value(name_section_1, key38, new_vec_11);
+    new_file.change_value(name_section_1, twenty_three_, new_vec_11);
 
-    CVector<CString> new_vec_12;
+    vector<string> new_vec_12;
     new_vec_12.push_back("NEW_YEAR");
     new_vec_12.push_back("CHRISTMAS");
-    CString key40 = "twenty-five";
+    string key40 = "twenty-five";
     new_file.add_value(name_section_1, key40, new_vec_12);
 
-    CVector<CString> new_vec_13;
+    vector<string> new_vec_13;
     new_vec_13.push_back("HEAVY_RAIN");
-    CString key41 = "twenty-six";
+    string key41 = "twenty-six";
     new_file.add_value(name_section_1, key41, new_vec_13);
-
-    /*содержимое ini-файла "test" после внесённых изменений имеет следующий вид:
+    string name_file = "test";
+    new_file.create_file(name_file);
+    new_file.write_file(name_file);
+    /*
     [Numbers]
     ;This section contains the numbers
-    seven = 42
-    one = 35
-    two = 21
-    four = 11
-    zero = 1000000
-    five = 24
-    six = 23
-    eight = 4000
-    nine = 68
-    ten = 63
-    eleven = 500
-    three = 17, 678
-    fourteen = 89457
-    twelve = 9000, 56
-    thirteen = 89, 80000, 25, 606
-
+    eight=4000
+    eleven=500
+    five=24
+    four=11
+    fourteen=89457
+    nine=68
+    one=35
+    seven=42
+    six=23
+    ten=63
+    thirteen=89, 80000, 25, 606
+    three=17, 678
+    twelve=9000, 56
+    two=21
+    zero=1000000
     [Strings]
     ;And this section containts the strings
-    ten = ABCDEFGHIJKL
-    one = ABCDEFGH
-    two = ABCDE
-    three = ABCD
-    five = A
-    six = AB
-    seven = ABCDEF
-    eight = ABCDEFGHIJ
-    nine = ABCDEFGHI
-    eleven = ABCDEFGHIJK
-    seventeen = ABCDEFGHIJKLMNOPQR
-    thirteen = ABCDEFGHIJKLMNO
-    fifteen = ABCDEFGHIJKLMNOPQ
-    eighteen = ABCDEFGHIJKLMNOPQRSTUV
-    twenty-one = ABCDEFGHIJKLMNOPQRSTUVWX
-    twenty-two = ABCDEFGHIJKLMNOPQRSTUVW
-    twenty-four = ABCDEFGHIJKLMNOPQRSTUVWXYZ
-    zero = Yeah
-    twelve = HZ
-    twenty = GLADIATOR
-    twenty-six = HEAVY_RAIN
-    sixteen = Scorpion
-    four = Sub-zero, Hello
-    fourteen = ABCDEFGHIJKLMN, CHAMPION
-    twenty-five = NEW_YEAR, CHRISTMAS
-    nineteen = ABCDEFGHIJKLMNOPQRSTU, GOLIAF, SAMSON
-    twenty-three = Walorant, GOOD, Cinema
-     */
-     string name_file = "test";
-     new_file.create_file(name_file);
-     new_file.write_file(name_file);
-
-     CIni check_file;
-     check_file.read_file(name_file);
-
-     ASSERT_TRUE(check_file.search_key(name_section_0, k1));
-     ASSERT_TRUE(new_vec_1 == check_file.getValue(name_section_0, k1));
-
-     ASSERT_TRUE(check_file.search_key(name_section_0, k2));
-     ASSERT_TRUE(vec2 == check_file.getValue(name_section_0, k2));
-
-     ASSERT_TRUE(check_file.search_key(name_section_0, k3));
-     ASSERT_TRUE(new_vec_3 == check_file.getValue(name_section_0, k3));
-
-     ASSERT_TRUE(check_file.search_key(name_section_0, k4));
-     ASSERT_TRUE(vec4 == check_file.getValue(name_section_0, k4));
-
-     ASSERT_TRUE(check_file.search_key(name_section_0, k5));
-     ASSERT_TRUE(vec5 == check_file.getValue(name_section_0, k5));
-
-     ASSERT_TRUE(check_file.search_key(name_section_0, k6));
-     CVector<CString> res_0;
-     res_0.push_back(17);
-     res_0.push_back(678);
-     ASSERT_TRUE(res_0 == check_file.getValue(name_section_0, k6));
-
-     ASSERT_TRUE(check_file.search_key(name_section_0, k7));
-     ASSERT_TRUE(vec7 == check_file.getValue(name_section_0, k7));
-
-     ASSERT_TRUE(check_file.search_key(name_section_0, k8));
-     ASSERT_TRUE(vec8 == check_file.getValue(name_section_0, k8));
-
-     ASSERT_TRUE(check_file.search_key(name_section_0, k9));
-     ASSERT_TRUE(vec9 == check_file.getValue(name_section_0, k9));
-
-     ASSERT_TRUE(check_file.search_key(name_section_0, k10));
-     CVector<CString> res_1;
-     res_1.push_back(9000);
-     res_1.push_back(56);
-     ASSERT_TRUE(res_1 == check_file.getValue(name_section_0, k10));
-
-     ASSERT_TRUE(check_file.search_key(name_section_0, k11));
-     CVector<CString> res_2;
-     res_2.push_back(89);
-     res_2.push_back(80000);
-     res_2.push_back(25);
-     res_2.push_back(606);
-     ASSERT_TRUE(res_2 == check_file.getValue(name_section_0, k11));
-
-     ASSERT_TRUE(check_file.search_key(name_section_0, k12));
-     ASSERT_TRUE(vec12 == check_file.getValue(name_section_0, k12));
-
-     ASSERT_TRUE(check_file.search_key(name_section_0, k13));
-     ASSERT_TRUE(vec13 == check_file.getValue(name_section_0, k13));
-
-     ASSERT_TRUE(check_file.search_key(name_section_0, k14));
-     CVector<CString> res_3;
-     res_3.push_back(500);
-     ASSERT_TRUE(res_3 == check_file.getValue(name_section_0, k14));
-
-     ASSERT_TRUE(check_file.search_key(name_section_0, new_key_0));
-     ASSERT_TRUE(new_vec_5 == check_file.getValue(name_section_0, new_key_0));
-
-     ASSERT_TRUE(check_file.search_key(name_section_1, key15));
-     ASSERT_TRUE(new_vec_6 == check_file.getValue(name_section_1, key15));
-
-     ASSERT_TRUE(check_file.search_key(name_section_1, key16));
-     ASSERT_TRUE(value16 == check_file.getValue(name_section_1, key16));
-
-     ASSERT_TRUE(check_file.search_key(name_section_1, key17));
-     ASSERT_TRUE(value17 == check_file.getValue(name_section_1, key17));
-
-     ASSERT_TRUE(check_file.search_key(name_section_1, key18));
-     ASSERT_TRUE(value18 == check_file.getValue(name_section_1, key18));
-
-     ASSERT_TRUE(check_file.search_key(name_section_1, key19));
-     ASSERT_TRUE(new_vec_7 == check_file.getValue(name_section_1, key19));
-
-     ASSERT_TRUE(check_file.search_key(name_section_1, key20));
-     ASSERT_TRUE(value20 == check_file.getValue(name_section_1, key20));
-
-     ASSERT_TRUE(check_file.search_key(name_section_1, key21));
-     ASSERT_TRUE(value21 == check_file.getValue(name_section_1, key21));
-
-     ASSERT_TRUE(check_file.search_key(name_section_1, key22));
-     ASSERT_TRUE(value22 == check_file.getValue(name_section_1, key22));
-
-     ASSERT_TRUE(check_file.search_key(name_section_1, key23));
-     ASSERT_TRUE(value23 == check_file.getValue(name_section_1, key23));
-
-     ASSERT_TRUE(check_file.search_key(name_section_1, key24));
-     ASSERT_TRUE(value24 == check_file.getValue(name_section_1, key24));
-
-     ASSERT_TRUE(check_file.search_key(name_section_1, key25));
-     ASSERT_TRUE(value25 == check_file.getValue(name_section_1, key25));
-
-     ASSERT_TRUE(check_file.search_key(name_section_1, key26));
-     ASSERT_TRUE(value26 == check_file.getValue(name_section_1, key26));
-
-     ASSERT_TRUE(check_file.search_key(name_section_1, key27));
-     ASSERT_TRUE(new_vec_8 == check_file.getValue(name_section_1, key27));
-
-     ASSERT_TRUE(check_file.search_key(name_section_1, key28));
-
-     ASSERT_TRUE(value28 == check_file.getValue(name_section_1, key28));
-
-     ASSERT_TRUE(check_file.search_key(name_section_1, key29));
-     CVector<CString> res_4;
-     res_4.push_back("ABCDEFGHIJKLMN");
-     res_4.push_back("CHAMPION");
-     ASSERT_TRUE(res_4 == check_file.getValue(name_section_1, key29));
-
-     ASSERT_TRUE(check_file.search_key(name_section_1, key30));
-     ASSERT_TRUE(value30 == check_file.getValue(name_section_1, key30));
-
-     ASSERT_TRUE(check_file.search_key(name_section_1, key31));
-     ASSERT_TRUE(new_vec_9 == check_file.getValue(name_section_1, key31));
-
-     ASSERT_TRUE(check_file.search_key(name_section_1, key32));
-     ASSERT_TRUE(value32 == check_file.getValue(name_section_1, key32));
-
-     ASSERT_TRUE(check_file.search_key(name_section_1, key33));
-     ASSERT_TRUE(value33 == check_file.getValue(name_section_1, key33));
-
-     ASSERT_TRUE(check_file.search_key(name_section_1, key34));
-     CVector<CString> res_5;
-     res_5.push_back("ABCDEFGHIJKLMNOPQRSTU");
-     res_5.push_back("GOLIAF");
-     res_5.push_back("SAMSON");
-     ASSERT_TRUE(res_5 == check_file.getValue(name_section_1, key34));
-
-     ASSERT_TRUE(check_file.search_key(name_section_1, key35));
-     ASSERT_TRUE(new_vec_10 == check_file.getValue(name_section_1, key35));
-
-     ASSERT_TRUE(check_file.search_key(name_section_1, key36));
-     ASSERT_TRUE(value36 == check_file.getValue(name_section_1, key36));
-
-     ASSERT_TRUE(check_file.search_key(name_section_1, key37));
-     ASSERT_TRUE(value37 == check_file.getValue(name_section_1, key37));
-
-     ASSERT_TRUE(check_file.search_key(name_section_1, key38));
-     ASSERT_TRUE(new_vec_11 == check_file.getValue(name_section_1, key38));
-
-     ASSERT_TRUE(check_file.search_key(name_section_1, key39));
-     ASSERT_TRUE(value39 == check_file.getValue(name_section_1, key39));
-
-     ASSERT_TRUE(check_file.search_key(name_section_1, key40));
-     ASSERT_TRUE(new_vec_12 == check_file.getValue(name_section_1, key40));
-
-     ASSERT_TRUE(check_file.search_key(name_section_1, key41));
-     ASSERT_TRUE(new_vec_13 == check_file.getValue(name_section_1, key41));
-
-    check_file.delete_file(name_file);
+    eight=ABCDEFGHIJ
+    eighteen=ABCDEFGHIJKLMNOPQRSTUV
+    eleven=ABCDEFGHIJK
+    fifteen=ABCDEFGHIJKLMNOPQ
+    five=A
+    four=Sub-zero, Hello
+    fourteen=ABCDEFGHIJKLMN, CHAMPION
+    nine=ABCDEFGHI
+    nineteen=ABCDEFGHIJKLMNOPQRSTU, GOLIAF, SAMSON
+    one=ABCDEFGH
+    seven=ABCDEF
+    seventeen=ABCDEFGHIJKLMNOPQR
+    six=AB
+    sixteen=Scorpion
+    ten=ABCDEFGHIJKL
+    thirteen=ABCDEFGHIJKLMNO
+    three=ABCD
+    twelve=HZ
+    twenty=GLADIATOR
+    twenty-five=NEW_YEAR, CHRISTMAS
+    twenty-four=ABCDEFGHIJKLMNOPQRSTUVWXYZ
+    twenty-one=ABCDEFGHIJKLMNOPQRSTUVWX
+    twenty-six=HEAVY_RAIN
+    twenty-three=Walorant, GOOD, Cinema
+    twenty-two=ABCDEFGHIJKLMNOPQRSTUVW
+    two=ABCDEFGH
+    zero=Yeah*/
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #endif // CINI_TEST_H

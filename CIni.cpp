@@ -1,66 +1,4 @@
 #include "CIni.h"
-Content_of_section::Content_of_section()
-{
-    CString empty_name;
-    CString empty_comment;
-    CMap<CString, CVector<CString>> empty_key_value;
-
-    CString key = 1; CString value = "B";
-    CVector<CString> temp;
-    temp.push_back(value);
-    empty_key_value.add_pair(key, temp);
-    temp.clear();
-
-    key = 2; value = "A";
-    temp.push_back(value);
-    empty_key_value.add_pair(key, temp);
-    temp.clear();
-
-    key = 3; value = "C";
-    temp.push_back(value);
-    empty_key_value.add_pair(key, temp);
-    temp.clear();
-    m_name_section = empty_name;
-    m_comment_section = empty_comment;
-    m_key_value    = empty_key_value;
-
-}
-
-void Content_of_section::clear()
-{
-     m_name_section.clear();
-     m_comment_section.clear();
-     m_key_value.clear();
-}
-
-CIni::CIni()
-{
-    CString empty_name;
-    CString empty_comment;
-    CMap<CString, CVector<CString>> empty_key_value;
-
-    CString key = 1; CString value = "B";
-    CVector<CString> temp;
-    temp.push_back(value);
-    empty_key_value.add_pair(key, temp);
-    temp.clear();
-
-    key = 2; value = "A";
-    temp.push_back(value);
-    empty_key_value.add_pair(key, temp);
-    temp.clear();
-
-    key = 3; value = "C";
-    temp.push_back(value);
-    empty_key_value.add_pair(key, temp);
-    temp.clear();
-
-    Content_of_section temp_content;
-    temp_content.m_name_section = empty_name;
-    temp_content.m_comment_section = empty_comment;
-    temp_content.m_key_value    = empty_key_value;
-    m_data.push_back(temp_content);
-}
 
 void CIni::create_file(string &name_file)
 {
@@ -82,7 +20,7 @@ void CIni::read_file(string &name_file)
     m_name_file = name_file + format;
     char ch;
     ifstream fin(m_name_file.c_str());
-    CString temp;
+    string temp;
     while(!fin.eof())
     {
         ch = fin.get();
@@ -101,102 +39,82 @@ void CIni::read_file(string &name_file)
 void CIni::analyze_file()
 {
     Content_of_section temp_content_of_section;
-    temp_content_of_section.m_key_value.clear();
-    int count = 0;
-
-    for(unsigned i = 0; i < m_temp_container.size(); i++)
+    unsigned count = 0;
+    auto it_temp_cont = m_temp_container.begin();
+    for(; it_temp_cont != m_temp_container.end(); it_temp_cont++)
     {
-
-        if(m_temp_container.at(i).front() == '[')
+        if(it_temp_cont->front() == '[')
         {
             if(count > 0)
             {
-                if(m_data.at(0).m_name_section.empty())
+                m_data.push_back(temp_content_of_section);
+                temp_content_of_section.clear();
+            }
+            it_temp_cont->erase(it_temp_cont->begin());
+            it_temp_cont->pop_back();
+            it_temp_cont->pop_back();
+            temp_content_of_section.m_name_section = it_temp_cont->data();
+            it_temp_cont->clear();
+            count++;
+            continue;
+        }
+        if(it_temp_cont->front() == ';')
+        {
+            it_temp_cont->erase(it_temp_cont->begin());
+            it_temp_cont->pop_back();
+            temp_content_of_section.m_comment_section = it_temp_cont->data();
+            continue;
+        }
+        else if (it_temp_cont->empty())
+        {
+            continue;
+        }
+        else if (it_temp_cont->front() == '\t')
+        {
+            continue;
+        }
+        else if (it_temp_cont->front() == '\n')
+        {
+            continue;
+        }
+        else
+        {
+            unsigned start = it_temp_cont->find('=');
+            unsigned end = it_temp_cont->find('\n');
+            string temp_key = it_temp_cont->data();
+            temp_key.erase(start, end);
+            temp_key.pop_back();
+
+            end = it_temp_cont->find('=') + 1;
+            it_temp_cont->erase(0, end);
+            it_temp_cont->erase(it_temp_cont->begin());
+
+            vector<string> temp_vct_value;
+            string temp_value;
+            while (!it_temp_cont->empty())
+            {
+                if(it_temp_cont->find(',') < 1000)
                 {
-                    m_data.at(0) = temp_content_of_section;
-                    temp_content_of_section.clear();
+                    unsigned start = it_temp_cont->find(',');
+                    unsigned end = it_temp_cont->find('\n') + 1;
+                    temp_value = it_temp_cont->data();
+
+                    temp_vct_value.push_back(temp_value.erase(start, end));
+                    temp_value.clear();
+
+                    end = it_temp_cont->find(',') + 2;
+                    it_temp_cont->erase(0, end);
                 }
                 else
                 {
-                    m_data.push_back(temp_content_of_section);
-                    temp_content_of_section.clear();
+                    it_temp_cont->pop_back();
+                    temp_vct_value.push_back(it_temp_cont->data());
+                    it_temp_cont->clear();
                 }
             }
-            m_temp_container.at(i).pop_front();
-            m_temp_container.at(i).pop_back();
-            m_temp_container.at(i).pop_back();
-            temp_content_of_section.m_name_section = m_temp_container.at(i);
-            count++;
-        }
-        else if(m_temp_container.at(i).front() == ';')
-        {
-            m_temp_container.at(i).pop_front();
-            m_temp_container.at(i).pop_back();
-            temp_content_of_section.m_comment_section = m_temp_container.at(i);
-            /*CString temp_comment = m_temp_container.at(i);
-            while(m_temp_container.at(i).find(' '))
-            {
-                unsigned start = m_temp_container.at(i).find(' ');
-                unsigned end = m_temp_container.at(i).find('\n');
-                temp_comment.erase(start, end);
-                temp_content_of_section.m_comment_section.push_back(temp_comment);
-                temp_comment.clear();
-
-                end = m_temp_container.at(i).find(' ');
-                m_temp_container.at(i).erase(0, end);
-                temp_comment = m_temp_container.at(i);
-            }
-            temp_comment.clear();
-            if(!m_temp_container.at(i).find(' '))
-            {
-                m_temp_container.at(i).pop_back();
-                temp_content_of_section.m_comment_section.push_back(m_temp_container.at(i));
-            }*/
-        }
-        else if(m_temp_container.at(i).empty())
-        {
-            continue;
-        }
-        else if(m_temp_container.at(i).front() == '\t')
-        {
-            continue;
-        }
-        else if(m_temp_container.at(i).front() == '\n')
-        {
-            continue;
-        }
-        else if(m_temp_container.at(i).front() != '[' || m_temp_container.at(i).front() != ' ')
-        {
-             m_temp_container.at(i).erase(' ');
-             unsigned start = m_temp_container.at(i).find('=');
-             unsigned end = m_temp_container.at(i).find('\n');
-             CString temp_key = m_temp_container.at(i);
-             temp_key.erase(start, end);
-             end = m_temp_container.at(i).find('=');
-             m_temp_container.at(i).erase(0, end);
-
-             CVector<CString> temp_vector_value;
-             CString temp_value;
-             while(m_temp_container.at(i).find(','))
-             {
-                unsigned start = m_temp_container.at(i).find(',');
-                unsigned end = m_temp_container.at(i).find('\n');
-                temp_value = m_temp_container.at(i);
-
-                temp_vector_value.push_back(temp_value.erase(start, end));
-                temp_value.clear();
-
-                end = m_temp_container.at(i).find(',');
-                m_temp_container.at(i).erase(0, end);
-             }
-             if(!m_temp_container.at(i).find(','))
-             {
-                 m_temp_container.at(i).pop_back();
-                 temp_vector_value.push_back(m_temp_container.at(i));
-             }
-             temp_content_of_section.m_key_value.add_pair(temp_key, temp_vector_value);
-             temp_key.clear();
-             temp_vector_value.clear();
+            temp_content_of_section.m_key_value.insert(pair<string, vector<string>>(temp_key, temp_vct_value));
+            temp_key.clear();
+            temp_vct_value.clear();
         }
     }
     if(count == 1)
@@ -227,10 +145,13 @@ void CIni::write_file(string &name_file)
     m_name_file = name_file + format;
     write_file_inner();
     ofstream fout(m_name_file.c_str(), ios_base::out | ios_base::app);
-    char ch;
-    for(unsigned i = 0; i < m_temp_container.size(); i++)
+    auto it_temp_cont = m_temp_container.begin();
+    auto it_char = it_temp_cont->begin();
+    //char ch = '\n';
+    //unsigned num = m_temp_container.size();
+    for (unsigned i = 0; i < m_temp_container.size(); i++)
     {
-        for(unsigned j = 0; j < m_temp_container.at(i).size(); j++)
+        for (unsigned j = 0; j < m_temp_container.at(i).size(); j++)
         {
             if(m_temp_container.at(i).at(j) == '\0')
             {
@@ -238,228 +159,193 @@ void CIni::write_file(string &name_file)
             }
             else
             {
-                ch = m_temp_container.at(i).at(j);
-                fout << ch;
+                fout << m_temp_container.at(i).at(j);
             }
         }
     }
-
-}
-
-void CIni::clear()
-{
-    for(unsigned i = 0; i < m_data.size(); i++)
+    /*for(;  it_temp_cont != m_temp_container.end(); it_temp_cont++, it_char = it_temp_cont->begin())
     {
-        if(!m_data.at(i).m_name_section.empty())
+
+        for(; *it_char != '\n'; it_char++)
         {
-            m_data.at(i).m_name_section.clear();
-            m_data.at(i).m_comment_section.clear();
-            m_data.at(i).m_key_value.clear();
+            fout << *it_char;
         }
-    }
-    m_data.clear();
-    CMap<CString, CVector<CString>> empty_key_value;
-
-    CString key = 1; CString value = "B";
-    CVector<CString> temp;
-    temp.push_back(value);
-    empty_key_value.add_pair(key, temp);
-    temp.clear();
-
-    key = 2; value = "A";
-    temp.push_back(value);
-    empty_key_value.add_pair(key, temp);
-    temp.clear();
-
-    key = 3; value = "C";
-    temp.push_back(value);
-    empty_key_value.add_pair(key, temp);
-    temp.clear();
-
-    m_data.at(0).m_key_value = empty_key_value;
-    m_temp_container.clear();
-
-}
-
-bool CIni::search_name_section(CString &name_section)
-{
-    bool find = false;
-    for(unsigned i = 0; i < m_data.size(); i++)
-    {
-        if(m_data.at(i).m_name_section == name_section)
-        {
-            find = true;
-        }
-    }
-    return find;
+        fout << ch;
+    }*/
 }
 
 void CIni::write_file_inner()
 {
-    int k = 0;
-    for(unsigned i = 0; i < m_data.size(); i++)
+    auto it_m_data = m_data.begin();
+    string temp;
+    for(; it_m_data != m_data.end(); it_m_data++)
     {
-        CString temp;
-        temp = m_data.at(i).m_name_section;
-        temp.push_front('[');
+
+        temp = it_m_data->m_name_section;
+        temp.insert(0, "[");
         temp.push_back(']');
         temp.push_back('\n');
         m_temp_container.push_back(temp);
-        k++;
-        if(!m_data.at(i).m_comment_section.empty())
-        {
-            temp.clear();
-            m_temp_container.push_back(temp);
-            m_temp_container.at(k) = m_data.at(i).m_comment_section;
-            m_temp_container.at(k).push_front(';');
-            /*for(unsigned n = 0; n < m_data.at(i).m_comment_section.size(); n++)
-            {
-                m_temp_container.at(k).push_back(m_data.at(i).m_comment_section.at(n));
-                m_temp_container.at(k).push_back(' ');
-            }
-            m_temp_container.at(k).pop_back();*/
-            m_temp_container.at(k).push_back('\n');
-            k++;
-        }
         temp.clear();
-        //unsigned size = m_data.at(i).m_key_value.size();
-        /*unsigned j = 0;
-        CString node;
-        unsigned count = 0;
-        node = j;*/
-        CString key;
-        for(unsigned node = 0; node < m_data.at(i).m_key_value.size(); node++, k++)
+
+        if(!it_m_data->m_comment_section.empty())
         {
+            temp = it_m_data->m_comment_section;
+            temp.insert(0, ";");
+            temp.push_back('\n');
             m_temp_container.push_back(temp);
-            key = m_data.at(i).m_key_value.getKey(node);
-            m_temp_container.at(k).push_back(key);
-            m_temp_container.at(k).push_back(" = ");
-            for(unsigned n = 0; n < m_data.at(i).m_key_value.getValue(key).size(); n++)
-            {
-                m_temp_container.at(k).push_back(m_data.at(i).m_key_value.getValue(key).at(n));
-                m_temp_container.at(k).push_back(", ");
-            }
-            m_temp_container.at(k).pop_back();
-            m_temp_container.at(k).pop_back();
-            m_temp_container.at(k).push_back('\n');
         }
-        /*while(count < m_data.at(i).m_key_value.size())
+
+        auto it_map_key = it_m_data->m_key_value.begin();
+        for(; it_map_key != it_m_data->m_key_value.end(); it_map_key++)
         {
-            if(m_data.at(i).m_key_value.search(node))
+            temp = it_map_key->first;
+            temp.push_back('=');
+            auto it_temp_vct = it_map_key->second.begin();
+            for(; it_temp_vct != it_map_key->second.end(); it_temp_vct++)
             {
-                m_temp_container.push_back(temp);
-                m_temp_container.at(k).push_back(node);
-                m_temp_container.at(k).push_back(" = ");
-                for(unsigned l = 0; l < m_data.at(i).m_key_value.getValue(node).size(); l++)
-                {
-                    m_temp_container.at(k).push_back(m_data.at(i).m_key_value.getValue(node).at(l).data());
-                    m_temp_container.at(k).push_back(", ");
-                }
-                m_temp_container.at(k).pop_back();
-                m_temp_container.at(k).pop_back();
-                m_temp_container.at(k).push_back('\n');
-                count++;
-                k++;
+                temp.append(it_temp_vct->data());
+                temp.append(", ");
             }
-            j++;
-            node = j;
-            temp.clear();
-        }*/
-    }
-}
-
-void CIni::add_name_section(CString &new_name)
-{
-    if(m_data.at(0).m_name_section.empty())
-    {
-       m_data.at(0).m_name_section = new_name;
-    }
-    else
-    {
-        Content_of_section temp;
-        temp.m_name_section = new_name;
-        m_data.push_back(temp);
-    }
-}
-
-void CIni::change_name_section(CString &old_name, CString &new_name)
-{
-    for(unsigned i = 0; i < m_data.size(); i++)
-    {
-        if(old_name == m_data.at(i).m_name_section)
-        {
-            m_data.at(i).m_name_section = new_name;
+            temp.pop_back();
+            temp.pop_back();
+            temp.push_back('\n');
+            m_temp_container.push_back(temp);
         }
     }
 }
 
-void CIni::add_key_value(CString &name_section, CMap<CString, CVector<CString> > &key_value)
-{
-    for(unsigned i = 0; i < m_data.size(); i++)
-    {
-        if(name_section == m_data.at(i).m_name_section)
-        {
-            unsigned count = 0;
-            CString key;
-            CVector<CString> temp_vct;
-            for(unsigned j = 1; j < m_data.at(i).m_key_value.size() + 1; j++)
-            {
-                key = j;
-                if(m_data.at(i).m_key_value.getValue(key).size() == 1)
-                {
-                    if(m_data.at(i).m_key_value.getValue(key).at(0) == 'B' && key == 1)
-                    {
-                        count++;
-                    }
-                    else if(m_data.at(i).m_key_value.getValue(key).at(0) == 'A' && key == 2)
-                    {
-                        count++;
-                    }
-                    else if(m_data.at(i).m_key_value.getValue(key).at(0) == 'C' && key == 3)
-                    {
-                        count++;
-                    }
-                    else
-                    {
-                        count = 0;
-                        break;
-                    }
-                }
-                else
-                {
-                    break;
-                }
-            }
-            if(count == 3)
-            {
-                m_data.at(i).m_key_value.clear();
-                m_data.at(i).m_key_value = key_value;
-            }
-            else
-            {
-                m_data.at(i).m_key_value = key_value;
-            };
 
-        }
-    }
-}
-
-const char *CIni::get_comment_section(CString &name_section)
+bool CIni::search_name_section(string &name_section)
 {
     bool found = false;
-    unsigned num = 0;
-    for(unsigned i = 0; i < m_data.size(); i++)
+    auto it_m_data = m_data.begin();
+    for(; it_m_data != m_data.end(); it_m_data++)
+    {
+        if(it_m_data->m_name_section == name_section)
+        {
+            found = true;
+            break;
+        }
+    }
+    /*for(unsigned i = 0; i < m_data.size(); i++)
     {
         if(m_data.at(i).m_name_section == name_section)
         {
             found = true;
-            num = i;
+        }
+    }*/
+    return found;
+}
+
+bool CIni::add_name_section(string &new_name)
+{
+    bool found = false;
+    auto it_m_data = m_data.begin();
+    for(; it_m_data != m_data.end(); it_m_data++)
+    {
+        if(it_m_data->m_name_section != new_name)
+        {
+            continue;
+        }
+        else
+        {
+            found = true;
             break;
         }
     }
+    if(found == false)
+    {
+        Content_of_section empty;
+        if(m_data.empty())
+        {
+            m_data.push_back(empty);
+            m_data.begin()->m_name_section = new_name;
+        }
+        else
+        {
+            m_data.push_back(empty);
+            it_m_data = m_data.end() - 1;
+            it_m_data->m_name_section = new_name;
+        }
+    }
+    return found;
+}
+
+bool CIni::add_comment_section(string &name_section, string &comment_section)
+{
+    bool found = false;
+    auto it_m_data = m_data.begin();
+    for(unsigned i = 0; it_m_data != m_data.end(); it_m_data++, i++)
+    {
+        if(it_m_data->m_name_section == name_section)
+        {
+            found = true;
+            break;
+        }
+    }
+    if(found)
+    {
+        it_m_data->m_comment_section = comment_section;
+    }
+    return found;
+}
+
+bool CIni::change_name_section(string &old_name, string &new_name)
+{
+    bool found = false;
+    auto it_m_data = m_data.begin();
+    for(; it_m_data != m_data.end(); it_m_data++)
+    {
+        if(it_m_data->m_name_section == old_name)
+        {
+            found = true;
+            it_m_data->m_name_section = new_name;
+            break;
+        }
+    }
+    return found;
+}
+
+bool CIni::add_key_value(string &name_section, map<string, vector<string>> &key_value)
+{
+    bool found = false;
+    auto it_m_data = m_data.begin();
+    for(; it_m_data != m_data.end(); it_m_data++)
+    {
+        if(it_m_data->m_name_section != name_section)
+        {
+            continue;
+        }
+        else
+        {
+            found = true;
+            break;
+        }
+    }
+    if(found)
+    {
+        it_m_data->m_key_value = key_value;
+    }
+    return found;
+}
+
+const char *CIni::get_comment_section(string &name_section)
+{
+    bool found = false;
+    auto it_m_data = m_data.begin();
+    for(; it_m_data != m_data.end(); it_m_data++)
+    {
+        if(it_m_data->m_name_section == name_section)
+        {
+            found = true;
+            break;
+        }
+    }
+
     try
     {
-        if(found == false)
+        if(!found)
         {
             throw 1;
         }
@@ -469,313 +355,172 @@ const char *CIni::get_comment_section(CString &name_section)
         const char *empty = "\0";
         return empty;
     }
-    return m_data.at(num).m_comment_section.data();
+    return it_m_data->m_comment_section.data();
 }
 
-bool CIni::search_key(CString &name_section, CString &key)
+
+void CIni::delete_value(string &name_section, string &key, string &value)//unsigned &num_value)
 {
-    bool found_n_s = false;
-    bool found_key = false;
-    unsigned num = 0;
-    for(unsigned i = 0; i < m_data.size(); i++)
+    bool found = false;
+    auto it_m_data = m_data.begin();
+    for(; it_m_data != m_data.end(); it_m_data++)
     {
-        if(m_data.at(i).m_name_section == name_section)
+        if(it_m_data->m_name_section == name_section)
         {
-            found_n_s = true;
-            num = i;
+            found = true;
             break;
         }
     }
-    try
+    if(found)
     {
-        if(found_n_s == false)
+        auto it_map = it_m_data->m_key_value.find(key);
+        auto it_vector = it_map->second.begin();
+        for(; it_vector != it_map->second.end(); it_vector++)
         {
-            throw 1;
-        }
-    }
-    catch (int a)
-    {
-        return found_n_s;
-    }
-    if(found_n_s == true)
-    {
-        if(m_data.at(num).m_key_value.search(key))
-        {
-            found_key = true;
-        }
-    }
-    try
-    {
-        if(found_key == false)
-        {
-            throw 1;
-        }
-    }
-    catch (int a)
-    {
-        return found_key;
-    }
-    return found_key;
-}
-
-CVector<CString> &CIni::getValue(CString &name_section, CString &key)
-{
-    unsigned num = 0;
-    for(unsigned i = 0; i < m_data.size(); i++)
-    {
-        if(m_data.at(i).m_name_section == name_section)
-        {
-            num = i;
-            break;
-        }
-    }
-    return m_data.at(num).m_key_value.getValue(key);
-}
-
-void CIni::add_comment_section(CString &name_section, CString &new_comment)
-{
-
-    //<CString> temp_vct;
-    //CString temp_comment = new_comment;
-    for(unsigned i = 0; i < m_data.size(); i++)
-    {
-        if(name_section == m_data.at(i).m_name_section)
-        {
-            /*while (new_comment.find(' '))
+            if(*it_vector == value)
             {
-                unsigned start = new_comment.find(' ');
-                unsigned end = new_comment.size() - 1;
-                temp_comment.erase(start, end);
-                temp_vct.push_back(temp_comment);
-                temp_comment.clear();
-
-                end = new_comment.find(' ');
-                new_comment.erase(0, end);
-                temp_comment = new_comment;
+                it_map->second.erase(it_vector);
+                break;
             }
-            temp_comment.clear();
-            if(!new_comment.find(' '))
-            {
-                temp_vct.push_back(new_comment);
-            }*/
-            m_data.at(i).m_comment_section = new_comment;
+        }
+    }
+
+}
+
+void CIni::delete_value(string &name_section, string &key)
+{
+    auto it_m_data = m_data.begin();
+    for(; it_m_data != m_data.end(); it_m_data++)
+    {
+        if(it_m_data->m_name_section == name_section)
+        {
+            it_m_data->m_key_value.erase(key);
             break;
         }
     }
 }
 
-/*void CIni::change_name_comment(CString & name_section, CString & old_comment, CString & new_comment)
+vector<string> &CIni::getValue(string &name_section, string &key)
 {
-    for(unsigned i = 0; i < m_data.size(); i++)
+    auto it_m_data = m_data.begin();
+    for(; it_m_data != m_data.end(); it_m_data++)
     {
-        if(name_section == m_data.at(i).m_name_section)
+        if(it_m_data->m_name_section == name_section)
         {
-            for(unsigned j = 0; j < m_data.at(i).m_comment_section.size(); j++)
-            {
-                if(old_comment == m_data.at(i).m_comment_section.at(j))
-                {
-                    m_data.at(i).m_comment_section.at(j) = new_comment;
-                }
-            }
-
+            break;
         }
     }
-}*/
-
-void CIni::change_comment_section(CString & name_section, CString & new_comment)
-{
-    for(unsigned i = 0; i < m_data.size(); i++)
-    {
-        if(name_section == m_data.at(i).m_name_section)
-        {
-            /*CVector<CString> temp_vct;
-            CString temp_comment = new_comment;
-            while (new_comment.find(' '))
-            {
-                unsigned start = new_comment.find(' ');
-                unsigned end = new_comment.size();
-                temp_comment.erase(start, end);
-                temp_vct.push_back(temp_comment);
-                temp_comment.clear();
-
-                end = new_comment.find(' ');
-                new_comment.erase(0, end);
-                temp_comment = new_comment;
-            }
-            temp_comment.clear();
-            if(new_comment.find(' '))
-            {
-                temp_vct.push_back(new_comment);
-            }*/
-            m_data.at(i).m_comment_section = new_comment;
-        }
-    }
+    return it_m_data->m_key_value.find(key)->second;
 }
 
-void CIni::show_all()
+unsigned &CIni::get_size_key_value(string &name_section)
 {
-    for(unsigned i = 0; i < m_data.size(); i++)
+
+    unsigned size = 0;
+    bool found = false;
+    auto it_m_data = m_data.begin();
+    for(; it_m_data != m_data.end(); it_m_data++)
     {
-        cout << m_data.at(i).m_name_section.data() << endl;
-        if(!m_data.at(i).m_comment_section.empty())
+        if(it_m_data->m_name_section == name_section)
         {
-            /*for(unsigned j = 0; j < m_data.at(i).m_comment_section.size(); j++)
-            {
-                cout << m_data.at(i).m_comment_section.at(j).data() << ' ';
-            }*/
-            cout << m_data.at(i).m_comment_section.data() << endl;
+            found = true;
+            break;
         }
-        CString key;
-        for(unsigned node = 0; node < m_data.at(i).m_key_value.size(); node++)
-        {
-            key = m_data.at(i).m_key_value.getKey(node);
-            cout << key.data() << " = ";
-            for(unsigned k = 0; k < m_data.at(i).m_key_value.getValue(key).size(); k++)
-            {
-                cout << m_data.at(i).m_key_value.getValue(key).at(k).data() << ' ';
-            }
-            cout << endl;
-        }
-        /*while (count != m_data.at(i).m_key_value.size())
-        {
-            if(m_data.at(i).m_key_value.search(node))
-            {
-                cout << k << " = ";
-                for(unsigned l = 0; l < m_data.at(i).m_key_value.getValue(node).size(); l++)
-                {
-                    cout << m_data.at(i).m_key_value.getValue(node).at(l).data() << ' ';
-                }
-                cout << endl;
-                count++;
-            }
-            node.clear();
-            k++;
-            node = k;
-        }*/
     }
+    if(found)
+    {
+        size = it_m_data->m_key_value.size();
+    }
+    return size;
 }
 
-void CIni::delete_value(CString &m_name_section, CString &key)
+bool CIni::change_value(string &name_section, string &key, vector<string> &value)
 {
-    for(unsigned i = 0; i < m_data.size(); i++)
+    bool found = false;
+    auto it_m_data = m_data.begin();
+    for(; it_m_data != m_data.end(); it_m_data++)
     {
-        if(m_name_section == m_data.at(i).m_name_section)
+        if(it_m_data->m_name_section == name_section)
         {
-            if(m_data.at(i).m_key_value.search(key))
+            found = true;
+            break;
+        }
+    }
+    if(found)
+    {
+        auto it_map = it_m_data->m_key_value.find(key);
+        it_map->second = value;
+    }
+    return found;
+}
+
+bool CIni::change_value(string &name_section, string &key, string &old_value, string &new_value)
+{
+    bool found = false;
+    auto it_m_data = m_data.begin();
+    for(; it_m_data != m_data.end(); it_m_data++)
+    {
+        if(it_m_data->m_name_section == name_section)
+        {
+            found = true;
+            break;
+        }
+    }
+    if(found)
+    {
+        auto it_map = it_m_data->m_key_value.find(key);
+        auto it_vector = it_map->second.begin();
+        for(; it_vector != it_map->second.end(); it_vector++)
+        {
+            if(*it_vector == old_value)
             {
-                m_data.at(i).m_key_value.delete_key(key);
+                *it_vector = new_value;
+                break;
             }
         }
     }
+    return found;
 }
 
-void CIni::delete_value(CString &m_name_section, CString &key, CString &value)
-{
-    for(unsigned i = 0; i < m_data.size(); i++)
-    {
-        if(m_name_section == m_data.at(i).m_name_section)
-        {
-            if(m_data.at(i).m_key_value.search(key))
-            {
-                CVector<CString> temp;
-                temp = m_data.at(i).m_key_value.getValue(key);
-                m_data.at(i).m_key_value.delete_key(key);
 
-                for(unsigned j = 0; j < temp.size(); j++)
-                {
-                    if(value == temp.at(j))
-                    {
-                        temp.erase(j);
-                    }
-                };
-                m_data.at(i).m_key_value.add_pair(key, temp);
-            }
+bool CIni::add_value(string &name_section, string &key, vector<string> &value)
+{
+    bool found = false;
+    auto it_m_data = m_data.begin();
+    for(; it_m_data != m_data.end(); it_m_data++)
+    {
+        if(it_m_data->m_name_section == name_section)
+        {
+            found = true;
+            break;
         }
     }
+    if(found)
+    {
+        it_m_data->m_key_value.insert(pair<string, vector<string>>(key, value));
+    }
+    return found;
 }
 
-void CIni::change_value(CString &m_name_section, CString &key, CVector<CString> &value)
+bool CIni::add_value(string &name_section, string &key, string &value)
 {
-    for(unsigned i = 0; i < m_data.size(); i++)
+    bool found = false;
+    auto it_m_data = m_data.begin();
+    for(; it_m_data != m_data.end(); it_m_data++)
     {
-        if(m_name_section == m_data.at(i).m_name_section)
+        if(it_m_data->m_name_section == name_section)
         {
-            if(m_data.at(i).m_key_value.search(key))
-            {
-                m_data.at(i).m_key_value.delete_key(key);
-                m_data.at(i).m_key_value.add_pair(key, value);
-            }
+            found = true;
+            break;
         }
     }
-}
-
-void CIni::change_value(CString &m_name_section, CString &key, CString & old_value, CString & new_value)
-{
-    for(unsigned i = 0; i < m_data.size(); i++)
+    if(found)
     {
-        if(m_name_section == m_data.at(i).m_name_section)
-        {
-            CVector<CString> temp;
-            temp = m_data.at(i).m_key_value.getValue(key);
-            m_data.at(i).m_key_value.delete_key(key);
-
-            for(unsigned j = 0; j < temp.size(); j++)
-            {
-                if(old_value == temp.at(j))
-                {
-                    temp.at(j) = new_value;
-                }
-            }
-            m_data.at(i).m_key_value.add_pair(key, temp);
-        }
+        auto it_map = it_m_data->m_key_value.find(key);
+        it_map->second.push_back(value);
     }
+    return found;
 }
-
-void CIni::add_value(CString &m_name_section, CString &key, CVector<CString> &value)
-{
-    for(unsigned i = 0; i < m_data.size(); i++)
-    {
-        if(m_name_section == m_data.at(i).m_name_section)
-        {
-            m_data.at(i).m_key_value.add_pair(key, value);
-        }
-    }
-}
-
-void CIni::add_value(CString &m_name_section, CString &key, CString &value)
-{
-    for(unsigned i = 0; i < m_data.size(); i++)
-    {
-        if(m_name_section == m_data.at(i).m_name_section)
-        {
-            CVector<CString> temp;
-            temp = m_data.at(i).m_key_value.getValue(key);
-            m_data.at(i).m_key_value.delete_key(key);
-
-            temp.push_back(value);
-            m_data.at(i).m_key_value.add_pair(key, temp);
-        }
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
