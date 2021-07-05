@@ -146,8 +146,6 @@ void CIni::write_file(string &name_file)
     ofstream fout(m_name_file.c_str(), ios_base::out | ios_base::app);
     auto it_temp_cont = m_temp_container.begin();
     auto it_char = it_temp_cont->begin();
-    //char ch = '\n';
-    //unsigned num = m_temp_container.size();
     for (unsigned i = 0; i < m_temp_container.size(); i++)
     {
         for (unsigned j = 0; j < m_temp_container.at(i).size(); j++)
@@ -162,15 +160,6 @@ void CIni::write_file(string &name_file)
             }
         }
     }
-    /*for(;  it_temp_cont != m_temp_container.end(); it_temp_cont++, it_char = it_temp_cont->begin())
-    {
-
-        for(; *it_char != '\n'; it_char++)
-        {
-            fout << *it_char;
-        }
-        fout << ch;
-    }*/
 }
 
 void CIni::write_file_inner()
@@ -227,13 +216,6 @@ bool CIni::search_name_section(string &name_section)
             break;
         }
     }
-    /*for(unsigned i = 0; i < m_data.size(); i++)
-    {
-        if(m_data.at(i).m_name_section == name_section)
-        {
-            found = true;
-        }
-    }*/
     return found;
 }
 
@@ -357,8 +339,7 @@ const char *CIni::get_comment_section(string &name_section)
     return it_m_data->m_comment_section.data();
 }
 
-
-void CIni::delete_value(string &name_section, string &key, string &value)//unsigned &num_value)
+bool CIni::delete_value(string &name_section, string &key, string &value)
 {
     bool found = false;
     auto it_m_data = m_data.begin();
@@ -374,29 +355,37 @@ void CIni::delete_value(string &name_section, string &key, string &value)//unsig
     {
         auto it_map = it_m_data->m_key_value.find(key);
         auto it_vector = it_map->second.begin();
+        found = false;
         for(; it_vector != it_map->second.end(); it_vector++)
         {
             if(*it_vector == value)
             {
+                found = true;
                 it_map->second.erase(it_vector);
                 break;
             }
         }
     }
-
+    return found;
 }
 
-void CIni::delete_value(string &name_section, string &key)
+bool CIni::delete_value(string &name_section, string &key)
 {
+    bool found = false;
     auto it_m_data = m_data.begin();
     for(; it_m_data != m_data.end(); it_m_data++)
     {
         if(it_m_data->m_name_section == name_section)
         {
-            it_m_data->m_key_value.erase(key);
+            found = true;
             break;
         }
     }
+    if(found)
+    {
+        it_m_data->m_key_value.erase(key);
+    }
+    return found;
 }
 
 vector<string> &CIni::getValue(string &name_section, string &key)
@@ -469,10 +458,12 @@ bool CIni::change_value(string &name_section, string &key, string &old_value, st
     {
         auto it_map = it_m_data->m_key_value.find(key);
         auto it_vector = it_map->second.begin();
+        found = false;
         for(; it_vector != it_map->second.end(); it_vector++)
         {
             if(*it_vector == old_value)
             {
+                found = true;
                 *it_vector = new_value;
                 break;
             }
@@ -480,7 +471,6 @@ bool CIni::change_value(string &name_section, string &key, string &old_value, st
     }
     return found;
 }
-
 
 bool CIni::add_value(string &name_section, string &key, vector<string> &value)
 {
@@ -497,6 +487,13 @@ bool CIni::add_value(string &name_section, string &key, vector<string> &value)
     if(found)
     {
         it_m_data->m_key_value.insert(pair<string, vector<string>>(key, value));
+    }
+    if(!found)
+    {
+        Content_of_section temp;
+        temp.m_name_section = name_section;
+        temp.m_key_value.insert(pair<string, vector<string>>(key, value));
+        m_data.push_back(temp);
     }
     return found;
 }
@@ -517,6 +514,15 @@ bool CIni::add_value(string &name_section, string &key, string &value)
     {
         auto it_map = it_m_data->m_key_value.find(key);
         it_map->second.push_back(value);
+    }
+    if(!found)
+    {
+        Content_of_section temp;
+        vector<string> temp_vct;
+        temp_vct.push_back(value);
+        temp.m_name_section = name_section;
+        temp.m_key_value.insert(pair<string, vector<string>>(key, temp_vct));
+        m_data.push_back(temp);
     }
     return found;
 }

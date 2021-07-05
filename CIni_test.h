@@ -681,7 +681,6 @@ TEST(test002, test_CIni_change_value_add_value)
     ASSERT_TRUE(res1 == check_file.getValue(new_name_0, thirteen));
 
     new_file.delete_file(name_file);
-    cout << "good";
 }
 TEST(test003, test_CIni_change_value_add_value)
 {
@@ -826,7 +825,7 @@ TEST(test003, test_CIni_change_value_add_value)
 
     string two_ = "two"; vector<string> vlE;
     vlE.push_back("ABCDE");
-    key_value_1.insert(pair<string, vector<string>>(two_, vlH));
+    key_value_1.insert(pair<string, vector<string>>(two_, vlE));
 
     string three_ = "three"; vector<string> vlD;
     vlD.push_back("ABCD");
@@ -1102,7 +1101,7 @@ TEST(test003, test_CIni_change_value_add_value)
 
      ASSERT_TRUE(vlH == check_file.getValue(name_section_1, one_));
 
-     //ASSERT_TRUE(vlE == check_file.getValue(name_section_1, two_));
+     ASSERT_TRUE(vlE == check_file.getValue(name_section_1, two_));
 
      ASSERT_TRUE(vlD == check_file.getValue(name_section_1, three_));
 
