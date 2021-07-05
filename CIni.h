@@ -28,7 +28,7 @@ private:
         {
             string name_section = "empty section";
             string comment_section = "empty comment";
-            string key1 = "zero";
+            string key1 = "empty key";
             string value1 = "empty value";
             vector<string> vec1;
             vec1.push_back(value1);

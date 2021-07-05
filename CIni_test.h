@@ -148,7 +148,7 @@ TEST(test001, test_CIni_read_file)
 
        string two_ = "two"; vector<string> vlE;
        vlE.push_back("ABCDE");
-       key_value_1.insert(pair<string, vector<string>>(two_, vlH));
+       key_value_1.insert(pair<string, vector<string>>(two_, vlE));
 
        string three_ = "three"; vector<string> vlD;
        vlD.push_back("ABCD");
@@ -669,7 +669,7 @@ TEST(test002, test_CIni_change_value_add_value)
     unsigned size_map_s1 = 12;
     ASSERT_EQ(size_map_s1, new_file.get_size_key_value(new_name_0));
     unsigned size_map_s2 = 19;
-    ASSERT_EQ(size_map_s2 , new_file.get_size_key_value(new_name_0));
+    ASSERT_EQ(size_map_s2 , new_file.get_size_key_value(new_name_1));
 
     vector<string> res0;
     res0.push_back("70");
@@ -921,163 +921,244 @@ TEST(test003, test_CIni_change_value_add_value)
     key_value_1.insert(pair<string, vector<string>>(twenty_four_, vlZ));
 
     new_file.add_key_value(name_section_1, key_value_1);
+    //изменение значений 1 секции
+    vector<string> v1000000;
+    v1000000.push_back("1000000");
+    new_file.change_value(name_section_0, zero, v1000000);
 
-    //изменение значений
-    vector<string> new_zero;
-    new_zero.push_back("1000000");
-    new_file.change_value(name_section_0, zero, new_zero);
+    vector<string> v4000;
+    v4000.push_back("4000");
+    new_file.change_value(name_section_0, eight, v4000);
 
-    vector<string> new_eight;
-    new_eight.push_back("4000");
-    new_file.change_value(name_section_0, eight, new_eight);
+    string vl678 = "678";
+    new_file.add_value(name_section_0, three, vl678);
 
-    string new_value_0 = "678";
-    new_file.add_value(name_section_0, three, new_value_0);
+    string vl9000 = "9000";
+    string vl71 = "71";
+    new_file.change_value(name_section_0, twelve, vl71, vl9000);
 
-    string new_value_1 = "9000";
-    string old_value_1 = "71";
-    new_file.change_value(name_section_0, twelve, old_value_1, new_value_1);
+    string vl80000 = "80000";
+    string vl78 = "78";
+    new_file.change_value(name_section_0, thirteen, vl78, vl80000);
+    string vl606 = "606";
+    new_file.add_value(name_section_0, thirteen, vl606);
 
-    string new_value_2 = "80000";
-    string old_value_2 = "78";
-    new_file.change_value(name_section_0, thirteen, old_value_2, new_value_2);
-    string new_value_3 = "606";
-    new_file.add_value(name_section_0, thirteen, new_value_3);
+    vector<string> v500;
+    v500.push_back("500");
+    new_file.change_value(name_section_0, eleven, v500);
 
-    vector<string> new_vec_4;
-    new_vec_4.push_back("500");
-    new_file.change_value(name_section_0, eleven, new_vec_4);
+    vector<string> v89457;
+    v89457.push_back("89457");
+    string fourteen = "fourteen";
+    new_file.add_value(name_section_0, fourteen, v89457);
 
-    vector<string> new_vec_5;
-    new_vec_5.push_back("89457");
+    //изменение значений 2 секции
+    vector<string> vYeah;
+    vYeah.push_back("Yeah");
+    new_file.change_value(name_section_1, zero_, vYeah);
 
-    string new_key_0 = "fourteen";
-    new_file.add_value(name_section_0, new_key_0, new_vec_5);
+    vector<string> vSub_zero_Hello;
+    vSub_zero_Hello.push_back("Sub-zero");
+    vSub_zero_Hello.push_back("Hello");
+    new_file.change_value(name_section_1, four_, vSub_zero_Hello);
 
-    vector<string> new_vec_6;
-    new_vec_6.push_back("Yeah");
-    new_file.change_value(name_section_1, zero, new_vec_6);
+    vector<string> vHZ;
+    vHZ.push_back("HZ");
+    new_file.change_value(name_section_1, twelve_, vHZ);
 
-    vector<string> new_vec_7;
-    new_vec_7.push_back("Sub-zero");
-    new_vec_7.push_back("Hello");
-    new_file.change_value(name_section_1, four_, new_vec_7);
+    string vlCHAMPION = "CHAMPION";
+    new_file.add_value(name_section_1, fourteen_, vlCHAMPION);
 
-    vector<string> new_vec_8;
-    new_vec_8.push_back("HZ");
-    new_file.change_value(name_section_1, twelve_, new_vec_8);
+    vector<string> vScorpion;
+    vScorpion.push_back("Scorpion");
+    new_file.change_value(name_section_1, sixteen_, vScorpion);
 
-    string new_value_4 = "CHAMPION";
-    new_file.add_value(name_section_1, fourteen_, new_value_4);
+    string vlGOLIAF = "GOLIAF";
+    string vlSAMSON = "SAMSON";
+    new_file.add_value(name_section_1, nineteen_, vlGOLIAF);
+    new_file.add_value(name_section_1, nineteen_, vlSAMSON);
 
-    vector<string> new_vec_9;
-    new_vec_9.push_back("Scorpion");
-    new_file.change_value(name_section_1, sixteen_, new_vec_9);
+    vector<string> vGLADIATOR;
+    vGLADIATOR.push_back("GLADIATOR");
+    new_file.change_value(name_section_1, twenty_, vGLADIATOR);
 
-    string new_value_5 = "GOLIAF";
-    string new_value_6 = "SAMSON";
-    new_file.add_value(name_section_1, nineteen_, new_value_5);
-    new_file.add_value(name_section_1, nineteen_, new_value_6);
+    vector<string> vWalorant;
+    vWalorant.push_back("Walorant");
+    vWalorant.push_back("GOOD");
+    vWalorant.push_back("Cinema");
+    new_file.change_value(name_section_1, twenty_three_, vWalorant);
 
-    vector<string> new_vec_10;
-    new_vec_10.push_back("GLADIATOR");
-    new_file.change_value(name_section_1, twenty_, new_vec_10);
+    vector<string> vNEW_YEAR;
+    vNEW_YEAR.push_back("NEW_YEAR");
+    vNEW_YEAR.push_back("CHRISTMAS");
+    string twenty_five_ = "twenty-five";
+    new_file.add_value(name_section_1, twenty_five_, vNEW_YEAR);
 
-    vector<string> new_vec_11;
-    new_vec_11.push_back("Walorant");
-    new_vec_11.push_back("GOOD");
-    new_vec_11.push_back("Cinema");
-    new_file.change_value(name_section_1, twenty_three_, new_vec_11);
+    vector<string> vHEAVY_RAIN;
+    vHEAVY_RAIN.push_back("HEAVY_RAIN");
+    string twenty_six_ = "twenty-six";
+    new_file.add_value(name_section_1, twenty_six_, vHEAVY_RAIN);
 
-    vector<string> new_vec_12;
-    new_vec_12.push_back("NEW_YEAR");
-    new_vec_12.push_back("CHRISTMAS");
-    string key40 = "twenty-five";
-    new_file.add_value(name_section_1, key40, new_vec_12);
-
-    vector<string> new_vec_13;
-    new_vec_13.push_back("HEAVY_RAIN");
-    string key41 = "twenty-six";
-    new_file.add_value(name_section_1, key41, new_vec_13);
-    string name_file = "test";
-    new_file.create_file(name_file);
-    new_file.write_file(name_file);
-    /*
+    /*содержимое ini-файла "test" после внесённых изменений имеет следующий вид:
     [Numbers]
     ;This section contains the numbers
-    eight=4000
-    eleven=500
-    five=24
-    four=11
-    fourteen=89457
-    nine=68
-    one=35
-    seven=42
-    six=23
-    ten=63
-    thirteen=89, 80000, 25, 606
-    three=17, 678
-    twelve=9000, 56
-    two=21
-    zero=1000000
+    seven = 42
+    one = 35
+    two = 21
+    four = 11
+    zero = 1000000
+    five = 24
+    six = 23
+    eight = 4000
+    nine = 68
+    ten = 63
+    eleven = 500
+    three = 17, 678
+    fourteen = 89457
+    twelve = 9000, 56
+    thirteen = 89, 80000, 25, 606
     [Strings]
     ;And this section containts the strings
-    eight=ABCDEFGHIJ
-    eighteen=ABCDEFGHIJKLMNOPQRSTUV
-    eleven=ABCDEFGHIJK
-    fifteen=ABCDEFGHIJKLMNOPQ
-    five=A
-    four=Sub-zero, Hello
-    fourteen=ABCDEFGHIJKLMN, CHAMPION
-    nine=ABCDEFGHI
-    nineteen=ABCDEFGHIJKLMNOPQRSTU, GOLIAF, SAMSON
-    one=ABCDEFGH
-    seven=ABCDEF
-    seventeen=ABCDEFGHIJKLMNOPQR
-    six=AB
-    sixteen=Scorpion
-    ten=ABCDEFGHIJKL
-    thirteen=ABCDEFGHIJKLMNO
-    three=ABCD
-    twelve=HZ
-    twenty=GLADIATOR
-    twenty-five=NEW_YEAR, CHRISTMAS
-    twenty-four=ABCDEFGHIJKLMNOPQRSTUVWXYZ
-    twenty-one=ABCDEFGHIJKLMNOPQRSTUVWX
-    twenty-six=HEAVY_RAIN
-    twenty-three=Walorant, GOOD, Cinema
-    twenty-two=ABCDEFGHIJKLMNOPQRSTUVW
-    two=ABCDEFGH
-    zero=Yeah*/
+    ten = ABCDEFGHIJKL
+    one = ABCDEFGH
+    two = ABCDE
+    three = ABCD
+    five = A
+    six = AB
+    seven = ABCDEF
+    eight = ABCDEFGHIJ
+    nine = ABCDEFGHI
+    eleven = ABCDEFGHIJK
+    seventeen = ABCDEFGHIJKLMNOPQR
+    thirteen = ABCDEFGHIJKLMNO
+    fifteen = ABCDEFGHIJKLMNOPQ
+    eighteen = ABCDEFGHIJKLMNOPQRSTUV
+    twenty-one = ABCDEFGHIJKLMNOPQRSTUVWX
+    twenty-two = ABCDEFGHIJKLMNOPQRSTUVW
+    twenty-four = ABCDEFGHIJKLMNOPQRSTUVWXYZ
+    zero = Yeah
+    twelve = HZ
+    twenty = GLADIATOR
+    twenty-six = HEAVY_RAIN
+    sixteen = Scorpion
+    four = Sub-zero, Hello
+    fourteen = ABCDEFGHIJKLMN, CHAMPION
+    twenty-five = NEW_YEAR, CHRISTMAS
+    nineteen = ABCDEFGHIJKLMNOPQRSTU, GOLIAF, SAMSON
+    twenty-three = Walorant, GOOD, Cinema
+     */
+     string name_file = "test";
+     new_file.create_file(name_file);
+     new_file.write_file(name_file);
+
+     CIni check_file;
+     check_file.read_file(name_file);
+
+
+     new_file.delete_file(name_file);
+
+     ASSERT_TRUE(v1000000 == check_file.getValue(name_section_0, zero));
+
+     ASSERT_TRUE(v35 == check_file.getValue(name_section_0, one));
+
+     ASSERT_TRUE(v4000 == check_file.getValue(name_section_0, eight));
+
+     ASSERT_TRUE(v21 == check_file.getValue(name_section_0, two));
+
+     ASSERT_TRUE(v42 == check_file.getValue(name_section_0, seven));
+
+     vector<string> res_0;
+     res_0.push_back("17");
+     res_0.push_back("678");
+     ASSERT_TRUE(res_0 == check_file.getValue(name_section_0, three));
+
+     ASSERT_TRUE(v11 == check_file.getValue(name_section_0, four));
+
+     ASSERT_TRUE(v24 == check_file.getValue(name_section_0, five));
+
+     ASSERT_TRUE(v23 == check_file.getValue(name_section_0, six));
+
+     vector<string> res_1;
+     res_1.push_back("9000");
+     res_1.push_back("56");
+     ASSERT_TRUE(res_1 == check_file.getValue(name_section_0, twelve));
+
+     vector<string> res_2;
+     res_2.push_back("89");
+     res_2.push_back("80000");
+     res_2.push_back("25");
+     res_2.push_back("606");
+     ASSERT_TRUE(res_2 == check_file.getValue(name_section_0, thirteen));
+
+     ASSERT_TRUE(v68 == check_file.getValue(name_section_0, nine));
+
+     ASSERT_TRUE(v63 == check_file.getValue(name_section_0, ten));
+
+     vector<string> res_3;
+     res_3.push_back("500");
+     ASSERT_TRUE(res_3 == check_file.getValue(name_section_0, eleven));
+
+     ASSERT_TRUE(vYeah == check_file.getValue(name_section_1, zero_));
+
+     ASSERT_TRUE(vlH == check_file.getValue(name_section_1, one_));
+
+     //ASSERT_TRUE(vlE == check_file.getValue(name_section_1, two_));
+
+     ASSERT_TRUE(vlD == check_file.getValue(name_section_1, three_));
+
+     ASSERT_TRUE(vSub_zero_Hello == check_file.getValue(name_section_1, four_));
+
+     ASSERT_TRUE(vlA == check_file.getValue(name_section_1, five_));
+
+     ASSERT_TRUE(vlB == check_file.getValue(name_section_1, six_));
+
+     ASSERT_TRUE(vlF == check_file.getValue(name_section_1, seven_));
+
+     ASSERT_TRUE(vlJ == check_file.getValue(name_section_1, eight_));
+
+     ASSERT_TRUE(vlI == check_file.getValue(name_section_1, nine_));
+
+     ASSERT_TRUE(vlL == check_file.getValue(name_section_1, ten_));
+
+     ASSERT_TRUE(vlK == check_file.getValue(name_section_1, eleven_));
+
+     ASSERT_TRUE(vHZ == check_file.getValue(name_section_1, twelve_));
+
+     ASSERT_TRUE(vlO == check_file.getValue(name_section_1, thirteen_));
+
+     vector<string> res_4;
+     res_4.push_back("ABCDEFGHIJKLMN");
+     res_4.push_back("CHAMPION");
+     ASSERT_TRUE(res_4 == check_file.getValue(name_section_1, fourteen_));
+
+     ASSERT_TRUE(vlQ == check_file.getValue(name_section_1, fifteen_));
+
+     ASSERT_TRUE(vScorpion == check_file.getValue(name_section_1, sixteen_));
+
+     ASSERT_TRUE(vlR == check_file.getValue(name_section_1, seventeen_));
+
+     ASSERT_TRUE(vlV == check_file.getValue(name_section_1, eighteen_));
+
+     vector<string> res_5;
+     res_5.push_back("ABCDEFGHIJKLMNOPQRSTU");
+     res_5.push_back("GOLIAF");
+     res_5.push_back("SAMSON");
+     ASSERT_TRUE(res_5 == check_file.getValue(name_section_1, nineteen_));
+
+     ASSERT_TRUE(vGLADIATOR == check_file.getValue(name_section_1, twenty_));
+
+     ASSERT_TRUE(vlX == check_file.getValue(name_section_1, twenty_one_));
+
+     ASSERT_TRUE(vlW == check_file.getValue(name_section_1, twenty_two_));
+
+     ASSERT_TRUE(vWalorant == check_file.getValue(name_section_1, twenty_three_));
+
+     ASSERT_TRUE(vlZ == check_file.getValue(name_section_1, twenty_four_));
+
+     ASSERT_TRUE(vNEW_YEAR == check_file.getValue(name_section_1, twenty_five_));
+
+     ASSERT_TRUE(vHEAVY_RAIN == check_file.getValue(name_section_1, twenty_six_));
+     check_file.delete_file(name_file);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 #endif // CINI_TEST_H

@@ -79,13 +79,12 @@ void CIni::analyze_file()
         }
         else
         {
-            unsigned start = it_temp_cont->find('=');
-            unsigned end = it_temp_cont->find('\n');
+            size_t start = it_temp_cont->find('=');
+            size_t end = it_temp_cont->find('\n') + 1;
             string temp_key = it_temp_cont->data();
             temp_key.erase(start, end);
-            temp_key.pop_back();
 
-            end = it_temp_cont->find('=') + 1;
+            end = it_temp_cont->find('=');
             it_temp_cont->erase(0, end);
             it_temp_cont->erase(it_temp_cont->begin());
 
@@ -95,8 +94,8 @@ void CIni::analyze_file()
             {
                 if(it_temp_cont->find(',') < 1000)
                 {
-                    unsigned start = it_temp_cont->find(',');
-                    unsigned end = it_temp_cont->find('\n') + 1;
+                    size_t start = it_temp_cont->find(',');
+                    size_t end = it_temp_cont->find('\n') + 1;
                     temp_value = it_temp_cont->data();
 
                     temp_vct_value.push_back(temp_value.erase(start, end));
