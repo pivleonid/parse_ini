@@ -11,6 +11,7 @@ using namespace std;
 class Content_of_section
 {
 public:
+    //friend class CIni;
     /*!
      * \brief m_name_section - название секции
      */
@@ -127,42 +128,42 @@ public:
      * \brief add_name_section - добавление имени для новой секции
      * \param new_name         - имя секции
      */
-    void add_name_section(CString & new_name);
+    bool add_name_section(CString & new_name);
 
     /*!
      * \brief change_m_name_section - поменять название секции
      * \param old_name            - старое название
      * \param new_name            - новое название
      */
-    void change_name_section(CString &old_name, CString &new_name);
+    bool change_name_section(CString &old_name, CString &new_name);
 
     /*!
      * \brief add_name_comment - добавляет комментарий для новой секции
      * \param name_section     - имя секции куда добавляем комментарий
      * \param new_comment      - комментарий
      */
-    void add_comment_section(CString & name_section, CString & new_comment);
+    bool add_comment_section(CString & name_section, CString & new_comment);
 
     /*!
      * \brief add_key_value - наполняет секцию содержимым
      * \param name_section  - секция для наполнения
      * \param key_value     - содержимое секции
      */
-    void add_key_value(CString & name_section, CMap<CString, CVector<CString>> & key_value);
+    bool add_key_value(CString & name_section, CMap<CString, CVector<CString>> & key_value);
 
     /*!
      * \brief change_name_comment - меняет существующий комментарий на new_comment
      * \param name_section        - секция в которой меняем значение
      * \param new_comment         - значение для замены
      */
-    void change_comment_section(CString & name_section, CString & new_comment);
+    bool change_comment_section(CString & name_section, CString & new_comment);
 
     /*!
      * \brief delete_value        - удалить полностью значение по ключу
      * \param m_name_section      - секция в которой удаляем
      * \param key                 - ключ по которому удаляем
      */
-    void delete_value(CString &m_name_section, CString &key);
+    bool delete_value(CString &name_section, CString &key);
 
     /*!
      * \brief delete_value        - удалить значение под номером n в CVector
@@ -170,7 +171,7 @@ public:
      * \param key                 - ключ по которому удаляем
      * \param value               - значение в CVector для удаления
      */
-    void delete_value(CString &m_name_section, CString &key, CString &value);
+    bool delete_value(CString &name_section, CString &key, CString &value);
 
     /*!
      * \brief show_all            - демонстрация содержимого всего ini-файла
@@ -183,7 +184,7 @@ public:
      * \param key                   - ключ для поиска значения
      * \param value                 - значение для замены
      */
-    void change_value(CString &m_name_section, CString &key, CVector<CString> &value);
+    bool change_value(CString &name_section, CString &key, CVector<CString> &value);
 
     /*!
      * \brief change_value               - меняет значение под old_value в CVector, по указанному ключу
@@ -192,7 +193,7 @@ public:
      * \param new_value                  - значение для замены
      * \param old_value                  - номер значения в CVector для замены
      */
-    void change_value(CString &m_name_section, CString &key, CString & old_value, CString & new_value);
+    bool change_value(CString &name_section, CString &key, CString & old_value, CString & new_value);
 
     /*!
      * \brief add_value             - добавляет значение которого нет в секции
@@ -200,14 +201,15 @@ public:
      * \param key                   - ключ для добавления
      * \param value                 - значение для добавления
      */
-    void add_value(CString &m_name_section, CString &key, CVector<CString> &value);
+    bool add_value(CString &name_section, CString &key, CVector<CString> &value);
+
     /*!
      * \brief add_value          - добавляет значение CString в CVector, по указанному ключу
      * \param m_name_section     - секция в которую добавляем
      * \param key                - ключ для добавления
      * \param value              - значение для добавления
      */
-    void add_value(CString &m_name_section, CString &key, CString &value);
+    bool add_value(CString &name_section, CString &key, CString &value);
 };
 
 #endif // CINI_H

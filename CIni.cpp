@@ -133,25 +133,6 @@ void CIni::analyze_file()
             m_temp_container.at(i).pop_front();
             m_temp_container.at(i).pop_back();
             temp_content_of_section.m_comment_section = m_temp_container.at(i);
-            /*CString temp_comment = m_temp_container.at(i);
-            while(m_temp_container.at(i).find(' '))
-            {
-                unsigned start = m_temp_container.at(i).find(' ');
-                unsigned end = m_temp_container.at(i).find('\n');
-                temp_comment.erase(start, end);
-                temp_content_of_section.m_comment_section.push_back(temp_comment);
-                temp_comment.clear();
-
-                end = m_temp_container.at(i).find(' ');
-                m_temp_container.at(i).erase(0, end);
-                temp_comment = m_temp_container.at(i);
-            }
-            temp_comment.clear();
-            if(!m_temp_container.at(i).find(' '))
-            {
-                m_temp_container.at(i).pop_back();
-                temp_content_of_section.m_comment_section.push_back(m_temp_container.at(i));
-            }*/
         }
         else if(m_temp_container.at(i).empty())
         {
@@ -289,6 +270,7 @@ bool CIni::search_name_section(CString &name_section)
         if(m_data.at(i).m_name_section == name_section)
         {
             find = true;
+            break;
         }
     }
     return find;
@@ -312,21 +294,10 @@ void CIni::write_file_inner()
             m_temp_container.push_back(temp);
             m_temp_container.at(k) = m_data.at(i).m_comment_section;
             m_temp_container.at(k).push_front(';');
-            /*for(unsigned n = 0; n < m_data.at(i).m_comment_section.size(); n++)
-            {
-                m_temp_container.at(k).push_back(m_data.at(i).m_comment_section.at(n));
-                m_temp_container.at(k).push_back(' ');
-            }
-            m_temp_container.at(k).pop_back();*/
             m_temp_container.at(k).push_back('\n');
             k++;
         }
         temp.clear();
-        //unsigned size = m_data.at(i).m_key_value.size();
-        /*unsigned j = 0;
-        CString node;
-        unsigned count = 0;
-        node = j;*/
         CString key;
         for(unsigned node = 0; node < m_data.at(i).m_key_value.size(); node++, k++)
         {
@@ -343,105 +314,113 @@ void CIni::write_file_inner()
             m_temp_container.at(k).pop_back();
             m_temp_container.at(k).push_back('\n');
         }
-        /*while(count < m_data.at(i).m_key_value.size())
-        {
-            if(m_data.at(i).m_key_value.search(node))
-            {
-                m_temp_container.push_back(temp);
-                m_temp_container.at(k).push_back(node);
-                m_temp_container.at(k).push_back(" = ");
-                for(unsigned l = 0; l < m_data.at(i).m_key_value.getValue(node).size(); l++)
-                {
-                    m_temp_container.at(k).push_back(m_data.at(i).m_key_value.getValue(node).at(l).data());
-                    m_temp_container.at(k).push_back(", ");
-                }
-                m_temp_container.at(k).pop_back();
-                m_temp_container.at(k).pop_back();
-                m_temp_container.at(k).push_back('\n');
-                count++;
-                k++;
-            }
-            j++;
-            node = j;
-            temp.clear();
-        }*/
     }
 }
 
-void CIni::add_name_section(CString &new_name)
+bool CIni::add_name_section(CString &new_name)
 {
-    if(m_data.at(0).m_name_section.empty())
-    {
-       m_data.at(0).m_name_section = new_name;
-    }
-    else
-    {
-        Content_of_section temp;
-        temp.m_name_section = new_name;
-        m_data.push_back(temp);
-    }
-}
-
-void CIni::change_name_section(CString &old_name, CString &new_name)
-{
+    bool found = false;
     for(unsigned i = 0; i < m_data.size(); i++)
     {
-        if(old_name == m_data.at(i).m_name_section)
+        if(m_data.at(i).m_name_section != new_name)
         {
-            m_data.at(i).m_name_section = new_name;
+            continue;
+        }
+        else
+        {
+            found = true;
+            break;
         }
     }
+    if(!found)
+    {
+        if(m_data.at(0).m_name_section.empty())
+        {
+           m_data.at(0).m_name_section = new_name;
+        }
+        else
+        {
+            Content_of_section temp;
+            temp.m_name_section = new_name;
+            m_data.push_back(temp);
+        }
+    }
+    return found;
 }
 
-void CIni::add_key_value(CString &name_section, CMap<CString, CVector<CString> > &key_value)
+bool CIni::change_name_section(CString &old_name, CString &new_name)
 {
+    bool found = false;
     for(unsigned i = 0; i < m_data.size(); i++)
     {
-        if(name_section == m_data.at(i).m_name_section)
+        if(m_data.at(i).m_name_section == old_name)
         {
-            unsigned count = 0;
-            CString key;
-            CVector<CString> temp_vct;
-            for(unsigned j = 1; j < m_data.at(i).m_key_value.size() + 1; j++)
+            found = true;
+            m_data.at(i).m_name_section = new_name;
+            break;
+        }
+    }
+    return found;
+}
+
+bool CIni::add_key_value(CString &name_section, CMap<CString, CVector<CString> > &key_value)
+{
+    bool found = false;
+    unsigned num_section = 0;
+    for(unsigned i = 0; i < m_data.size(); i++)
+    {
+        if(m_data.at(i).m_name_section == name_section)
+        {
+            found = true;
+            num_section = i;
+            break;
+        }
+    }
+    if(found)
+    {
+        unsigned count = 0;
+        CString key;
+        CVector<CString> temp_vct;
+        for(unsigned j = 1; j < m_data.at(num_section).m_key_value.size() + 1; j++)
+        {
+            key = j;
+            if(m_data.at(num_section).m_key_value.getValue(key).size() == 1)
             {
-                key = j;
-                if(m_data.at(i).m_key_value.getValue(key).size() == 1)
+                if(m_data.at(num_section).m_key_value.getValue(key).at(0) == 'B' && key == 1)
                 {
-                    if(m_data.at(i).m_key_value.getValue(key).at(0) == 'B' && key == 1)
-                    {
-                        count++;
-                    }
-                    else if(m_data.at(i).m_key_value.getValue(key).at(0) == 'A' && key == 2)
-                    {
-                        count++;
-                    }
-                    else if(m_data.at(i).m_key_value.getValue(key).at(0) == 'C' && key == 3)
-                    {
-                        count++;
-                    }
-                    else
-                    {
-                        count = 0;
-                        break;
-                    }
+                    count++;
+                }
+                else if(m_data.at(num_section).m_key_value.getValue(key).at(0) == 'A' && key == 2)
+                {
+                    count++;
+                }
+                else if(m_data.at(num_section).m_key_value.getValue(key).at(0) == 'C' && key == 3)
+                {
+                    count++;
                 }
                 else
                 {
+                    count = 0;
                     break;
                 }
             }
-            if(count == 3)
-            {
-                m_data.at(i).m_key_value.clear();
-                m_data.at(i).m_key_value = key_value;
-            }
             else
             {
-                m_data.at(i).m_key_value = key_value;
-            };
-
+                break;
+            }
         }
+        if(count == 3)
+        {
+            m_data.at(num_section).m_key_value.clear();
+            m_data.at(num_section).m_key_value = key_value;
+        }
+        else
+        {
+            m_data.at(num_section).m_key_value = key_value;
+        };
+
     }
+    return found;
 }
 
 const char *CIni::get_comment_section(CString &name_section)
@@ -532,84 +511,44 @@ CVector<CString> &CIni::getValue(CString &name_section, CString &key)
     return m_data.at(num).m_key_value.getValue(key);
 }
 
-void CIni::add_comment_section(CString &name_section, CString &new_comment)
+bool CIni::add_comment_section(CString &name_section, CString &new_comment)
 {
-
-    //<CString> temp_vct;
-    //CString temp_comment = new_comment;
+    bool found = false;
+    unsigned num_section = 0;
     for(unsigned i = 0; i < m_data.size(); i++)
     {
-        if(name_section == m_data.at(i).m_name_section)
+        if(m_data.at(i).m_name_section == name_section)
         {
-            /*while (new_comment.find(' '))
-            {
-                unsigned start = new_comment.find(' ');
-                unsigned end = new_comment.size() - 1;
-                temp_comment.erase(start, end);
-                temp_vct.push_back(temp_comment);
-                temp_comment.clear();
-
-                end = new_comment.find(' ');
-                new_comment.erase(0, end);
-                temp_comment = new_comment;
-            }
-            temp_comment.clear();
-            if(!new_comment.find(' '))
-            {
-                temp_vct.push_back(new_comment);
-            }*/
-            m_data.at(i).m_comment_section = new_comment;
+            found = true;
+            num_section = i;
             break;
         }
     }
+    if(found)
+    {
+        m_data.at(num_section).m_comment_section = new_comment;
+    }
+    return found;
 }
 
-/*void CIni::change_name_comment(CString & name_section, CString & old_comment, CString & new_comment)
+bool CIni::change_comment_section(CString & name_section, CString & new_comment)
 {
+    bool found = false;
+    unsigned num_section = 0;
     for(unsigned i = 0; i < m_data.size(); i++)
     {
-        if(name_section == m_data.at(i).m_name_section)
+        if(m_data.at(i).m_name_section == name_section)
         {
-            for(unsigned j = 0; j < m_data.at(i).m_comment_section.size(); j++)
-            {
-                if(old_comment == m_data.at(i).m_comment_section.at(j))
-                {
-                    m_data.at(i).m_comment_section.at(j) = new_comment;
-                }
-            }
-
+            found = true;
+            num_section = i;
+            break;
         }
     }
-}*/
-
-void CIni::change_comment_section(CString & name_section, CString & new_comment)
-{
-    for(unsigned i = 0; i < m_data.size(); i++)
+    if(found)
     {
-        if(name_section == m_data.at(i).m_name_section)
-        {
-            /*CVector<CString> temp_vct;
-            CString temp_comment = new_comment;
-            while (new_comment.find(' '))
-            {
-                unsigned start = new_comment.find(' ');
-                unsigned end = new_comment.size();
-                temp_comment.erase(start, end);
-                temp_vct.push_back(temp_comment);
-                temp_comment.clear();
-
-                end = new_comment.find(' ');
-                new_comment.erase(0, end);
-                temp_comment = new_comment;
-            }
-            temp_comment.clear();
-            if(new_comment.find(' '))
-            {
-                temp_vct.push_back(new_comment);
-            }*/
-            m_data.at(i).m_comment_section = new_comment;
-        }
+        m_data.at(num_section).m_comment_section = new_comment;
     }
+    return found;
 }
 
 void CIni::show_all()
@@ -619,10 +558,6 @@ void CIni::show_all()
         cout << m_data.at(i).m_name_section.data() << endl;
         if(!m_data.at(i).m_comment_section.empty())
         {
-            /*for(unsigned j = 0; j < m_data.at(i).m_comment_section.size(); j++)
-            {
-                cout << m_data.at(i).m_comment_section.at(j).data() << ' ';
-            }*/
             cout << m_data.at(i).m_comment_section.data() << endl;
         }
         CString key;
@@ -636,159 +571,162 @@ void CIni::show_all()
             }
             cout << endl;
         }
-        /*while (count != m_data.at(i).m_key_value.size())
-        {
-            if(m_data.at(i).m_key_value.search(node))
-            {
-                cout << k << " = ";
-                for(unsigned l = 0; l < m_data.at(i).m_key_value.getValue(node).size(); l++)
-                {
-                    cout << m_data.at(i).m_key_value.getValue(node).at(l).data() << ' ';
-                }
-                cout << endl;
-                count++;
-            }
-            node.clear();
-            k++;
-            node = k;
-        }*/
     }
 }
 
-void CIni::delete_value(CString &m_name_section, CString &key)
+bool CIni::delete_value(CString &name_section, CString &key)
 {
+    bool found = false;
+    unsigned num_section = 0;
     for(unsigned i = 0; i < m_data.size(); i++)
     {
-        if(m_name_section == m_data.at(i).m_name_section)
+        if(m_data.at(i).m_name_section == name_section)
         {
-            if(m_data.at(i).m_key_value.search(key))
-            {
-                m_data.at(i).m_key_value.delete_key(key);
-            }
+            found = true;
+            num_section = i;
+            break;
         }
     }
-}
-
-void CIni::delete_value(CString &m_name_section, CString &key, CString &value)
-{
-    for(unsigned i = 0; i < m_data.size(); i++)
+    if(found)
     {
-        if(m_name_section == m_data.at(i).m_name_section)
+        if(m_data.at(num_section).m_key_value.search(key))
         {
-            if(m_data.at(i).m_key_value.search(key))
-            {
-                CVector<CString> temp;
-                temp = m_data.at(i).m_key_value.getValue(key);
-                m_data.at(i).m_key_value.delete_key(key);
-
-                for(unsigned j = 0; j < temp.size(); j++)
-                {
-                    if(value == temp.at(j))
-                    {
-                        temp.erase(j);
-                    }
-                };
-                m_data.at(i).m_key_value.add_pair(key, temp);
-            }
+            m_data.at(num_section).m_key_value.delete_key(key);
         }
     }
+    return found;
 }
 
-void CIni::change_value(CString &m_name_section, CString &key, CVector<CString> &value)
+bool CIni::delete_value(CString &name_section, CString &key, CString &value)
 {
+    bool found = false;
+    unsigned num_section = 0;
     for(unsigned i = 0; i < m_data.size(); i++)
     {
-        if(m_name_section == m_data.at(i).m_name_section)
+        if(m_data.at(i).m_name_section == name_section)
         {
-            if(m_data.at(i).m_key_value.search(key))
-            {
-                m_data.at(i).m_key_value.delete_key(key);
-                m_data.at(i).m_key_value.add_pair(key, value);
-            }
+            found = true;
+            num_section = i;
+            break;
         }
     }
-}
-
-void CIni::change_value(CString &m_name_section, CString &key, CString & old_value, CString & new_value)
-{
-    for(unsigned i = 0; i < m_data.size(); i++)
+    if(found)
     {
-        if(m_name_section == m_data.at(i).m_name_section)
+        if(m_data.at(num_section).m_key_value.search(key))
         {
             CVector<CString> temp;
-            temp = m_data.at(i).m_key_value.getValue(key);
-            m_data.at(i).m_key_value.delete_key(key);
-
+            temp = m_data.at(num_section).m_key_value.getValue(key);
+            m_data.at(num_section).m_key_value.delete_key(key);
             for(unsigned j = 0; j < temp.size(); j++)
             {
-                if(old_value == temp.at(j))
+                if(value == temp.at(j))
                 {
-                    temp.at(j) = new_value;
+                    temp.erase(j);
                 }
+            };
+            m_data.at(num_section).m_key_value.add_pair(key, temp);
+        }
+    }
+    return found;
+}
+
+bool CIni::change_value(CString &name_section, CString &key, CVector<CString> &value)
+{
+    bool found = false;
+    unsigned num_section = 0;
+    for(unsigned i = 0; i < m_data.size(); i++)
+    {
+        if(m_data.at(i).m_name_section == name_section)
+        {
+            found = true;
+            num_section = i;
+            break;
+        }
+    }
+    if(found)
+    {
+        if(m_data.at(num_section).m_key_value.search(key))
+        {
+            m_data.at(num_section).m_key_value.delete_key(key);
+            m_data.at(num_section).m_key_value.add_pair(key, value);
+        }
+    }
+    return found;
+}
+
+bool CIni::change_value(CString &name_section, CString &key, CString & old_value, CString & new_value)
+{
+    bool found = false;
+    unsigned num_section = 0;
+    for(unsigned i = 0; i < m_data.size(); i++)
+    {
+        if(m_data.at(i).m_name_section == name_section)
+        {
+            found = true;
+            num_section = i;
+            break;
+        }
+    }
+    if(found)
+    {
+        CVector<CString> temp;
+        temp = m_data.at(num_section).m_key_value.getValue(key);
+        m_data.at(num_section).m_key_value.delete_key(key);
+
+        for(unsigned j = 0; j < temp.size(); j++)
+        {
+            if(old_value == temp.at(j))
+            {
+                temp.at(j) = new_value;
             }
-            m_data.at(i).m_key_value.add_pair(key, temp);
         }
+        m_data.at(num_section).m_key_value.add_pair(key, temp);
+
     }
+    return found;
 }
 
-void CIni::add_value(CString &m_name_section, CString &key, CVector<CString> &value)
+bool CIni::add_value(CString &name_section, CString &key, CVector<CString> &value)
 {
+    bool found = false;
+    unsigned num_section = 0;
     for(unsigned i = 0; i < m_data.size(); i++)
     {
-        if(m_name_section == m_data.at(i).m_name_section)
+        if(m_data.at(i).m_name_section == name_section)
         {
-            m_data.at(i).m_key_value.add_pair(key, value);
+            found = true;
+            num_section = i;
+            break;
         }
     }
+    if(found)
+    {
+        m_data.at(num_section).m_key_value.add_pair(key, value);
+    }
+    return found;
 }
 
-void CIni::add_value(CString &m_name_section, CString &key, CString &value)
+bool CIni::add_value(CString &name_section, CString &key, CString &value)
 {
+    bool found = false;
+    unsigned num_section = 0;
     for(unsigned i = 0; i < m_data.size(); i++)
     {
-        if(m_name_section == m_data.at(i).m_name_section)
+        if(m_data.at(i).m_name_section == name_section)
         {
-            CVector<CString> temp;
-            temp = m_data.at(i).m_key_value.getValue(key);
-            m_data.at(i).m_key_value.delete_key(key);
-
-            temp.push_back(value);
-            m_data.at(i).m_key_value.add_pair(key, temp);
+            found = true;
+            num_section = i;
+            break;
         }
     }
+    if(found)
+    {
+        CVector<CString> temp;
+        temp = m_data.at(num_section).m_key_value.getValue(key);
+        m_data.at(num_section).m_key_value.delete_key(key);
+
+        temp.push_back(value);
+        m_data.at(num_section).m_key_value.add_pair(key, temp);
+    }
+    return found;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
