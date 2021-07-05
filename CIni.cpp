@@ -112,6 +112,8 @@ void CIni::analyze_file()
                 }
             }
             temp_content_of_section.m_key_value.insert(pair<string, vector<string>>(temp_key, temp_vct_value));
+            string empty_key = "empty key";
+            temp_content_of_section.m_key_value.erase(empty_key);
             temp_key.clear();
             temp_vct_value.clear();
         }
@@ -522,6 +524,8 @@ bool CIni::add_value(string &name_section, string &key, string &value)
         temp_vct.push_back(value);
         temp.m_name_section = name_section;
         temp.m_key_value.insert(pair<string, vector<string>>(key, temp_vct));
+        string empty_key = "empty key";
+        temp.m_key_value.erase(empty_key);
         m_data.push_back(temp);
     }
     return found;
