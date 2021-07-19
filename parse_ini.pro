@@ -23,6 +23,8 @@ SOURCES += \
 HEADERS += \
     CIni.h \
     CIni_test.h \
+    CList.h \
+    CList_test.h \
     CMap.h \
     CMap_test.h \
     CString.h \

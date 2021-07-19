@@ -783,16 +783,6 @@ unsigned CString::find(const CString &str)
     {
         return 0;
     }
-    //если совпадений несколько вывести, то сколько раз
-    /*if(n_word > 1)
-    {
-        cout << "From the symbol number " << number << " the string contains word \'";
-        for(unsigned i = 0; i < str.m_size - 1; i++)
-        {
-            cout << str.m_word[i];
-        }
-        cout << "\' " << n_word << " times." << endl;
-    }*/
     return number;
 }
 
@@ -908,16 +898,6 @@ unsigned CString::rfind(const CString &str)
     {
         return 0;
     }
-    //если совпадений несколько, то вывести сколько раз
-    /*if(n_word > 1)
-    {
-        cout << "From the symbol number " << number << " the string contains word \'";
-        for(unsigned i = 0; i < str.m_size - 1; i++)
-        {
-            cout << str.m_word[i];
-        }
-        cout << "\' " << n_word << " times." << endl;
-    }*/
 
     return number;
 }
@@ -941,7 +921,7 @@ int CString::stoi()
         f_zero = true;
     }
 
-    if(f_zero == false)
+    if(!f_zero)
     {
         for(unsigned i = 0; i < m_size - 1; i++)
         {
@@ -1039,7 +1019,7 @@ double CString::stof()
 
     int *temp =new int[count];
     //Если строка корректна, то
-    if (good == true)
+    if (good)
     {
         int l = 0;
         for(int i = 0;  i < count + 1; i++)
@@ -1072,7 +1052,7 @@ double CString::stof()
     //если строка не корректна, выводим предупреждение
     try
     {
-        if(good == false)
+        if(!good)
         {
             throw 0;
         }
@@ -1114,7 +1094,7 @@ int CString::stoi(const CString &str)
     }
 
     //если пройдена продолжаем
-    if(f_zero == false)
+    if(!f_zero)
     {
         for(unsigned i = 0; i < m_size - 1; i++)
         {
@@ -1217,7 +1197,7 @@ double CString::stof(const CString &str)
 
     int *temp = new int[count];
     //Если строка корректна, то
-    if (good == true)
+    if (good)
     {
         int l = 0;
         for(int i = 0;  i < count + 1; i++)
@@ -1236,7 +1216,7 @@ double CString::stof(const CString &str)
                 continue;
             }
             //подсчитываем количество цифр после точки
-            if(dot == true)
+            if(dot)
             {
                 after_dot++;
             }
@@ -1252,7 +1232,7 @@ double CString::stof(const CString &str)
     //если строка не корректна, выводим предупреждение
     try
     {
-        if(good == false)
+        if(!good)
         {
             throw 0;
         }
@@ -1719,133 +1699,6 @@ bool CString::operator<(const CString &str)
     }
     return less;
 }
-
-/*CString CString::operator+(const CString &str)
-{
-    CString temp;
-    unsigned new_m_size = m_size + str.m_size - 1;
-    temp.m_size = new_m_size;
-    for(unsigned i = 0; i < m_size - 1; i++)
-    {
-        temp.m_word[i] = m_word[i];
-    }
-    for(unsigned i = m_size - 1, j = 0; j < str.m_size; i++, j++)
-    {
-        temp.m_word[i] = str.m_word[j];
-    }
-    return temp;
-
-}*/
-
-/*CString& CString::to_string(double n)
-{
-
-    int temp = n;
-    int after_dot = 0;
-    int before_dot = 0;
-    double rest = n - temp;
-    int rest_int = 0;
-    double rest_double = 0;
-    //подсчёт количества знаков после запятой
-    int count_nine = 0;
-    int nine = 9;
-    while(count_nine != 9)
-    {
-        rest_int = rest * 10;
-        if(rest_int == nine)
-        {
-            count_nine++;
-        }
-        else
-        {
-            count_nine = 0;
-        }
-        rest_double = rest * 10 - rest_int;
-        rest = rest_double;
-    }
-    //запись значения после запятой
-
-    int rest_int = rest * int(pow(10, after_dot));
-
-    while
-    //вычисление количества знаков перед запятой
-    while (temp)
-    {
-        temp = temp/10;
-        before_dot++;
-    }
-    int new_m_size = after_dot + before_dot;
-    //запись значения перед запятой
-    int real = n - rest;
-    int *cont = new int[new_m_size];
-    int k = 0;
-    int temp_real = real;
-    int rate_real = 0;
-    int rest_real = 0;
-    for(int i = 1; i < before_dot + 1; i++)
-    {
-         temp_real = temp_real / int(pow(10, before_dot - i));
-         cont[k] = temp_real;
-         rate_real = int(pow(10, before_dot - i));
-         rest_real = real % rate_real;
-         temp_real = rest_real;
-         k++;
-    }
-    int temp_rest = rest_int;
-    int rate_rest = 0;
-    int rest_rest = 0;
-    for(int i = 1; i < after_dot + 1; i++)
-    {
-        temp_rest = temp_rest / int(pow(10, after_dot - i));
-        cont[k] = temp_rest;
-        rate_rest = int(pow(10, after_dot - i));
-        rest_rest = rest_int % rate_rest;
-        temp_rest = rest_rest;
-        k++;
-    }
-
-    delete [] m_word;
-    m_size = new_m_size + 1;
-    m_word = new char[m_size];
-    k = 0;
-    for(int i = 0; i < m_size - 1; i++)
-    {
-        if(i == before_dot)
-        {
-            m_word[i] = '.';
-            continue;
-        }
-        m_word[i] = cont[k] + '0';
-        k++;
-    }
-    m_word[m_size - 1] = empty_str;
-    delete [] cont;
-    return *this;
-}*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

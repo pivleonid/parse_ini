@@ -6,7 +6,6 @@
 #include <cmath>
 #include <iostream>
 using namespace std;
-//template class CVector<CString>;S
 /*!
  * \brief The type_sorting - варианты сортировок
  */
@@ -68,13 +67,13 @@ public:
 
     /*!
      * \brief push_front - добавление объекта типа А в начало CVector
-     * \param str        - добавляемый объект
+     * \param value      - добавляемый объект
      */
-    void push_front(const A &str);
+    void push_front(const A &value);
 
     /*!
      * \brief push_back - добавляет объект типа А в конец CVector
-     * \param str       - объект типа А
+     * \param value     - объект типа А
      */
     void push_back(const A &value);
 
@@ -180,14 +179,7 @@ public:
 
     bool  operator>(const CVector &vct);
     bool  operator<(const CVector &vct);
-
-    //CVector & operator=(const A *vct);
-    //friend const A * operator+(const CVector &vct1, const CVector &vct2);
-    //friend const A * operator+(const A &str);
 };
-
-
-
 template <typename A>
 CVector<A>::CVector()
 {
@@ -1287,43 +1279,4 @@ bool CVector<A>::operator<(const CVector &vct)
     }
     return less;
 }
-/*template <typename A>
-const A * operator+(const CVector<A> &vct1, const CVector<A> &vct2)
-{
-    unsigned new_m_capacity = vct1.m_capacity + vct2.m_capacity;
-
-    A *temp = new A[new_m_capacity];
-
-    for(unsigned i = 0; i < vct1.m_count; i++)
-    {
-        temp = vct1.m_container[i];
-    }
-
-    for(unsigned i = vct1.m_count, j = 0; j < vct2.m_count; i++, j++)
-    {
-        temp[i] = vct2.m_container[j];
-    }
-
-    return temp;
-}*/
-
-/*template <typename A>
-CVector<A> & CVector<A>::operator=(const A *vct)
-{
-    const A *temp = vct;
-    unsigned temp_m_size = 1;
-    while(*vct++)
-    {
-        temp_m_size++;
-    }
-    if(m_capacity != 1 && m_count != 0)
-    {
-        delete [] m_container;
-    }
-
-    m_count     = temp_m_size;
-    m_capacity  = temp_m_size;
-    m_container = temp;
-    return *this;
-}*/
 #endif // CVECTOR_H

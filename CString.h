@@ -8,7 +8,7 @@ private:
      */
     char *m_word;
     /*!
-     * \brief m_size - размер этого слова + нулевой символ
+     * \brief m_size - размер этого слова
      */
     unsigned   m_size;
 public:
@@ -212,7 +212,6 @@ public:
     CString & operator+(char s);
     CString & operator+(const char *str);
     friend const char * operator+(const CString &str1, const CString &str2);
-    //CString operator+(const CString &str);
 
     bool operator!=(const CString &str);
     bool operator==(const CString &str);

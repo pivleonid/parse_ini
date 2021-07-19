@@ -171,8 +171,6 @@ void CMap<A, B>::delete_all(Node *cur_node)
 template <typename A, typename B>
 void CMap<A, B>::add_pair(const A &key, const B &value)
 {
-    //A temp_key = key;
-    //B temp_value = value;
     root = add_pair_inner(key, value, root);
 
 }
@@ -218,7 +216,6 @@ template <typename A, typename B>
 bool CMap<A, B>::search(const A &key)
 {
       bool found = false;
-      //A temp_key = key;
       found = search_inner(key, root);
       return found;
 }

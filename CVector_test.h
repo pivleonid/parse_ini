@@ -22,9 +22,7 @@ TEST(test031, test_CVector_push_back_and_size)
         for(unsigned  i = 0, j = 0; i < vec.size(); i++, j++)
         {
             ASSERT_STREQ(res1[i], vec.at(i).data());
-            //cout << vec.at(i).data() <<endl;
         }
-        //cout << "//-------------------------//" <<endl;
         CVector<bool> vec_bool;
         vec_bool.push_back(true);
         vec_bool.push_back(true);
@@ -37,9 +35,7 @@ TEST(test031, test_CVector_push_back_and_size)
         for(unsigned  i = 0; i < vec_bool.size(); i++)
         {
             ASSERT_EQ(res2[i], vec_bool.at(i));
-            //cout << vec_bool.at(i) <<endl;
         }
-        //cout << "//-------------------------//" <<endl;
         CVector<int> vec_int;
         vec_int.push_back(1);
         vec_int.push_back(2);
@@ -52,7 +48,6 @@ TEST(test031, test_CVector_push_back_and_size)
         for(unsigned  i = 0; i < vec_int.size(); i++)
         {
             ASSERT_EQ(res3[i], vec_int.at(i));
-            //cout << vec_int.at(i) <<endl;
         }
 }
 
@@ -100,9 +95,7 @@ TEST(test033, test_CVector_push_front)
     for(unsigned  i = 0; i < vec.size(); i++)
     {
         ASSERT_STREQ(res[i], vec.at(i).data());
-        //cout << vec.at(i).data() <<endl;
     }
-    //cout << "//-------------------------//" <<endl;
 }
 
 TEST(test034, test_CVector_empty)
@@ -148,9 +141,7 @@ TEST(test035, test_CVector_at)
     for(unsigned  i = 0; i < vec.size(); i++)
     {
         ASSERT_STREQ(res[i], vec.at(i).data());
-        //cout << vec.at(i).data() <<endl;
     }
-    //cout << "//-------------------------//" <<endl;
 }
 
 TEST(test036, test_CVector_front_and_back)
@@ -199,27 +190,22 @@ TEST(test037, test_CVector_pop_front_and_back)
     for(unsigned  i = 0; i < vec.size(); i++)
     {
         ASSERT_STREQ(res[i], vec.at(i).data());
-        //cout << vec.at(i).data() <<endl;
     }
-    //cout << "//-------------------------//" <<endl;
 
     vec.pop_front();
     const char *res1[4] = {"Bang", "Theory", "New", "Funny"};
     for(unsigned  i = 0; i < vec.size(); i++)
     {
         ASSERT_EQ(*res1[i], *vec.at(i).data());
-        //cout << vec.at(i).data() <<endl;
     }
-    //cout << "//-------------------------//" <<endl;
 
     vec.pop_back();
     const char *res2[3] = {"Bang", "Theory", "New"};
     for(unsigned  i = 0; i < vec.size(); i++)
     {
         ASSERT_STREQ(res2[i], vec.at(i).data());
-        //cout << vec.at(i).data() <<endl;
     }
-    //cout << "//-------------------------//" <<endl;
+
 }
 
 TEST(test038, test_CVector_erase)
@@ -243,9 +229,7 @@ TEST(test038, test_CVector_erase)
         for(unsigned  i = 0; i < vec.size(); i++)
         {
             ASSERT_STREQ(res[i], vec.at(i).data());
-            //cout << vec.at(i).data() <<endl;
         }
-        //cout << "//-------------------------//" <<endl;
 }
 TEST(test039, test_CVector_erase)
 {
@@ -268,9 +252,7 @@ TEST(test039, test_CVector_erase)
     for(unsigned  i = 0; i < vec.size(); i++)
     {
         ASSERT_STREQ(res, vec.at(i).data());
-        //cout << vec.at(i).data() <<endl;
     }
-    //cout << "//-------------------------//" <<endl;
 
     vec.push_back(a);
     vec.push_back(b);
@@ -284,9 +266,7 @@ TEST(test039, test_CVector_erase)
     for(unsigned  i = 0; i < vec.size(); i++)
     {
         ASSERT_STREQ(res, vec.at(i).data());
-        //cout << vec.at(i).data() <<endl;
     }
-    //cout << "//-------------------------//" <<endl;
     vec.clear();
 
     vec.push_back(a);
@@ -301,9 +281,7 @@ TEST(test039, test_CVector_erase)
     for(unsigned  i = 0; i < vec.size(); i++)
     {
         ASSERT_STREQ(res, vec.at(i).data());
-        //cout << vec.at(i).data() <<endl;
     }
-    //cout << "//-------------------------//" <<endl;
     vec.clear();
 
     vec.push_back(a);
@@ -318,9 +296,7 @@ TEST(test039, test_CVector_erase)
     for(unsigned  i = 0; i < vec.size(); i++)
     {
         ASSERT_STREQ(res1[i], vec.at(i).data());
-        //cout << vec.at(i).data() <<endl;
     }
-    //cout << "//-------------------------//" <<endl;
     vec.clear();
 
     vec.push_back(a);
@@ -335,9 +311,7 @@ TEST(test039, test_CVector_erase)
     for(unsigned  i = 0; i < vec.size(); i++)
     {
         ASSERT_STREQ(res2[i], vec.at(i).data());
-        //cout << vec.at(i).data() <<endl;
     }
-    //cout << "//-------------------------//" <<endl;
     vec.clear();
 
     vec.push_back(a);
@@ -352,9 +326,7 @@ TEST(test039, test_CVector_erase)
     for(unsigned  i = 0; i < vec.size(); i++)
     {
         ASSERT_STREQ(res3[i], vec.at(i).data());
-        //cout << vec.at(i).data() <<endl;
     }
-    //cout << "//-------------------------//" <<endl;
     vec.clear();
 
     vec.push_back(a);
@@ -369,9 +341,7 @@ TEST(test039, test_CVector_erase)
     for(unsigned  i = 0; i < vec.size(); i++)
     {
         ASSERT_STREQ(res4[i], vec.at(i).data());
-        //cout << vec.at(i).data() <<endl;
     }
-    //cout << "//-------------------------//" <<endl;
     vec.clear();
 
     vec.push_back(a);
@@ -386,9 +356,7 @@ TEST(test039, test_CVector_erase)
     for(unsigned  i = 0; i < vec.size(); i++)
     {
         ASSERT_STREQ(res5[i], vec.at(i).data());
-        //cout << vec.at(i).data() <<endl;
     }
-    //cout << "//-------------------------//" <<endl;
     vec.clear();
 
     vec.push_back(a);
@@ -403,9 +371,7 @@ TEST(test039, test_CVector_erase)
     for(unsigned  i = 0; i < vec.size(); i++)
     {
         ASSERT_STREQ(res, vec.at(i).data());
-        //cout << vec.at(i).data() <<endl;
     }
-    //cout << "//-------------------------//" <<endl;
     vec.clear();
 
     vec.push_back(a);
@@ -420,9 +386,7 @@ TEST(test039, test_CVector_erase)
     for(unsigned  i = 0; i < vec.size(); i++)
     {
         ASSERT_STREQ(res6[i], vec.at(i).data());
-        //cout << vec.at(i).data() <<endl;
     }
-    //cout << "//-------------------------//" <<endl;
     vec.clear();
 
     vec.push_back(a);
@@ -437,9 +401,7 @@ TEST(test039, test_CVector_erase)
     for(unsigned  i = 0; i < vec.size(); i++)
     {
         ASSERT_STREQ(res7[i], vec.at(i).data());
-        //cout << vec.at(i).data() <<endl;
     }
-    //cout << "//-------------------------//" <<endl;
     vec.clear();
 
     vec.push_back(a);
@@ -454,9 +416,7 @@ TEST(test039, test_CVector_erase)
     for(unsigned  i = 0; i < vec.size(); i++)
     {
         ASSERT_STREQ(res8[i], vec.at(i).data());
-        //cout << vec.at(i).data() <<endl;
     }
-    //cout << "//-------------------------//" <<endl;
     vec.clear();
 
     vec.push_back(a);
@@ -471,9 +431,7 @@ TEST(test039, test_CVector_erase)
     for(unsigned  i = 0; i < vec.size(); i++)
     {
         ASSERT_STREQ(res, vec.at(i).data());
-        //cout << vec.at(i).data() <<endl;
     }
-    //cout << "//-------------------------//" <<endl;
     vec.clear();
 
     vec.push_back(a);
@@ -488,9 +446,7 @@ TEST(test039, test_CVector_erase)
     for(unsigned  i = 0; i < vec.size(); i++)
     {
         ASSERT_STREQ(res9[i], vec.at(i).data());
-        //cout << vec.at(i).data() <<endl;
     }
-    //cout << "//-------------------------//" <<endl;
     vec.clear();
 
     vec.push_back(a);
@@ -505,9 +461,7 @@ TEST(test039, test_CVector_erase)
     for(unsigned  i = 0; i < vec.size(); i++)
     {
         ASSERT_STREQ(res10[i], vec.at(i).data());
-        //cout << vec.at(i).data() <<endl;
     }
-    //cout << "//-------------------------//" <<endl;
     vec.clear();
 
     vec.push_back(a);
@@ -522,9 +476,7 @@ TEST(test039, test_CVector_erase)
     for(unsigned  i = 0; i < vec.size(); i++)
     {
         ASSERT_STREQ(res11[i], vec.at(i).data());
-        //cout << vec.at(i).data() <<endl;
     }
-    //cout << "//-------------------------//" <<endl;
     vec.clear();
 }
 
@@ -574,9 +526,7 @@ TEST(test041, test_CVector_sorting)
     for(unsigned  i = 0; i < vec.size(); i++)
     {
         ASSERT_STREQ(res[i], vec.at(i).data());
-        //cout << vec.at(i).data() <<endl;
     }
-    //cout << "//-------------------------//" <<endl;
     vec.clear();
 
     vec.push_back(a);
@@ -588,9 +538,7 @@ TEST(test041, test_CVector_sorting)
     for(unsigned  i = 0; i < vec.size(); i++)
     {
         ASSERT_STREQ(res[i], vec.at(i).data());
-        //cout << vec.at(i).data() <<endl;
     }
-    //cout << "//-------------------------//" <<endl;
 
 }
 
@@ -614,9 +562,7 @@ TEST(test042, test_CVector_operator_equal)
     for(unsigned  i = 0; i < vec1.size(); i++)
     {
         ASSERT_STREQ(res[i], vec1.at(i).data());
-        //cout << vec1.at(i).data() <<endl;
     }
-    //cout << "//-------------------------//" <<endl;
     vec1.clear();
 
 }
@@ -640,9 +586,7 @@ TEST(test043, test_CVector_operator_plus_and_eq)
     for(unsigned  i = 0; i < vec.size(); i++)
     {
         ASSERT_STREQ(res[i], vec.at(i).data());
-        //cout << vec.at(i).data() <<endl;
     }
-    //cout << "//-------------------------//" <<endl;
 
     CString g("Funny");
     vec += g;
@@ -651,9 +595,8 @@ TEST(test043, test_CVector_operator_plus_and_eq)
     for(unsigned  i = 0; i < vec.size(); i++)
     {
         ASSERT_STREQ(res1[i], vec.at(i).data());
-        //cout << vec.at(i).data() <<endl;
     }
-    //cout << "//-------------------------//" <<endl;
+
 }
 
 TEST(test044, test_CVector_operator_plus)
@@ -677,9 +620,7 @@ TEST(test044, test_CVector_operator_plus)
     for(unsigned  i = 0; i < vec2.size(); i++)
     {
         ASSERT_STREQ(res[i], vec2.at(i).data());
-        //cout << vec2.at(i).data() <<endl;
     }
-    //cout << "//-------------------------//" <<endl;
 
     CString k("Crazy");
     vec2 + k;
@@ -687,9 +628,7 @@ TEST(test044, test_CVector_operator_plus)
     for(unsigned  i = 0; i < vec2.size(); i++)
     {
         ASSERT_STREQ(res1[i], vec2.at(i).data());
-        //cout << vec2.at(i).data() <<endl;
     }
-    //cout << "//-------------------------//" <<endl;
 }
 
 TEST(test045, test_CVector_operator_square_bracket)
@@ -716,9 +655,7 @@ TEST(test045, test_CVector_operator_square_bracket)
     for(unsigned  i = 0; i < vec.size(); i++)
     {
         ASSERT_STREQ(res[i], vec.at(i).data());
-        //cout << vec.at(i).data() <<endl;
     }
-    //cout << "//-------------------------//" <<endl;
 }
 
 TEST(test046, test_CVector_operator_equal_unequal)
