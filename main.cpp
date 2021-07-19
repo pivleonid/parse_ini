@@ -3,7 +3,6 @@
 #include <CVector_test.h>
 #include <CMap_test.h>
 #include <CIni_test.h>
-#include <CList_test.h>
 #include <gtest/include/gtest/gtest.h>
 
 using namespace std;
